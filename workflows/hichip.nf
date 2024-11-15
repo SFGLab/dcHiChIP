@@ -52,6 +52,12 @@ include { FASTQC                      } from '../modules/nf-core/fastqc/main'
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
+include { CAT_FASTQ } from '../modules/nf-core/cat/fastq/main'
+include { BWA_MEM } from '../modules/nf-core/bwa/mem/main'
+include { SAMTOOLS_VIEW as FILTER_QUALITY} from '../modules/nf-core/samtools/view/main'
+include { REMOVE_DUPLICATES} from '../modules/local/remove_duplicates'
+include { DEEPTOOLS_BAMCOVERAGE } from '../modules/nf-core/deeptools/bamcoverage/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -68,26 +74,88 @@ workflow HICHIP {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK (
-        ch_input
+    Channel
+        .fromPath(params.fasta, checkIfExists:true)
+        .map{[["id": it.baseName], it]}
+        .set{ch_fasta}
+    
+    Channel
+        .fromPath("${params.fasta}.fai", checkIfExists:true)
+        .map{[["id": it.baseName], it]}
+        .set{ch_fasta_fai}
+
+    //params.bwa_index ? params.bwa_index : 
+    Channel
+        .fromPath( params.fasta + '.{bwt,sa,ann,amb,pac}', checkIfExists:true)
+        .toSortedList()
+        .map{[["id": it[0].baseName], it]}
+        .set{ch_bwa_index}
+    
+    ch_fasta.view()
+    ch_fasta_fai.view()
+    ch_bwa_index.view()
+    
+    Channel
+        .fromPath(params.input, checkIfExists:true)
+        .splitCsv(header:true, strip:true)
+        .map {row -> 
+            tuple(
+                ["id": row.id, "single_end": false], 
+                [file(row.read1, checkIfExists: true), 
+                file(row.read2, checkIfExists: true)]
+            )
+        }
+        .groupTuple()
+        .map{meta, fastqs -> [meta, fastqs.flatten()]}
+        .set{ch_input_fastq}
+    
+    ch_input_fastq.view()
+    
+    CAT_FASTQ(
+        ch_input_fastq
     )
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
+
+    BWA_MEM(
+        CAT_FASTQ.out.reads,
+        ch_fasta.first(),
+        ch_bwa_index.first(),
+        false
+    )
+    ch_versions = ch_versions.mix(BWA_MEM.out.versions)
+
+    FILTER_QUALITY(
+        BWA_MEM.out.bam.map{[it[0], it[1], file("$projectDir/assets/NO_FILE")]},
+        ch_fasta.first(),
+        []
+    )
+    ch_versions = ch_versions.mix(FILTER_QUALITY.out.versions)
+
+    REMOVE_DUPLICATES(
+        FILTER_QUALITY.out.bam,
+        ch_fasta.first()
+    )
+    ch_versions = ch_versions.mix(REMOVE_DUPLICATES.out.versions)
+
+    DEEPTOOLS_BAMCOVERAGE(
+        REMOVE_DUPLICATES.out.bam.join(REMOVE_DUPLICATES.out.csi),
+        ch_fasta.map{it[1]}.first(),
+        ch_fasta_fai.map{it[1]}.first()
+    )
+    ch_versions = ch_versions.mix(DEEPTOOLS_BAMCOVERAGE.out.versions)
 
     //
     // MODULE: Run FastQC
     //
-    FASTQC (
-        INPUT_CHECK.out.reads
-    )
-    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
-
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
+    
+    //CUSTOM_DUMPSOFTWAREVERSIONS (
+    //    ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    //)
 
     //
     // MODULE: MultiQC
     //
+    /*
     workflow_summary    = WorkflowHichip.paramsSummaryMultiqc(workflow, summary_params)
     ch_workflow_summary = Channel.value(workflow_summary)
 
@@ -107,6 +175,7 @@ workflow HICHIP {
         ch_multiqc_logo.toList()
     )
     multiqc_report = MULTIQC.out.report.toList()
+    */
 }
 
 /*
