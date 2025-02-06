@@ -57,6 +57,8 @@ include { BWA_MEM } from '../modules/nf-core/bwa/mem/main'
 include { SAMTOOLS_VIEW as FILTER_QUALITY} from '../modules/nf-core/samtools/view/main'
 include { REMOVE_DUPLICATES} from '../modules/local/remove_duplicates'
 include { DEEPTOOLS_BAMCOVERAGE } from '../modules/nf-core/deeptools/bamcoverage/main'
+include { MACS3_CALLPEAK } from '../modules/nf-core/macs3/callpeak/main'
+include { MAPS } from '../modules/local/maps'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,6 +82,11 @@ workflow HICHIP {
         .set{ch_fasta}
     
     Channel
+        .fromPath(params.genomics_features, checkIfExists:true)
+        .set{ch_genomics_features}
+    
+    
+    Channel
         .fromPath("${params.fasta}.fai", checkIfExists:true)
         .map{[["id": it.baseName], it]}
         .set{ch_fasta_fai}
@@ -91,35 +98,76 @@ workflow HICHIP {
         .map{[["id": it[0].baseName], it]}
         .set{ch_bwa_index}
     
-    ch_fasta.view()
-    ch_fasta_fai.view()
-    ch_bwa_index.view()
+    //ch_fasta.view()
+    //ch_fasta_fai.view()
+    //ch_bwa_index.view()
     
     Channel
         .fromPath(params.input, checkIfExists:true)
         .splitCsv(header:true, strip:true)
-        .map {row -> 
-            tuple(
+        .multiMap {row -> 
+            ch_hichip: tuple(
                 ["id": row.id, "single_end": false], 
-                [file(row.read1, checkIfExists: true), 
-                file(row.read2, checkIfExists: true)]
+                [file(row.hichip_r1, checkIfExists: true),
+                file(row.hichip_r2, checkIfExists: true)]
             )
+            ch_chipseq: row.chipseq_r1 ? 
+                tuple(
+                    ["id": row.id, "single_end": false], 
+                    [file(row.chipseq_r1, checkIfExists: true),
+                    file(row.chipseq_r2, checkIfExists: true)]
+                ) : tuple()
+            ch_narrowpeak: row.narrowpeak ? 
+                tuple(
+                    ["id": row.id, "single_end": false], 
+                    file(row.narrowpeak, checkIfExists: true)
+                ) : tuple()
         }
-        .groupTuple()
-        .map{meta, fastqs -> [meta, fastqs.flatten()]}
-        .set{ch_input_fastq}
+        .set{ch_input_data}
     
-    ch_input_fastq.view()
+    ch_input_data
+    .ch_chipseq
+    .filter{it.size() > 0}
+    .groupTuple()
+    .map{meta, fastqs -> meta["type"] = "chipseq"; [meta, fastqs.flatten()]}
+    .set{ch_chipseq}
+    
+    ch_input_data
+    .ch_hichip
+    .groupTuple()
+    .map{meta, fastqs -> meta["type"] = "hichip"; [meta, fastqs.flatten()]}
+    .set{ch_hichip}
+
+    ch_input_data
+    .ch_narrowpeak
+    .filter{it.size() > 0}
+    .set{ch_narrowpeak}
+
+    //ch_hichip.view()
     
     CAT_FASTQ(
-        ch_input_fastq
+        ch_hichip
+        .filter{(it[0].single_end && it[1].size() > 1) || (!it[0].single_end && it[1].size() > 2)}
+        .mix(
+            ch_chipseq
+            .filter{(it[0].single_end && it[1].size() > 1) || (!it[0].single_end && it[1].size() > 2)}
+        )
     )
     ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
 
+    ch_hichip
+    .filter{(it[0].single_end && it[1].size() == 1) || (!it[0].single_end && it[1].size() == 2)}
+    .mix(
+        ch_chipseq
+        .filter{(it[0].single_end && it[1].size() == 1) || (!it[0].single_end && it[1].size() == 2)}
+    ).mix(
+        CAT_FASTQ.out.reads
+    ).set{ch_bwa_mem_in}
+
     BWA_MEM(
-        CAT_FASTQ.out.reads,
+        ch_bwa_mem_in,
         ch_fasta.first(),
-        ch_bwa_index.first(),
+        ch_bwa_index,
         false
     )
     ch_versions = ch_versions.mix(BWA_MEM.out.versions)
@@ -130,7 +178,7 @@ workflow HICHIP {
         []
     )
     ch_versions = ch_versions.mix(FILTER_QUALITY.out.versions)
-
+    
     REMOVE_DUPLICATES(
         FILTER_QUALITY.out.bam,
         ch_fasta.first()
@@ -144,6 +192,47 @@ workflow HICHIP {
     )
     ch_versions = ch_versions.mix(DEEPTOOLS_BAMCOVERAGE.out.versions)
 
+    //REMOVE_DUPLICATES.out.bam.view()
+    
+    REMOVE_DUPLICATES.out.bam
+    .filter{it[0].type == "hichip"}
+    .map { [it[0].id, [it[0], it[1]]]}
+    .join(
+        REMOVE_DUPLICATES.out.bam
+        .filter{it[0].type == "chipseq"}
+        .map { [it[0].id, [it[0], it[1]]]}
+        , remainder: true
+    ).join(
+        ch_narrowpeak.map{[it[0].id, [it[0], it[1]]]}
+        , remainder: true
+    ).set{ch_bams}
+
+    MACS3_CALLPEAK(
+        ch_bams
+        .filter{!it[2] && !it[3]}.map{[it[1][0], it[1][1], []]}
+        .mix(
+            ch_bams
+            .filter{it[2]}.map{[it[2][0], it[2][1], []]}
+        ),
+        Channel.value(params.genome_size)
+    )
+    ch_versions = ch_versions.mix(MACS3_CALLPEAK.out.versions)
+   
+    //ch_bwa_mem_in.view()
+    MACS3_CALLPEAK.out.peak
+    .map{[it[0].id, it]}
+    .mix(ch_narrowpeak.map{[it[0].id, [it[0], it[1]]]})
+    .join(ch_bwa_mem_in.map{[it[0].id, it]})
+    .set{ch_maps_in}
+    
+    MAPS(
+        ch_maps_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
+        ch_maps_in.map{it[1]},
+        ch_bwa_index,
+        ch_genomics_features.first(),
+        channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
+    )
+   channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).view()
     //
     // MODULE: Run FastQC
     //

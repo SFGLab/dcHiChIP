@@ -1,0 +1,237 @@
+#!/bin/bash
+python_path=python #should have pysam, pybedtools installed. bedtools, samtools should be in the path
+Rscript_path=Rscript
+
+#...
+
+feather=1 #start from feather or run only MAPS
+maps=1
+number_of_datasets=1
+dataset_name="test_set1"
+outdir="$( pwd )"
+macs2_filepath="test.narrowPeak"
+bwa_index=""
+binning_range=1000000
+fdr=2 # this is used just for labeling. do not change
+filter_file="None"
+generate_hic=1
+mapq=30
+length_cutoff=1000
+threads=4
+model="pospoisson" #"negbinom"
+sex_chroms_to_process="X"
+optical_duplicate_distance=0
+dataset1=""
+dataset2=""
+dataset3=""
+dataset4=""
+genomic_feat_filepath=""
+organism="hg38"
+bin_size=5000
+
+# Parse command-line arguments
+while getopts "1:2:a:b:c:d:f:g:i:j:k:l:m:n:o:p:q:r:s:t:u:x:z:h" opt; do
+  echo "Processing option: -$opt with value $OPTARG"
+  case "$opt" in
+    f) feather=$OPTARG ;;
+    m) maps=$OPTARG ;;
+    n) number_of_datasets=$OPTARG ;;
+    i) dataset_name=$OPTARG ;;
+    j) bin_size=$OPTARG ;;
+    r) binning_range=$OPTARG ;;
+    o) outdir=$OPTARG ;;
+    t) threads=$OPTARG ;;
+    l) length_cutoff=$OPTARG ;;
+    p) macs2_filepath=$OPTARG ;;
+    g) generate_hic=$OPTARG ;;
+    q) mapq=$OPTARG ;;
+    x) bwa_index=$OPTARG ;;
+    k) filter_file=$OPTARG ;;
+	s) sex_chroms_to_process=$OPTARG ;;
+    z) model=$OPTARG ;;
+    a) dataset1=$OPTARG ;;
+    b) dataset2=$OPTARG ;;
+    c) dataset3=$OPTARG ;;
+    d) dataset4=$OPTARG ;;
+	1) fastq1=$OPTARG ;;
+    2) fastq2=$OPTARG ;;
+	u) genomic_feat_filepath=$OPTARG ;;
+    h) 
+       echo "Usage: $0 [options]"
+       echo "Options:"
+       echo "  -f <feather> (default: 1)"
+       echo "  -m <maps> (default: 1)"
+       echo "  -n <number_of_datasets> (default: 1)"
+       echo "  -i <dataset_name> (default: test_set1)"
+       echo "  -j <bin_size> (default: 10000)"
+       echo "  -r <binning_range> (default: 1000000)"
+       echo "  -o <outdir> (default: .)"
+       echo "  -t <threads> (default: 4)"
+       echo "  -l <length_cutoff> (default: 1000)"
+       echo "  -p <macs2_filepath> (default: test.narrowPeak)"
+       echo "  -g <generate_hic> (default: 1)"
+       echo "  -q <mapq> (default: 30)"
+       echo "  -x <bwa_index> (default: empty)"
+       echo "  -k <filter_file> (default: None)"
+       echo "  -s <sex_chroms_to_process> (default: X)"
+       echo "  -z <model> (default: pospoisson)"
+	   echo "  -a <dataset1> (default: empty)"
+       echo "  -b <dataset2> (default: empty)"
+       echo "  -c <dataset3> (default: empty)"
+       echo "  -d <dataset4> (default: empty)"
+	   echo "  -1 <fastq1> (default: empty)"
+       echo "  -2 <fastq2> (default: empty)"
+	   echo "  -u <genomic_feature> (default: empty)"
+       exit 0
+       ;;
+    *) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
+  esac
+done
+
+# Print the final values (for debugging purposes)
+echo "fastq1=$fastq1"
+echo "fastq2=$fastq2"
+echo "feather=$feather"
+echo "maps=$maps"
+echo "number_of_datasets=$number_of_datasets"
+echo "dataset_name=$dataset_name"
+echo "outdir=$outdir"
+echo "macs2_filepath=$macs2_filepath"
+echo "organism=$organism"
+echo "bwa_index=$bwa_index"
+echo "bin_size=$bin_size"
+echo "binning_range=$binning_range"
+echo "fdr=$fdr"
+echo "filter_file=$filter_file"
+echo "generate_hic=$generate_hic"
+echo "mapq=$mapq"
+echo "length_cutoff=$length_cutoff"
+echo "threads=$threads"
+echo "model=$model"
+echo "sex_chroms_to_process=$sex_chroms_to_process"
+echo "optical_duplicate_distance=$optical_duplicate_distance"
+echo "dataset1=$dataset1"
+echo "dataset2=$dataset2"
+echo "dataset3=$dataset3"
+echo "dataset4=$dataset4"
+echo "genomic_feat_filepath=$genomic_feat_filepath"
+echo "Start analysis ..."
+##################################################################
+###SET THESE VARIABLES ONLY IF FEATHER = 0 AND YOU WANT TO RUN
+###USING A SPECIFIC FEATHER OUTPUT RATHER THAN $datasetname_Current
+###################################################################
+feather_output_symlink=""
+##################################################################
+
+DATE=`date '+%Y%m%d_%H%M%S'`
+#####Armen:
+#fastq1=$fastq_dir/$dataset_name"_R1"$fastq_format
+#fastq2=$fastq_dir/$dataset_name"_R2"$fastq_format
+feather_output=$outdir"/feather_output/"$dataset_name"_"$DATE
+if [ "$feather_output_symlink" == "" ]; then
+	feather_output_symlink=$outdir"/feather_output/"$dataset_name"_current"
+fi
+resolution=$(bc <<< "$bin_size/1000")
+per_chr='True' # set this to zero if you don't want per chromosome output bed and bedpe files
+feather_logfile=$feather_output"/"$dataset_name".feather.log"
+resolution=$(bc <<< "$bin_size/1000")
+cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+hic_dir="tempfiles/hic_tempfiles"
+if [ $organism == "mm10" ]; then
+	#if [ -z $bwa_index ]; then
+    #	bwa_index="MAPS/MAPS_data_files/"$organism"/BWA_index/mm10_chrAll.fa"
+	#fi
+	#genomic_feat_filepath=$cwd"/MAPS_data_files/"$organism"/genomic_features/F_GC_M_MboI_"$resolution"Kb_el.mm10.txt"
+	chr_count=19
+elif [ $organism == "mm9" ]; then
+	#if [ -z $bwa_index ]; then
+	#	bwa_index="MAPS/MAPS_data_files/"$organism"/BWA_index/mm9.fa"
+	#fi
+	#genomic_feat_filepath=$cwd"/MAPS_data_files/"$organism"/genomic_features/F_GC_M_MboI_"$resolution"Kb_el.mm9.txt"
+	chr_count=19
+elif [ $organism == "hg19" ]; then
+	#if [ -z $bwa_index ]; then
+	#	bwa_index="MAPS/MAPS_data_files/"$organism"/BWA_index/hg19.fa"
+	#fi
+	#genomic_feat_filepath=$cwd"/MAPS_data_files/"$organism"/genomic_features/F_GC_M_MboI_"$resolution"Kb_el.hg19.txt"
+	chr_count=22
+elif [ $organism == "hg38" ]; then
+	#if [ -z $bwa_index ]; then
+	#	bwa_index="MAPS_data_files/"$organism"/BWA_index/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta"
+	#fi
+	#genomic_feat_filepath=$cwd"/MAPS_data_files/"$organism"/genomic_features/F_GC_M_MboI_"$resolution"Kb_el.GRCh38.txt"
+	chr_count=22
+fi
+
+####Ivan:"
+if [[ $sex_chroms_to_process != "X" && $sex_chroms_to_process != "Y" && $sex_chroms_to_process != "XY" ]]; then
+	sex_chroms_to_process="NA"
+	sex_chroms=""
+else
+	sex_chroms=$sex_chroms_to_process
+fi
+long_bedpe_dir=$feather_output_symlink"/"
+short_bed_dir=$feather_output_symlink"/"
+maps_output=$outdir"/MAPS_output/"$dataset_name"_"$DATE"/"
+maps_output_symlink=$outdir"/MAPS_output/"$dataset_name"_current"
+#genomic_feat_filepath="/home/jurici/MAPS/MAPS_data_files/"$organism"/genomic_features/"$genomic_features_filename
+
+if [ $feather -eq 1 ]; then
+	mkdir -p $feather_output
+	if [ $number_of_datasets -ge 2 ]; then
+		ds_array=()
+		hic_array=()
+		for i in `seq $number_of_datasets`
+		do
+			ds_name="dataset$i"
+			hic_name="$ds_name/$hic_dir"
+			eval ds=\$$ds_name
+			eval hic=\$$hic_name
+			ds_array+=($ds)
+			hic_array+=($hic)
+		done
+		#printf '%s\n' "${qc_array[@]}"
+		$python_path feather/combine_feathers.py -o $feather_output -p $dataset_name -a $macs2_filepath -d "${ds_array[@]}"
+		if [ $generate_hic -eq 1 ]; then
+			echo "$feather_output/$hic_dir"
+			mkdir -p $feather_output"/"$hic_dir
+			feather/concat_hic.sh  $feather_output $dataset_name $hic_dir "${hic_array[@]}"
+		fi
+	else
+		echo "Running $python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance"
+				
+		$python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance
+		qc_filename=$feather_output/$dataset_name".feather.qc"
+		temp_qc_file=$feather_output/tempfiles/$dataset_name".feather.qc.modified"
+		#printf "dataset name:\t"$dataset_name"\n" >> $qc_filename
+		#printf "MACS2 file:\t"$macs2_filename"\n" >> $qc_filename
+		sed -r 's/  +/\t/g' $qc_filename > $temp_qc_file
+		sed -r -i 's/ /\_/g' $temp_qc_file
+		cut -f 1-2 $temp_qc_file > $temp_qc_file".cut"
+		sed -i 's/\_$//g' $temp_qc_file".cut"
+		paste -d"\t" feather/qc_template.txt $temp_qc_file".cut" > $temp_qc_file".cut.tmp"
+		awk '{print $1,$3,$2}' $temp_qc_file".cut.tmp" >> $qc_filename".tsv"
+		sed -i 's/ /\t/g' $qc_filename".tsv"
+		#awk '{printf("%s\t", $1)}' $temp_qc_file".cut" > $qc_filename".tsv"
+		#printf "\n" >> $qc_filename".tsv"
+		#awk '{printf("%s\t", $2)}' $temp_qc_file".cut" >> $qc_filename".tsv"
+	fi
+	cp "$(readlink -f $0)" $feather_output"/execution_script_copy"
+	chmod 777 $feather_output
+	ln -sfn $feather_output $feather_output_symlink
+fi
+	
+if [ $maps -eq 1 ]; then
+	mkdir -p $maps_output
+	echo "$dataset_name $maps_output $macs2_filepath $genomic_feat_filepath $long_bedpe_dir $short_bed_dir $bin_size $chr_count $maps_output"
+	$python_path MAPS/make_maps_runfile.py $dataset_name $maps_output $macs2_filepath $genomic_feat_filepath $long_bedpe_dir $short_bed_dir $bin_size $chr_count $maps_output $sex_chroms_to_process --BINNING_RANGE $binning_range
+	echo "first"
+	$python_path MAPS/MAPS.py $maps_output"maps_"$dataset_name".maps"
+	echo "second"
+	$Rscript_path MAPS/MAPS_regression_and_peak_caller.r $maps_output $dataset_name"."$resolution"k" $bin_size $chr_count$sex_chroms $filter_file $model 
+	$Rscript_path MAPS/MAPS_peak_formatting.r $maps_output $dataset_name"."$resolution"k" $fdr $bin_size
+	echo "third"
+	cp "$(readlink -f $0)" $maps_output"/execution_script_copy"
+	chmod 777 $maps_output
+	ln -sfn $maps_output $maps_output_symlink
+fi
