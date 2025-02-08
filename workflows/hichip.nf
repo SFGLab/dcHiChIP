@@ -59,6 +59,7 @@ include { REMOVE_DUPLICATES} from '../modules/local/remove_duplicates'
 include { DEEPTOOLS_BAMCOVERAGE } from '../modules/nf-core/deeptools/bamcoverage/main'
 include { MACS3_CALLPEAK } from '../modules/nf-core/macs3/callpeak/main'
 include { MAPS } from '../modules/local/maps'
+include { JUICERTOOLS } from '../modules/local/juicertools'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -232,7 +233,13 @@ workflow HICHIP {
         ch_genomics_features.first(),
         channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
     )
-   channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).view()
+    ch_versions = ch_versions.mix(MAPS.out.versions)
+
+    JUICERTOOLS(
+        MAPS.out.hic
+    )
+    ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
+    
     //
     // MODULE: Run FastQC
     //
