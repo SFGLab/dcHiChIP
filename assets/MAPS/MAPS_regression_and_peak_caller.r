@@ -78,19 +78,24 @@ GAP = 15000
 mm_combined_and = data.frame()
 mm_combined_xor = data.frame()
 outf_names = c()
-available_chrom <- list()
+not_available_chrom <- list()
 for (i in chroms) {
     for (j in c('.and','.xor')) {
         print(paste('loading chromosome ',i,' ',j,sep=''))
         inf_name = paste(INFDIR,'reg_raw.',i,'.',SET,sep='')
         print(paste('Loading: ', paste(inf_name,j,sep='')))
-	if (!file.exists(paste(inf_name,j,sep=''))) {
+        if (!file.exists(paste(inf_name,j,sep=''))) {
             print(paste('data is not found for chromosome: ', i))
+            not_available_chrom <- c(not_available_chrom, i)
             next
         }
-	available_chrom <- append(available_chrom, i)
-	outf_names = c(outf_names, paste(inf_name,j,'.MAPS2_',REG_TYPE,sep = ''))
+        outf_names = c(outf_names, paste(inf_name,j,'.MAPS2_',REG_TYPE,sep = ''))
         mm = read.table(paste(inf_name,j,sep=''),header=T)
+        if (nrow(mm) == 0) {
+            print(paste('File is empty for chromosome: ', i))
+            not_available_chrom <- c(not_available_chrom, i)
+            next
+        }
         mm$chr = i
         mm = subset( mm, dist > 1) # removing adjacent bins
         mm = subset(mm, !(mm$chr %in% fltr$chr & (mm$bin1_mid %in% fltr$bin | mm$bin2_mid %in% fltr$bin ))) ## filtering out bad bins
@@ -102,6 +107,7 @@ for (i in chroms) {
     }
 }
 
+available_chrom <- setdiff(chroms, not_available_chrom)
 print(paste('Done Loading'))
 
 dataset_length_and = length(mm_combined_and$bin1_mid)
@@ -272,10 +278,10 @@ for (r in runs) {
 ## you'd put resampling code here
     name_counter = 1
     for (i in chroms) {
-	if (!(i %in% available_chrom)) {
-	    print(paste("Chrom: ", i, " is not found!"))
-	     next
-	}
+        if (!(i %in% available_chrom)) {
+            print(paste("Chrom: ", i, " is not found!"))
+            next
+        }
         ## regression
         print(paste('run',r,': regression on chromosome',i))
         print(outf_names[name_counter])

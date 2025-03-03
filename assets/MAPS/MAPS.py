@@ -45,7 +45,7 @@ def validate_input_data(input_data):
     return params
 
 def load_MACS2(MACS2_PATH):
-    MACS2_full = pd.read_csv(MACS2_PATH, sep='\t', skip_blank_lines=True,comment='#',header=None, usecols=[0,1,2])
+    MACS2_full = pd.read_csv(MACS2_PATH, sep='\t', skip_blank_lines=True,comment='#',header=None, usecols=[0,1,2], dtype={0: str})
     MACS2_full.columns = ['chr','start','end']
     return(MACS2_full)
 
@@ -105,9 +105,11 @@ def init(p):
         print('-- handling MACS2 peaks')
         MACS2 = MACS2_full[MACS2_full['chr'] == CHR].copy()
         if MACS2.empty:
-            print("MACS2 is empty (no peaks for this chromosome).")
-            continue
-        
+            MACS2 = MACS2_full[MACS2_full['chr'] == CHR.replace("chr", "")].copy()
+            if MACS2.empty:
+                print("MACS2 is empty (no peaks for this chromosome).")
+                continue
+            
         MACS2['start_bin'] = np.floor(MACS2['start']/params['BIN_SIZE'])
         MACS2['end_bin'] = np.ceil(MACS2['end']/params['BIN_SIZE'])
         #perform this hack becasue apply returns wrong data type in some rare case
