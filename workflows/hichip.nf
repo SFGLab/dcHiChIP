@@ -60,6 +60,13 @@ include { DEEPTOOLS_BAMCOVERAGE } from '../modules/nf-core/deeptools/bamcoverage
 include { MACS3_CALLPEAK } from '../modules/nf-core/macs3/callpeak/main'
 include { MAPS } from '../modules/local/maps'
 include { JUICERTOOLS } from '../modules/local/juicertools'
+include { HOMER_ANNOTATEPEAKS } from '../modules/nf-core/homer/annotatepeaks/main'
+include { DEEPTOOLS_PLOTPCA } from '../modules/nf-core/deeptools/plotpca/main'
+include { DEEPTOOLS_PLOTCORRELATION } from '../modules/nf-core/deeptools/plotcorrelation/main'
+include { DEEPTOOLS_PLOTCOVERAGE } from '../modules/local/deeptools/plotcoverage/main'
+include { BIOFRAME } from '../modules/local/bioframe'
+include { GSTRIPE } from '../modules/local/gstripe'
+include { DEEPTOOLS_MUTIBIGWIGSUMMARY } from '../modules/local/deeptools/multibigwigsummary/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,6 +93,17 @@ workflow HICHIP {
         .fromPath(params.genomics_features, checkIfExists:true)
         .set{ch_genomics_features}
     
+    Channel
+        .fromPath(params.jaspar_motif, checkIfExists:true)
+        .set{ch_jaspar_motif}
+
+    Channel
+        .fromPath(params.blacklist, checkIfExists:true)
+        .set{ch_blacklist}
+    
+    Channel
+        .fromPath(params.gtf, checkIfExists:true)
+        .set{ch_gtf}
     
     Channel
         .fromPath("${params.fasta}.fai", checkIfExists:true)
@@ -102,25 +120,26 @@ workflow HICHIP {
     //ch_fasta.view()
     //ch_fasta_fai.view()
     //ch_bwa_index.view()
-    
+    def samples_cnt = 0;
     Channel
         .fromPath(params.input, checkIfExists:true)
         .splitCsv(header:true, strip:true)
-        .multiMap {row -> 
+        .map {samples_cnt += 1; [it, samples_cnt]}
+        .multiMap {row, idx -> 
             ch_hichip: tuple(
-                ["id": row.id, "single_end": false], 
+                ["id": "${row.id}", "single_end": false, "group": row.group, "type": "hichip"], 
                 [file(row.hichip_r1, checkIfExists: true),
                 file(row.hichip_r2, checkIfExists: true)]
             )
             ch_chipseq: row.chipseq_r1 ? 
                 tuple(
-                    ["id": row.id, "single_end": false], 
+                    ["id": "${row.id}", "single_end": false, "group": row.group, "type": "chipseq"], 
                     [file(row.chipseq_r1, checkIfExists: true),
                     file(row.chipseq_r2, checkIfExists: true)]
                 ) : tuple()
             ch_narrowpeak: row.narrowpeak ? 
                 tuple(
-                    ["id": row.id, "single_end": false], 
+                    ["id": "${row.id}", "single_end": false, "group": row.group], 
                     file(row.narrowpeak, checkIfExists: true)
                 ) : tuple()
         }
@@ -129,12 +148,14 @@ workflow HICHIP {
     ch_input_data
     .ch_chipseq
     .filter{it.size() > 0}
+    .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
     .map{meta, fastqs -> meta["type"] = "chipseq"; [meta, fastqs.flatten()]}
     .set{ch_chipseq}
     
     ch_input_data
     .ch_hichip
+    .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
     .map{meta, fastqs -> meta["type"] = "hichip"; [meta, fastqs.flatten()]}
     .set{ch_hichip}
@@ -156,14 +177,18 @@ workflow HICHIP {
     )
     ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
 
-    ch_hichip
-    .filter{(it[0].single_end && it[1].size() == 1) || (!it[0].single_end && it[1].size() == 2)}
-    .mix(
-        ch_chipseq
-        .filter{(it[0].single_end && it[1].size() == 1) || (!it[0].single_end && it[1].size() == 2)}
-    ).mix(
-        CAT_FASTQ.out.reads
-    ).set{ch_bwa_mem_in}
+    ch_input_data
+    .ch_hichip
+    .mix(ch_input_data
+        .ch_chipseq
+        .filter{it.size() > 0}
+    )
+    .mix(CAT_FASTQ.out.reads)
+    .set{ch_bwa_mem_in}
+    
+    //ch_input_data
+    //.ch_hichip.view()
+    //ch_bwa_mem_in.view()
 
     BWA_MEM(
         ch_bwa_mem_in,
@@ -213,7 +238,7 @@ workflow HICHIP {
         .filter{!it[2] && !it[3]}.map{[it[1][0], it[1][1], []]}
         .mix(
             ch_bams
-            .filter{it[2]}.map{[it[2][0], it[2][1], []]}
+            .filter{it[2] && !it[3]}.map{[it[2][0], it[2][1], []]}
         ),
         Channel.value(params.genome_size)
     )
@@ -223,9 +248,17 @@ workflow HICHIP {
     MACS3_CALLPEAK.out.peak
     .map{[it[0].id, it]}
     .mix(ch_narrowpeak.map{[it[0].id, [it[0], it[1]]]})
-    .join(ch_bwa_mem_in.map{[it[0].id, it]})
+    .join(ch_bwa_mem_in.filter{it[0].type == "hichip"}
+    .map{[it[0].id, it]})
+    .join(
+        REMOVE_DUPLICATES.out.bam
+        .filter{it[0].type == "hichip"}
+        .map { [it[0].id, [it[0], it[1]]]}
+    )
     .set{ch_maps_in}
     
+    //ch_maps_in.view()
+
     MAPS(
         ch_maps_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
         ch_maps_in.map{it[1]},
@@ -239,6 +272,57 @@ workflow HICHIP {
         MAPS.out.hic
     )
     ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
+    
+    GSTRIPE(
+        MAPS.out.bedpe
+    )
+
+    HOMER_ANNOTATEPEAKS(
+        ch_maps_in.map{it[1]},
+        ch_fasta.map{it[1]}.first(),
+        ch_gtf.first()
+    )
+
+    BIOFRAME(
+        ch_maps_in.map{it[1]},
+        ch_jaspar_motif.first(),
+        ch_blacklist.first()
+    )
+    DEEPTOOLS_BAMCOVERAGE.out.bigwig
+        .map{[["id": it[0].group, "type":it[0].type], it[0].id, it[1]]}
+        .groupTuple()
+        .filter{it[2].size() > 1}
+        .set{ch_bigwigs}
+        
+    //ch_bigwigs.view()
+
+    DEEPTOOLS_MUTIBIGWIGSUMMARY(
+       ch_bigwigs.map{[it[0], it[2]]},
+       ch_bigwigs.map{it[1]}
+    )
+
+    DEEPTOOLS_PLOTPCA(
+        DEEPTOOLS_MUTIBIGWIGSUMMARY.out.npz
+    )
+    
+    REMOVE_DUPLICATES.out.bam
+    .join(REMOVE_DUPLICATES.out.csi)
+         .map{[["type":it[0].type, "id": it[0].group], it[0].id, it[1], it[2]]}
+         .groupTuple()
+         .filter{it[2].size() > 1}
+         .set{ch_coverage_in}
+
+    DEEPTOOLS_PLOTCOVERAGE(
+        ch_coverage_in.map{[it[0], it[2], it[3]]},
+        ch_coverage_in.map{it[1]}
+         
+    )
+
+    DEEPTOOLS_PLOTCORRELATION(
+        DEEPTOOLS_MUTIBIGWIGSUMMARY.out.npz,
+        channel.value(params.plot_method),
+        channel.value(params.plot_type)
+    )
     
     //
     // MODULE: Run FastQC

@@ -26,4 +26,16 @@ process JUICERTOOLS {
         juicer_tools: 2.20.00
     END_VERSIONS
     """
+
+    stub:
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    
+    """
+    touch ${prefix}.hic
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        juicer_tools: 2.20.00
+    END_VERSIONS
+    """
 }

@@ -1,8 +1,10 @@
 
-process MAPS {
+process MULTIMM {
     tag "$meta.id"
     label 'process_medium'
-    container "community.wave.seqera.io/library/bedtools_bwa_pybedtools_pysam_pruned:8a65a012e7f8bbf1"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'oras://community.wave.seqera.io/library/pip_multimm:8c581e45aa852599':
+        'community.wave.seqera.io/library/pip_multimm:a503e99c16691d6a' }"
     
     input:
     tuple val(meta), path(fastq1), path(fastq2)
@@ -21,19 +23,7 @@ process MAPS {
     def args = task.ext.args ?: ''
     
     """
-    INDEX=`find -L ./ -name "*.amb" | sed 's/\\.amb\$//'`    
-    run_maps_pipeline.sh \\
-    -i ${prefix} \\
-    -p ${peaks} \\
-    -t ${task.cpus} \\
-    -x \$INDEX \\
-    -1 ${fastq1} \\
-    -2 ${fastq2} \\
-    -u ${features} \\
-    ${args}
-    
-    cp MAPS_output/${prefix}_current/${prefix}.5k.2.sig3Dinteractions.bedpe ${prefix}.bedpe
-    cp feather_output/${prefix}_current/${prefix}.hic.input .
+    MultiMM -c config.ini ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -24,6 +24,7 @@ per_chr_bedpe = "1"
 generate_hic = "1"
 chip_peaks = None
 optical = 0
+merged_bam = None
 
 def main():
 	parser = setup_arg_parsers()
@@ -48,9 +49,12 @@ def main():
 		from feather_split_rongxin import split_main
 		split_main(split_filename, outdir, prefix, length_threshold, per_chr_bedpe, generate_hic, chip_peaks)
 	elif cmd == "preprocess":
-		from feather_filter_chr import filter_main
 		from feather_split_rongxin import split_main
-		filter_output_filename = filter_main(fastq1, fastq2, bwa_index, mapq, outdir, prefix, threads, optical, to_file = False)
+		if not merged_bam:
+			from feather_filter_chr import filter_main
+			filter_output_filename = filter_main(fastq1, fastq2, bwa_index, mapq, outdir, prefix, threads, optical, to_file = False)
+		else:
+			filter_output_filename = merged_bam
 		split_main(filter_output_filename, outdir, prefix, length_threshold, per_chr_bedpe, generate_hic, chip_peaks)
 
 def parse_args(parser):
@@ -103,6 +107,7 @@ def set_split_parser_args(parser):
 def set_preproc_parser_args(parser):
 	parser.add_argument("-f1", "--fastq1", help = "first fasta/bam file", required = True)
 	parser.add_argument("-f2", "--fastq2", help = "second fasta/bam file", required = True)
+	parser.add_argument("-m", "--merged-bam", help = "merged bam for ignoreing filtering process", required = True)
 	parser.add_argument("-b", "--bwa-index", help = "genome index for running bwa")
 	parser.add_argument("-q", "--mapq", help = "MAPQ threshold", type = int)
 	parser.add_argument("-l", "--length-threshold", help = "length threshold for long/short splitting", type = int)
