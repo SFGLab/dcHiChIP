@@ -1,6 +1,6 @@
-process COOLER_DIGEST {
-    tag "$fasta"
-    label 'process_medium'
+process COOLER_ZOOMIFY {
+    tag "$meta.id"
+    label 'process_high'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -8,26 +8,35 @@ process COOLER_DIGEST {
         'biocontainers/cooler:0.10.3--pyhdfd78af_0' }"
 
     input:
-    path fasta
-    path chromsizes
-    val  enzyme
+    tuple val(meta), path(cool)
 
     output:
-    path "*.bed"                  , emit: bed
-    path "versions.yml"           , emit: versions
+    tuple val(meta), path("*.mcool"), emit: mcool
+    path "versions.yml"             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    cooler digest \\
+    cooler zoomify \\
         $args \\
-        -o "${fasta.baseName}_${enzyme.replaceAll(/[^0-9a-zA-Z]+/, '_')}.bed" \\
-        $chromsizes \\
-        $fasta \\
-        $enzyme
+        -n $task.cpus \\
+        -o ${prefix}.mcool \\
+        $cool
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        cooler: \$(cooler --version 2>&1 | sed 's/cooler, version //')
+    END_VERSIONS
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}.mcool
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

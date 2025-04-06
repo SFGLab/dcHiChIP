@@ -15,9 +15,19 @@
             "git_sha": "a1abf90966a2a4016d3c3e41e228bfcbd4811ccc",
             "installed_by": ["modules"]
           },
+          "cooler/cload": {
+            "branch": "master",
+            "git_sha": "aaf8fb1cc3f9e46a60c5633c01becaa08cf1cb19",
+            "installed_by": ["modules"]
+          },
           "cooler/digest": {
             "branch": "master",
             "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+            "installed_by": ["modules"]
+          },
+          "cooler/zoomify": {
+            "branch": "master",
+            "git_sha": "93d9a83777a3e8970149e2015242d4b65301211d",
             "installed_by": ["modules"]
           },
           "custom/dumpsoftwareversions": {

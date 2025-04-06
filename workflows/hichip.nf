@@ -67,6 +67,12 @@ include { DEEPTOOLS_PLOTCOVERAGE } from '../modules/local/deeptools/plotcoverage
 include { BIOFRAME } from '../modules/local/bioframe'
 include { GSTRIPE } from '../modules/local/gstripe'
 include { DEEPTOOLS_MUTIBIGWIGSUMMARY } from '../modules/local/deeptools/multibigwigsummary/main'
+include { PAIRTOOLS_PARSE2 } from '../modules/local/pairtools/parse2/main'
+include { COOLER_CLOAD } from '../modules/nf-core/cooler/cload/main'
+include { COOLER_ZOOMIFY } from '../modules/nf-core/cooler/zoomify/main'
+include { CALDER } from '../modules/local/calder2'
+include { COOLTOOLS_INSULATION } from '../modules/local/cooltools/insulation.nf'
+include { COOLTOOLS_EIGSCIS } from '../modules/local/cooltools/eigscis.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,6 +115,10 @@ workflow HICHIP {
         .fromPath("${params.fasta}.fai", checkIfExists:true)
         .map{[["id": it.baseName], it]}
         .set{ch_fasta_fai}
+
+    Channel
+        .fromPath("${params.chrom_size}", checkIfExists:true)
+        .set{ch_chrom_size}
 
     //params.bwa_index ? params.bwa_index : 
     Channel
@@ -259,24 +269,32 @@ workflow HICHIP {
     
     //ch_maps_in.view()
 
-    MAPS(
-        ch_maps_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
-        ch_maps_in.map{it[1]},
-        ch_bwa_index,
-        ch_genomics_features.first(),
-        channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
-    )
-    ch_versions = ch_versions.mix(MAPS.out.versions)
+    if (!params.skip_maps){
+        MAPS(
+            ch_maps_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
+            ch_maps_in.map{it[1]},
+            ch_bwa_index,
+            ch_genomics_features.first(),
+            channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
+        )
+        ch_versions = ch_versions.mix(MAPS.out.versions)
 
-    JUICERTOOLS(
-        MAPS.out.hic
-    )
-    ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
+        JUICERTOOLS(
+            MAPS.out.hic
+        )
+        ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
+        
+        GSTRIPE(
+            MAPS.out.bedpe
+        )
+        CALDER(
+            MAPS.out.hic,
+            params.calder_bin,
+            params.ref_short
+        )
+
+    }
     
-    GSTRIPE(
-        MAPS.out.bedpe
-    )
-
     HOMER_ANNOTATEPEAKS(
         ch_maps_in.map{it[1]},
         ch_fasta.map{it[1]}.first(),
@@ -323,6 +341,32 @@ workflow HICHIP {
         channel.value(params.plot_method),
         channel.value(params.plot_type)
     )
+
+    PAIRTOOLS_PARSE2(
+        BWA_MEM.out.bam,
+        ch_chrom_size.first()
+    )
+    
+    COOLER_CLOAD(
+        PAIRTOOLS_PARSE2.out.nodups.map{[it[0], it[1], [], params.cool_bin]},
+        ch_chrom_size.first()
+
+    )
+
+    COOLER_ZOOMIFY(
+        COOLER_CLOAD.out.cool.map{[it[0], it[1]]}
+    )
+
+    COOLTOOLS_INSULATION(
+        COOLER_ZOOMIFY.out.mcool.map{[it[0], it[1]]},
+        params.insulation_resultions[params.cooler_zoomify_res]
+    )
+
+    COOLTOOLS_EIGSCIS(
+        COOLER_ZOOMIFY.out.mcool,
+        params.cooler_eigscis_resultion
+    )
+
     
     //
     // MODULE: Run FastQC
