@@ -61,6 +61,7 @@ include { MACS3_CALLPEAK } from '../modules/nf-core/macs3/callpeak/main'
 include { MAPS } from '../modules/local/maps'
 include { JUICERTOOLS } from '../modules/local/juicertools'
 include { HOMER_ANNOTATEPEAKS } from '../modules/nf-core/homer/annotatepeaks/main'
+include { HOMER_FINDMOTIFSGENOME } from '../modules/local/homer/findmotifsgenome/main'
 include { DEEPTOOLS_PLOTPCA } from '../modules/nf-core/deeptools/plotpca/main'
 include { DEEPTOOLS_PLOTCORRELATION } from '../modules/nf-core/deeptools/plotcorrelation/main'
 include { DEEPTOOLS_PLOTCOVERAGE } from '../modules/local/deeptools/plotcoverage/main'
@@ -73,7 +74,10 @@ include { COOLER_ZOOMIFY } from '../modules/nf-core/cooler/zoomify/main'
 include { CALDER } from '../modules/local/calder2'
 include { COOLTOOLS_INSULATION } from '../modules/local/cooltools/insulation.nf'
 include { COOLTOOLS_EIGSCIS } from '../modules/local/cooltools/eigscis.nf'
-
+include { MULTIMM } from '../modules/local/multimm.nf'
+include { AWK } from '../modules/local/awk.nf'
+include { BEDTOOLS_NUC } from '../modules/nf-core/bedtools/nuc/main'
+include { COOLTOOLS_BED_INVERT } from '../modules/local/cooltools_bed_invert.nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -301,6 +305,11 @@ workflow HICHIP {
         ch_gtf.first()
     )
 
+    HOMER_FINDMOTIFSGENOME(
+        ch_maps_in.map{it[1]},
+        ch_fasta.map{it[1]}.first()
+    )
+
     BIOFRAME(
         ch_maps_in.map{it[1]},
         ch_jaspar_motif.first(),
@@ -357,16 +366,29 @@ workflow HICHIP {
         COOLER_CLOAD.out.cool.map{[it[0], it[1]]}
     )
 
-    COOLTOOLS_INSULATION(
+    /*COOLTOOLS_INSULATION(
         COOLER_ZOOMIFY.out.mcool.map{[it[0], it[1]]},
         params.insulation_resultions[params.cooler_zoomify_res]
-    )
+    )*/
 
     COOLTOOLS_EIGSCIS(
         COOLER_ZOOMIFY.out.mcool,
         params.cooler_eigscis_resultion
     )
-
+    
+    AWK(
+        COOLTOOLS_EIGSCIS.out.scores
+    )
+    BEDTOOLS_NUC(
+        AWK.out.bed.combine(ch_fasta.map{it[1]}).map{[it[0], it[2], it[1]]}
+    )
+    COOLTOOLS_BED_INVERT(
+        AWK.out.bed
+    )
+    /*MULTIMM(
+        MAPS.out.bedpe,
+        COOLTOOLS_BED_INVERT.out.compartments
+    )*/
     
     //
     // MODULE: Run FastQC
