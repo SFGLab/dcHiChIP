@@ -28,9 +28,10 @@ dataset4=""
 genomic_feat_filepath=""
 organism="hg38"
 bin_size=5000
+merged_bam=""
 
 # Parse command-line arguments
-while getopts "1:2:a:b:c:d:f:g:i:j:k:l:m:n:o:p:q:r:s:t:u:x:z:h" opt; do
+while getopts "1:2:a:b:c:d:f:g:i:j:k:l:m:n:o:p:q:r:s:t:u:w:x:z:h" opt; do
   echo "Processing option: -$opt with value $OPTARG"
   case "$opt" in
     f) feather=$OPTARG ;;
@@ -56,6 +57,7 @@ while getopts "1:2:a:b:c:d:f:g:i:j:k:l:m:n:o:p:q:r:s:t:u:x:z:h" opt; do
 	1) fastq1=$OPTARG ;;
     2) fastq2=$OPTARG ;;
 	u) genomic_feat_filepath=$OPTARG ;;
+	w) merged_bam=$OPTARG ;;
     h) 
        echo "Usage: $0 [options]"
        echo "Options:"
@@ -82,6 +84,7 @@ while getopts "1:2:a:b:c:d:f:g:i:j:k:l:m:n:o:p:q:r:s:t:u:x:z:h" opt; do
 	   echo "  -1 <fastq1> (default: empty)"
        echo "  -2 <fastq2> (default: empty)"
 	   echo "  -u <genomic_feature> (default: empty)"
+	   echo "  -w <merged_bam> (default: empty)"
        exit 0
        ;;
     *) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
@@ -115,6 +118,7 @@ echo "dataset2=$dataset2"
 echo "dataset3=$dataset3"
 echo "dataset4=$dataset4"
 echo "genomic_feat_filepath=$genomic_feat_filepath"
+echo "merged_bam=$merged_bam"
 echo "Start analysis ..."
 ##################################################################
 ###SET THESE VARIABLES ONLY IF FEATHER = 0 AND YOU WANT TO RUN
@@ -198,9 +202,9 @@ if [ $feather -eq 1 ]; then
 			feather/concat_hic.sh  $feather_output $dataset_name $hic_dir "${hic_array[@]}"
 		fi
 	else
-		echo "Running $python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance"
+		echo "Running $python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance -m $merged_bam"
 				
-		$python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance
+		$python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance -m $merged_bam
 		qc_filename=$feather_output/$dataset_name".feather.qc"
 		temp_qc_file=$feather_output/tempfiles/$dataset_name".feather.qc.modified"
 		#printf "dataset name:\t"$dataset_name"\n" >> $qc_filename

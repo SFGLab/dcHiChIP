@@ -54,6 +54,8 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 
 include { CAT_FASTQ } from '../modules/nf-core/cat/fastq/main'
 include { BWA_MEM } from '../modules/nf-core/bwa/mem/main'
+include { BWA_MEM as BWA_MEM_SE_R1 } from '../modules/nf-core/bwa/mem/main'
+include { BWA_MEM as BWA_MEM_SE_R2 } from '../modules/nf-core/bwa/mem/main'
 include { SAMTOOLS_VIEW as FILTER_QUALITY} from '../modules/nf-core/samtools/view/main'
 include { REMOVE_DUPLICATES} from '../modules/local/remove_duplicates'
 include { DEEPTOOLS_BAMCOVERAGE } from '../modules/nf-core/deeptools/bamcoverage/main'
@@ -78,6 +80,13 @@ include { MULTIMM } from '../modules/local/multimm.nf'
 include { AWK } from '../modules/local/awk.nf'
 include { BEDTOOLS_NUC } from '../modules/nf-core/bedtools/nuc/main'
 include { COOLTOOLS_BED_INVERT } from '../modules/local/cooltools_bed_invert.nf'
+include { SAMTOOLS_MERGE } from '../modules/nf-core/samtools/merge/main'
+include { SAMTOOLS_FIXMATE } from '../modules/nf-core/samtools/fixmate/main'
+include { SAMTOOLS_MARKDUP } from '../modules/nf-core/samtools/markdup/main'
+include { SAMTOOLS_SORT } from '../modules/nf-core/samtools/sort/main'
+include { SAMTOOLS_SORT as SAMTOOLS_SORT_2 } from '../modules/nf-core/samtools/sort/main'
+include { FILTER_PAIRES } from '../modules/local/filter_pairs.nf'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -204,6 +213,56 @@ workflow HICHIP {
     //.ch_hichip.view()
     //ch_bwa_mem_in.view()
 
+    BWA_MEM_SE_R1(
+        ch_bwa_mem_in
+        .filter{it[0].type == "hichip"}
+        .map{
+            [it[0], it[1][0]]
+        },
+        ch_fasta.first(),
+        ch_bwa_index,
+        true
+    )
+    BWA_MEM_SE_R2(
+        ch_bwa_mem_in
+        .filter{it[0].type == "hichip"}
+        .map{
+            [it[0], it[1][1]]
+        },
+        ch_fasta.first(),
+        ch_bwa_index,
+        true
+    )
+    SAMTOOLS_MERGE(
+        BWA_MEM_SE_R1.out.bam
+        .join(BWA_MEM_SE_R2.out.bam)
+        .map{[it[0], [it[1], it[2]]]},
+        ch_fasta.first(),
+        ch_fasta_fai.first()
+    )
+    SAMTOOLS_MERGE.out.bam.view()
+    channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList().view()
+    FILTER_PAIRES(
+        SAMTOOLS_MERGE.out.bam,
+        channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
+    )
+    SAMTOOLS_FIXMATE(
+        FILTER_PAIRES.out.bam
+    )
+    SAMTOOLS_SORT(
+        SAMTOOLS_FIXMATE.out.bam,
+        ch_fasta.first()
+    )
+
+    SAMTOOLS_MARKDUP(
+        SAMTOOLS_SORT.out.bam,
+        ch_fasta.first()
+    )
+    SAMTOOLS_SORT_2(
+        SAMTOOLS_MARKDUP.out.bam,
+        ch_fasta.first()
+    )
+
     BWA_MEM(
         ch_bwa_mem_in,
         ch_fasta.first(),
@@ -269,13 +328,25 @@ workflow HICHIP {
         .filter{it[0].type == "hichip"}
         .map { [it[0].id, [it[0], it[1]]]}
     )
+    .set{ch_maps_fasta_in}
+    
+
+    MACS3_CALLPEAK.out.peak
+    .map{[it[0].id, it]}
+    .mix(ch_narrowpeak.map{[it[0].id, [it[0], it[1]]]})
+    .join(
+        SAMTOOLS_SORT_2.out.bam
+        .map{[it[0].id, it]}
+    )
     .set{ch_maps_in}
     
-    //ch_maps_in.view()
+
+    //ch_maps_fasta_in.view()
 
     if (!params.skip_maps){
         MAPS(
-            ch_maps_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
+            ch_maps_fasta_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
+            ch_maps_in.map{[it[2][0], it[2][1]]},
             ch_maps_in.map{it[1]},
             ch_bwa_index,
             ch_genomics_features.first(),
@@ -288,9 +359,9 @@ workflow HICHIP {
         )
         ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
         
-        GSTRIPE(
+        /*GSTRIPE(
             MAPS.out.bedpe
-        )
+        )*/
         CALDER(
             MAPS.out.hic,
             params.calder_bin,
@@ -382,10 +453,10 @@ workflow HICHIP {
     BEDTOOLS_NUC(
         AWK.out.bed.combine(ch_fasta.map{it[1]}).map{[it[0], it[2], it[1]]}
     )
-    COOLTOOLS_BED_INVERT(
+    /*COOLTOOLS_BED_INVERT(
         AWK.out.bed
     )
-    /*MULTIMM(
+    MULTIMM(
         MAPS.out.bedpe,
         COOLTOOLS_BED_INVERT.out.compartments
     )*/

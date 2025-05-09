@@ -22,7 +22,7 @@ process GSTRIPE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     
     """
-    python -m gstripe.gstripe \\
+    python3 -m gstripe.gstripe \\
         ${bedpe} \\
         ${prefix}_gstripe.txt \\
         --max_workers=${task.cpus}

@@ -49,6 +49,7 @@ def main():
 		from feather_split_rongxin import split_main
 		split_main(split_filename, outdir, prefix, length_threshold, per_chr_bedpe, generate_hic, chip_peaks)
 	elif cmd == "preprocess":
+		os.makedirs(outdir + "/tempfiles", exist_ok=True)
 		from feather_split_rongxin import split_main
 		if not merged_bam:
 			from feather_filter_chr import filter_main

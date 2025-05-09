@@ -6,6 +6,7 @@ process MAPS {
     
     input:
     tuple val(meta), path(fastq1), path(fastq2)
+    tuple val(meta1), path(bam)
     tuple val(meta2), path(peaks)
     tuple val(meta3), path(bwa_index)
     path (features)
@@ -19,7 +20,6 @@ process MAPS {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def args = task.ext.args ?: ''
-    
     """
     INDEX=`find -L ./ -name "*.amb" | sed 's/\\.amb\$//'`    
     run_maps_pipeline.sh \\
@@ -27,9 +27,10 @@ process MAPS {
     -p ${peaks} \\
     -t ${task.cpus} \\
     -x \$INDEX \\
+    -u ${features} \\
+    -w ${bam} \\
     -1 ${fastq1} \\
     -2 ${fastq2} \\
-    -u ${features} \\
     ${args}
     
     cp MAPS_output/${prefix}_current/${prefix}.5k.2.sig3Dinteractions.bedpe ${prefix}.bedpe

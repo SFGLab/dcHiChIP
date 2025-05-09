@@ -11,7 +11,7 @@ process HOMER_FINDMOTIFSGENOME {
     path fasta
     
     output:
-    tuple val(meta), path("${prefix}_motifs"), emit: motifs
+    tuple val(meta), path("*_motifs"), emit: motifs
     path "versions.yml", emit: versions
 
     when:
@@ -41,7 +41,7 @@ process HOMER_FINDMOTIFSGENOME {
     def VERSION = '4.11'
     // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
-    touch ${prefix}.annotatePeaks.txt
+    mkdir ${prefix}_motifs
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
