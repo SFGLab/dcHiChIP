@@ -1,5 +1,5 @@
 process COOLTOOLS_BED_INVERT {
-    tag "$samplesheet"
+    tag "${meta.id}"
     label 'process_single'
 
     conda "conda-forge::python=3.8.3"

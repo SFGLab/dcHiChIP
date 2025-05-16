@@ -359,11 +359,11 @@ workflow HICHIP {
         )
         ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
         
-        /*GSTRIPE(
+        GSTRIPE(
             MAPS.out.bedpe
-        )*/
+        )
         CALDER(
-            MAPS.out.hic,
+            JUICERTOOLS.out.hic,
             params.calder_bin,
             params.ref_short
         )
@@ -437,10 +437,10 @@ workflow HICHIP {
         COOLER_CLOAD.out.cool.map{[it[0], it[1]]}
     )
 
-    /*COOLTOOLS_INSULATION(
+    COOLTOOLS_INSULATION(
         COOLER_ZOOMIFY.out.mcool.map{[it[0], it[1]]},
         params.insulation_resultions[params.cooler_zoomify_res]
-    )*/
+    )
 
     COOLTOOLS_EIGSCIS(
         COOLER_ZOOMIFY.out.mcool,
@@ -453,13 +453,13 @@ workflow HICHIP {
     BEDTOOLS_NUC(
         AWK.out.bed.combine(ch_fasta.map{it[1]}).map{[it[0], it[2], it[1]]}
     )
-    /*COOLTOOLS_BED_INVERT(
+    COOLTOOLS_BED_INVERT(
         AWK.out.bed
     )
     MULTIMM(
         MAPS.out.bedpe,
         COOLTOOLS_BED_INVERT.out.compartments
-    )*/
+    )
     
     //
     // MODULE: Run FastQC

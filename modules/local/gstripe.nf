@@ -2,16 +2,16 @@ process GSTRIPE {
     tag "$meta.id"
     label 'process_single'
 
-    conda "bioconda::bioframe=0.7.2"
+    conda ""
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        '' :
-        '' }"
+        'sfglab/gstripe:1.0' :
+        'sfglab/gstripe:1.0' }"
 
     input:
     tuple val(meta) , path(bedpe)
     
     output:
-    tuple val(meta), path("*_gstripe.txt"),  emit: gstripe
+    tuple val(meta), path("*gstripes_raw.tsv"),  emit: gstripe
     path  "versions.yml",            emit: versions
 
     when:
@@ -24,12 +24,13 @@ process GSTRIPE {
     """
     python3 -m gstripe.gstripe \\
         ${bedpe} \\
-        ${prefix}_gstripe.txt \\
+        ./ \\
         --max_workers=${task.cpus}
 
-    with open ("versions.yml", "w") as version_file:
-	   version_file.write("\\"${task.process}\\":\\n    python: {}\\n".format(sys.version.split()[0].strip()))
-
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | sed 's/Python //g')
+    END_VERSIONS
     """
 
     stub:
@@ -37,7 +38,7 @@ process GSTRIPE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     
     """
-    touch ${prefix}_gstripe.txt
+    touch ${bedpe}.gstripes_raw.tsv
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
