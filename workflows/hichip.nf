@@ -99,7 +99,7 @@ def multiqc_report = []
 workflow HICHIP {
 
     ch_versions = Channel.empty()
-
+    ch_multimm_in = Channel.empty()
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
@@ -368,6 +368,7 @@ workflow HICHIP {
             params.ref_short
         )
 
+        ch_multimm_in = ch_multimm_in.mix(MAPS.out.bedpe)
     }
     
     HOMER_ANNOTATEPEAKS(
@@ -454,10 +455,10 @@ workflow HICHIP {
         AWK.out.bed.combine(ch_fasta.map{it[1]}).map{[it[0], it[2], it[1]]}
     )
     COOLTOOLS_BED_INVERT(
-        AWK.out.bed
+        BEDTOOLS_NUC.out.bed
     )
     MULTIMM(
-        MAPS.out.bedpe,
+        ch_multimm_in,
         COOLTOOLS_BED_INVERT.out.compartments
     )
     

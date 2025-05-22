@@ -34,9 +34,6 @@ process GSTRIPE {
     """
 
     stub:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
-    
     """
     touch ${bedpe}.gstripes_raw.tsv
     
