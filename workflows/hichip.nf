@@ -457,10 +457,10 @@ workflow HICHIP {
     COOLTOOLS_BED_INVERT(
         BEDTOOLS_NUC.out.bed
     )
-    MULTIMM(
+    /*MULTIMM(
         ch_multimm_in,
         COOLTOOLS_BED_INVERT.out.compartments
-    )
+    )*/
     
     //
     // MODULE: Run FastQC

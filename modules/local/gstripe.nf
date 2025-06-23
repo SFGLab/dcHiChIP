@@ -4,8 +4,8 @@ process GSTRIPE {
 
     conda ""
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'sfglab/gstripe:1.0' :
-        'sfglab/gstripe:1.0' }"
+        'docker.io/sfglab/gstripe:1.0' :
+        'docker.io/sfglab/gstripe:1.0' }"
 
     input:
     tuple val(meta) , path(bedpe)
