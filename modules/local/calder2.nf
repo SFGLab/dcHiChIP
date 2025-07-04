@@ -3,8 +3,8 @@ process CALDER {
     tag "$meta.id"
     label 'process_medium'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'lucananni93/calder2:0.3':
-        'lucananni93/calder2:0.3' }"
+        'docker.io/lucananni93/calder2:0.3':
+        'docker.io/lucananni93/calder2:0.3' }"
     
     input:
     tuple val(meta), path(hic)
