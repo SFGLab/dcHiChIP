@@ -24,7 +24,7 @@ process CALDER {
 
     # and load Calder
     library(CALDER)
-    chrs = c(21:22)
+    chrs = c(1:22)
     CALDER(contact_file_hic="${hic}", 
 			chrs=chrs, 
 			bin_size=${bin_size},
