@@ -34,7 +34,7 @@ process CALDER {
 			n_cores=${task.cpus},
 			sub_domains=FALSE)
 
-    writeLines("${task.process}":\\n\\tCALDER: $version, "versions.yml")
+    writeLines(c('"${task.process}":', '\\tCALDER: $version'), "versions.yml")
     
     """
 
