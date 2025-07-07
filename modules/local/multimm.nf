@@ -28,7 +28,7 @@ process MULTIMM {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        MultiMM: 1.1.0
+        MultiMM: 1.1.0.0.0
     END_VERSIONS
     """
 
@@ -41,7 +41,7 @@ process MULTIMM {
     touch ${prefix}.hic.input
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        MultiMM: 1.1.0
+        MultiMM: 1.1.0.0.0
     END_VERSIONS
     """
 }
