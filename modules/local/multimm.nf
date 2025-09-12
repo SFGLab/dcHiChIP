@@ -21,7 +21,7 @@ process MULTIMM {
     """
     tail -n +2 ${loops} > tmp_loops.bedpe
     
-MultiMM \\
+    MultiMM \\
     --loops_path tmp_loops.bedpe \\
     --compartment_path ${compartment} \\
     --cpu_threads ${task.cpus} \\
@@ -47,5 +47,6 @@ MultiMM \\
     END_VERSIONS
     """
 }
+
 
 
