@@ -19,8 +19,10 @@ process MULTIMM {
     def args = task.ext.args ?: ''
     
     """
-    MultiMM \\
-    --loops_path ${loops} \\
+    tail -n +2 ${loops} > tmp_loops.bedpe
+    
+MultiMM \\
+    --loops_path tmp_loops.bedpe \\
     --compartment_path ${compartment} \\
     --cpu_threads ${task.cpus} \\
     --out_path ./ \\
@@ -45,4 +47,5 @@ process MULTIMM {
     END_VERSIONS
     """
 }
+
 
