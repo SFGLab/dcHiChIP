@@ -424,7 +424,7 @@ workflow HICHIP {
     )
 
     PAIRTOOLS_PARSE2(
-        BWA_MEM.out.bam,
+        BWA_MEM.out.bam.filter{it[0].type == "hichip"},
         ch_chrom_size.first()
     )
     
