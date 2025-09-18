@@ -4,7 +4,7 @@ process GSTRIPE {
 
     conda ""
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'oras://community.wave.seqera.io/library/pip_gstripe:1791ed5deb2538a7' :
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/4e/4eaae53e6b938c3212eb34fc89f4c1d514511a3e05bb3f91f5b60a41e6870f9b/data' :
         'community.wave.seqera.io/library/pip_gstripe:6d10173fe52641bf'}"
 
     input:
@@ -43,4 +43,5 @@ process GSTRIPE {
     END_VERSIONS
     """
 }
+
 
