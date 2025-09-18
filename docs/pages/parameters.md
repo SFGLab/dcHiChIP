@@ -63,14 +63,13 @@ The `dcHiChIP` pipeline provides flexible module-level control through a compreh
 ## Open2C (cooler Zomify)
 - **`--nproc`**: Number of processes to use for batch processing chunks of pixels [Default: 1]
 - **`--resolutions`**: Comma-separated list of target resolutions.
-- Use suffixes `B` or `N` to specify a progression:
+    - Use suffixes `B` or `N` to specify a progression:
     - `B` for binary (geometric steps of factor 2)
     - `N` for nice (geometric steps of factor 10 interleaved with steps of 2 and 5)
-  
-  - **Examples**:
-    - `1000B` → 1000, 2000, 4000, 8000, …
-    - `1000N` → 1000, 2000, 5000, 10000, …
-    - `5000N` → 5000, 10000, 25000, 50000, …
+      - **Examples**:
+        - `1000B` → 1000, 2000, 4000, 8000, …
+        - `1000N` → 1000, 2000, 5000, 10000, …
+        - `5000N` → 5000, 10000, 25000, 50000, …
 ---
 
 ## Open2C (cooltools insulation)
