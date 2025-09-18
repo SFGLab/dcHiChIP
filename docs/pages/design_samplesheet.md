@@ -10,7 +10,7 @@ This section provides a detailed explanation of the `design.csv` input format fo
 
 ---
 
-## 🧪 Case 1: Only HiChIP raw FASTQ files (no ChIP-seq input)
+## Case 1: Only HiChIP raw FASTQ files (no ChIP-seq input)
 
 > **Use this format when you do not have ChIP-seq data (neither raw nor peak files).**
 
@@ -26,7 +26,7 @@ This section provides a detailed explanation of the `design.csv` input format fo
 
 ---
 
-## 📊 Case 2: HiChIP FASTQ + processed ChIP-seq peak files (narrowPeak)
+## Case 2: HiChIP FASTQ + processed ChIP-seq peak files (narrowPeak)
 
 > **Use this format when you have pre-processed ChIP-seq peak files in narrowPeak format.**
 
@@ -41,7 +41,7 @@ This section provides a detailed explanation of the `design.csv` input format fo
 
 ---
 
-## 🔬 Case 3: HiChIP FASTQ + raw ChIP-seq FASTQ files (needs peak calling)
+## Case 3: HiChIP FASTQ + raw ChIP-seq FASTQ files (needs peak calling)
 
 > **Use this format when you have raw ChIP-seq data and wish to process it within the pipeline.**
 
