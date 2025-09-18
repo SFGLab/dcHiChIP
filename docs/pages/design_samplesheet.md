@@ -14,10 +14,10 @@ This section provides a detailed explanation of the `design.csv` input format fo
 
 > **Use this format when you do not have ChIP-seq data (neither raw nor peak files).**
 
-|id  | sample | hichip_r1                    | hichip_r2                    | chipseq_r1 | chipseq_r2 | narrowpeak |
-|----|--------|------------------------------|------------------------------|------------|------------|------------|
-|S-1 | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            |            |
-|S-2 | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            |            |
+|id   | sample | hichip_r1                    | hichip_r2                    | chipseq_r1 | chipseq_r2 | narrowpeak |
+|-----|--------|------------------------------|------------------------------|------------|------------|------------|
+|S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            |            |
+|S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            |            |
 
 
 **📝 Notes:**
@@ -30,10 +30,10 @@ This section provides a detailed explanation of the `design.csv` input format fo
 
 > **Use this format when you have pre-processed ChIP-seq peak files in narrowPeak format.**
 
-|id  | sample | hichip_r1                    | hichip_r2                    | chipseq_r1 | chipseq_r2 | narrowpeak                |
-|----|--------|------------------------------|------------------------------|------------|------------|---------------------------|
-|S-1 | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            | ./chip/SAMPLE1.narrowpeak |
-|S-2 | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            | ./chip/SAMPLE2.narrowpeak |    
+|id   | sample | hichip_r1                    | hichip_r2                    | chipseq_r1 | chipseq_r2 | narrowpeak                |
+|-----|--------|------------------------------|------------------------------|------------|------------|---------------------------|
+|S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            | ./chip/SAMPLE1.narrowpeak |
+|S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            | ./chip/SAMPLE2.narrowpeak |    
 
 **📝 Notes:**
 - Ensure peak files are in **BED6+4** format.
@@ -45,10 +45,10 @@ This section provides a detailed explanation of the `design.csv` input format fo
 
 > **Use this format when you have raw ChIP-seq data and wish to process it within the pipeline.**
 
-|id  | sample | hichip_r1                    | hichip_r2                    | chipseq_r1                    | chipseq_r2                    | narrowpeak |
-|----|--------|------------------------------|------------------------------|-------------------------------|-------------------------------|------------|
-|S-1 | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz | ./chipseq/SAMPLE1_R1.fastq.gz | ./chipseq/SAMPLE1_R2.fastq.gz |            |
-|S-2 | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz |            |
+|id   | sample | hichip_r1                    | hichip_r2                    | chipseq_r1                    | chipseq_r2                    | narrowpeak |
+|-----|--------|------------------------------|------------------------------|-------------------------------|-------------------------------|------------|
+|S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz | ./chipseq/SAMPLE1_R1.fastq.gz | ./chipseq/SAMPLE1_R2.fastq.gz |            |
+|S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz |            |
 
 **📝 Notes:**
 - ChIP-seq input files must correspond to the same sample and replicate scheme.
