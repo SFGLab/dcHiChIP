@@ -3,17 +3,17 @@
 ### List of contributors ###
 ############################
 
-### see https://github.com/ELIXIR-Belgium/elixir-toolkit-theme
-
-#############################################################################################################################################
-### add maintainers/contributors below and use their name in the contributors metadata section on each page they have contributed towards ###
-#############################################################################################################################################
-
-# an example contributor is included below
-# example roles include "lead", "first-author", "author", "editor", "workflow-tester"
+Abhishek Agarwal:
+  git: ag-abhishek
+  email: a.agarwal@cent.uw.edu.pl
+  orcid: 0000-0003-4981-8746
 
 Ziad Al-Bkhetan:
-    git: ziadbkh
-    email: ziad.albkhetan@gmail.com
-    orcid: 0000-0002-4032-5331
-    
+  git: ziadbkh
+  email: ziad.albkhetan@gmail.com
+  orcid: 0000-0002-4032-5331
+
+Dariusz Plewczyński:
+  git: SFGLab
+  email: d.plewczynski@cent.uw.edu.pl
+  orcid: 0000-0002-3840-7610
