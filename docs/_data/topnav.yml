@@ -1,5 +1,19 @@
-## 
-## if you want to list an external url, use external_url instead of url. the theme will apply a different link base.
+##
+## Navigation bar links
+##
+
 subitems:
-- title: Home
-  url: /
+  - title: Home
+    url: /
+
+  - title: Documentation
+    url: /docs/
+
+  - title: Workflow
+    url: /docs/workflow/
+
+  - title: Contributors
+    url: /main/contributors/
+
+  - title: GitHub
+    external_url: https://github.com/SFGLab/dcHiChIP
