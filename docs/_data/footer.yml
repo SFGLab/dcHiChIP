@@ -1,6 +1,13 @@
-# see https://github.com/AustralianBioCommons/human-omics-data-sharing-field-guide/blob/main/_data/footer.yml
-copyright: Copyright notice
+# docs/_data/footer.yml
+
+# Copyright statement
+copyright:  © 2025 Abhishek Agarwal, Ziad Al-Bkhetan, and Dariusz Plewczyński. All rights reserved.
 extra_line:
+
+# Optional extra line under footer (e.g., citation or funding info)
+extra_line:
+
+# Footer columns (links, logos, etc.)
 columns:
   - type: links
     width: 3
@@ -9,3 +16,7 @@ columns:
         url: /
       - url_text: Contributors
         url: /main/contributors
+      - url_text: Documentation
+        url: /docs/
+      - url_text: GitHub Repository
+        url: https://github.com/SFGLab/dcHiChIP
