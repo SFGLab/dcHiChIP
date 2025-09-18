@@ -90,12 +90,13 @@ The `dcHiChIP` pipeline provides flexible module-level control through a compreh
 ## 3Dmodelling (MultiMM)
 - **`--platform`**: name of the platform. Available choices: CPU, OpenCL, CUDA. [Default: CPU]
 - **`--cpu_threads`**: Number of CPU threads (in case that CPU is chosen as platform).
-- **`--modelling_level`**: Helping function to specify parameters of simulation. Choose 'GENE', 'REGION', 'CHROM', or 'GW' depending on the resolution of interest.
-- **`--gene_name`**: The name of the gene of interest. {Only valid when --modelling_level = GENE}
-- **`--chrom`**: Chromosome that corresponds the the modelling region of interest ; case-sensivite for chr21 (not accepted : CHR21, Chr21, 21) {Only valid when --modelling_level = REGION/CHROM }
+- **`--modelling_level`**: Helping function to specify parameters of simulation.
+    - Choose 'GENE', 'REGION', 'CHROM', or 'GW' depending on the resolution of interest.
+- **`--gene_name`**: The name of the gene of interest. {Only valid when --modelling_level = GENE} 
+- **`--chrom`**: Chromosome that corresponds the the modelling region of interest
+    - case-sensivite for chr21 (not accepted : CHR21, Chr21, 21) {Only valid when --modelling_level = REGION/CHROM }
 - **`--loc_start`**: Starting region coordinate {Only valid when --modelling_level = REGION}
 - **`--loc_end`**: Ending region coordinate {Only valid when --modelling_level = REGION}
-- **`--loc_start`**:
 ---
 
 
