@@ -1,2 +1,56 @@
-// Find out which theme variables you can use to fine tune the styling of your website here: https://github.com/ELIXIR-Belgium/elixir-toolkit-theme/blob/main/_sass/_variables.scss
-// Copy paste theme here and change where necessary .
+// _custom_variables.scss
+// Custom variable overrides for dcHiChIP documentation
+
+// -----------------------------------------
+// Color overrides (inherited from bootstrap_variables.scss)
+// -----------------------------------------
+
+$primary:       #205a86;   // BioCommons blue
+$secondary:     #5ac3b1;   // BioCommons teal
+$light:         #f8f9fa;
+$dark:          #212529;
+$link-color:    $primary;
+
+// -----------------------------------------
+// Font and spacing
+// -----------------------------------------
+
+$font-size-base:              1rem;
+$font-family-sans-serif:      "Helvetica Neue", Helvetica, Arial, sans-serif;
+$headings-font-weight:        500;
+$paragraph-margin-bottom:     1rem;
+
+// -----------------------------------------
+// Navbar styling
+// -----------------------------------------
+
+$navbar-padding-y:            0.75rem;
+$navbar-brand-font-size:      1.8rem;
+$navbar-light-color:          $dark;
+$navbar-light-hover-color:    $primary;
+$navbar-light-active-color:   $primary;
+
+// -----------------------------------------
+// Card and tile components
+// -----------------------------------------
+
+$card-border-radius:          0.5rem;
+$card-border-color:           #dee2e6;
+$card-cap-bg:                 #f8f9fa;
+$card-spacer-y:               1rem;
+
+// -----------------------------------------
+// Table styling
+// -----------------------------------------
+
+$table-border-color:          #dee2e6;
+$table-cell-padding:          0.75rem;
+
+// -----------------------------------------
+// Footer and alert colors
+// -----------------------------------------
+
+$footer-bg:                   #f1f1f1;
+$footer-text-color:           $dark;
+$alert-info-bg:               #e9f7fb;
+$alert-info-text:             #205a86;
