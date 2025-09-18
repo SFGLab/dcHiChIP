@@ -1,53 +1,65 @@
-// Include here all custom classes to add extra styling on top of what the theme and bootstrap variables offer. 
+// Custom SCSS for dcHiChIP documentation styling
 
-//Example for highlighting the active page in the navigation:
-/*-----Top navigation-----*/
 
+/* -----------------------
+   Top Navigation Styling
+------------------------ */
+
+// Highlight active nav item
 .navbar-nav .nav-item > a {
-    &.active {
-        color: $white;
-        background-color: $primary;
-        border-radius: $border-radius;
-    }
+  &.active {
+    color: $white;
+    background-color: $primary;
+    border-radius: $border-radius;
+  }
 }
 
-/* see https://github.com/ELIXIR-Belgium/elixir-toolkit-theme*/
-
+// Branding font and color
 .navbar {
-    .navbar-brand {
-        font-size: 2.25rem;
-        color: $dark !important;
-    }
+  .navbar-brand {
+    font-size: 2.25rem;
+    color: $dark !important;
+  }
 }
 
+/* -----------------------
+   General Styling
+------------------------ */
+
+// Ensure all images are responsive
 img {
-    @extend .img-fluid;
+  @extend .img-fluid;
 }
 
+// Add top border to all h2s
 h2 {
-    padding-top: 10px;
-    display: block;
-    border-top: 1px solid $table-border-color;
+  padding-top: 10px;
+  display: block;
+  border-top: 1px solid $table-border-color;
 }
 
-/*-----Copied and adapted from https://github.com/elixir-europe/infectious-diseases-toolkit/blob/main/_sass/_custom_classes.scss-----*/
-/*-----Section navigation tiles-----*/
+/* -----------------------
+   Section Navigation Tiles
+------------------------ */
+
+// Adapted from ELIXIR Infectious Disease Toolkit
 
 .navigation-tiles {
-    .card:hover {
-        box-shadow: $box-shadow;
+  .card:hover {
+    box-shadow: $box-shadow;
+  }
+
+  .card-header {
+    a:hover {
+      text-decoration: none;
     }
 
-    .card-header {
-        a:hover {
-            text-decoration: none;
-        }
-        h3 {
-            font-size: 1.2rem;
-        }
+    h3 {
+      font-size: 1.2rem;
     }
-    .card-text {
-        font-size: 0.9rem;
-    }
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
 }
-
