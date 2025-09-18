@@ -1,0 +1,14 @@
+title: Main
+title_url: /
+subitems:
+  - title: Fastq Demultiplex
+    url: /demultiplex
+  - title: Template detection
+    url: /template
+  - title: Reports
+    url: /report
+  - title: Reformat reads
+    url: /reformat
+  - title: Contact us
+    url: /contact_us
+  
