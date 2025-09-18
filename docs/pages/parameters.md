@@ -39,7 +39,8 @@ The `dcHiChIP` pipeline provides flexible module-level control through a compreh
 ## MAPS
 - **`bin_size`**: resolution. Usually 5000 or 10000. [Default = 5000]
 - **`binning_range`**: How far 3D interactions can be called, also affects the estimate of the expected count. [Default=1000000]
-- **`sex_chroms_to_process`**: either X,Y,XY or NA. This specifies which (if any) sex chromosomes the user wants to run MAPS on: X = X chr only, Y = Y chr only, XY = both X and Y chroms, NA = none (just autosomal). [Default = NA]
+- **`sex_chroms_to_process`**: either X,Y,XY or NA. [Default = NA]
+    - This specifies which (if any) sex chromosomes the user wants to run MAPS on: X = X chr only, Y = Y chr only, XY = both X and Y chroms, NA = none (just autosomal).
 ---
 
 ## DeepTools (plotCoverage,multiBigwigSummary) 
