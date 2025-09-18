@@ -2,11 +2,20 @@
 ### List of affiliations ###
 ############################
 
-### see https://github.com/ELIXIR-Belgium/elixir-toolkit-theme
+# Used in dcHiChIP GitHub documentation
 
-#########################################################################################################
-### add affiliations below and use the name(s) in the relevant metadata sections or code on each page ###
-#########################################################################################################
+University_of_Warsaw:
+  name: University of Warsaw
+  department: Centre of New Technologies, Laboratory of Functional and Structural Genomics
+  location: Warsaw, Poland
 
-### add new affiliations below as needed
+Warsaw_University_of_Technology:
+  name: Warsaw University of Technology
+  department: Faculty of Mathematics and Information Science, Laboratory of Bioinformatics and Computational Genomics
+  location: Warsaw, Poland
+
+Australian_BioCommons:
+  name: Australian BioCommons
+  department: The University of Melbourne
+  location: North Melbourne, Victoria 3051, Australia
 
