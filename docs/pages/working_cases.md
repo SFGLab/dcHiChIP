@@ -8,7 +8,7 @@ nav_order: 1
 parent: Main
 ---
 
-# 🔍 3 Working Test Cases
+# 🔍 3 Working Cases
 
 dcHiChIP supports three primary use cases, designed to accommodate the most common experimental scenarios involving HiChIP and ChIP-seq data.
 
