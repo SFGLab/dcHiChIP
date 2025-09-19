@@ -1,6 +1,6 @@
 ---
 title: Working Cases
-contributors: [Abhishek Agarwal, Ziad Al-Bkhetan]
+contributors:
 description: A user guide illustrating the three standard modes of dcHiChIP pipeline execution using test-case diagrams.
 toc: true
 type: guides
