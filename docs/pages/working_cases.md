@@ -8,11 +8,8 @@ nav_order: 1
 parent: Main
 ---
 
-# 🔍 3 Working Cases
-
 dcHiChIP supports three primary use cases, designed to accommodate the most common experimental scenarios involving HiChIP and ChIP-seq data.
 
----
 
 ## Case 1: HiChIP FASTQ Only
 
@@ -20,7 +17,7 @@ This mode processes raw HiChIP paired-end FASTQ files and performs end-to-end an
 
 ![Case 1 Workflow](../assets/1 - Case_1.png)
 
----
+
 
 ## Case 2: HiChIP FASTQ + Pre-Processed ChIP-Seq Peaks
 
@@ -28,7 +25,7 @@ In this mode, the user provides raw HiChIP FASTQ files along with pre-processed 
 
 ![Case 2 Workflow](../assets/2 - Case_2.png)
 
----
+
 
 ## Case 3: HiChIP FASTQ + ChIP-Seq FASTQ
 
