@@ -1,6 +1,6 @@
 ---
 title: Design of the Experiment
-contributors: [Abhishek Agarwal,Ziad Al-Bkhetan]
+contributors:
 description: Guide to prepare design.csv for all three working cases in dcHiChIP.
 toc: true
 type: guides
