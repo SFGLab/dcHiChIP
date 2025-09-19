@@ -2,7 +2,7 @@
 title: Design of the Experiment
 contributors:
 description: Guide to prepare design.csv for all three working cases in dcHiChIP.
-toc: true
+toc: false
 type: guides
 ---
 
