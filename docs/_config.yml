@@ -1,43 +1,42 @@
-title: dcHiChIP
-description: "Nextflow-based pipeline for HiChIP analysis"
-remote_theme: ELIXIR-Belgium/elixir-toolkit-theme
+title: "MGIKIT"
+description: A documenation and user guid for MGIKIT.
+remote_theme: ELIXIR-Belgium/jekyll-bootstrap-theme@2.1.0
+topnav_title: MGIKIT
 
-# GitHub Pages base
-url: "https://sfglab.github.io"
-baseurl: "/dcHiChIP"
-
-# Top bar title (also used by the theme in various places)
-topnav_title: dcHiChIP
-
-# Theme options & branding
 theme_variables:
-  # --- BRANDING (logo at top-left) ---
-  brand_logo: assets/UW-logo-hover.png   # <-- put the file at docs/assets/UW-logo-hover.png
-  brand_name: dcHiChIP                   # remove this line if you want logo only (no text)
-
-  # --- NAV / UI ---
+  # biocommons blue
+  theme_color: 205a86
   topnav:
-    theme: light
-    github: true
+    brand_logo: assets/UW-logo-hover.png
+  privacy_statement_url:
 
-  # --- GitHub buttons (shown by the theme) ---
-  github_buttons:
-    position: bottom
-    edit_me: true
-    open_issue: true
-    history: true
+permalink: /:categories/:year/:month/:day/:title
 
-  # --- Table of contents behavior ---
-  toc:
-    min_headings: 1
-    headings: 'main h2'
+exclude:
+  - README.md
+  - .gitignore
+  - var/
+  - vendor
+  - Gemfile*
+  - LICENSE
 
-# Pretty URLs site-wide (keeps /page/ instead of .html; you can still override with page front matter)
-permalink: pretty
 
-# Default layout for all pages unless overridden
 defaults:
-  - scope:
+  -
+    scope:
       path: ""
+      type: "pages"
     values:
-      layout: default
+      permalink: /:basename
+      layout: "page"
+      sidebar: main
+    
+    
+plugins:
+  - elixir-toolkit-theme-plugins
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-github-metadata
+  - jemoji
+  - webrick
