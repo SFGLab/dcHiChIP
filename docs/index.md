@@ -5,7 +5,17 @@ description: A modular and reproducible pipeline for multi-scale chromatin archi
 toc: false
 ---
 
+<!-- Top logo -->
+<p align="left">
+  <img src="{{ site.baseurl }}/assets/UW-logo-hover.png" alt="University of Warsaw Logo" width="120"/>
+</p>
+
 ## dcHiChIP
+
+<!-- Pipeline figure -->
+<p align="center">
+  <img src="{{ site.baseurl }}/assets/dcHiChIP_workflow.png" alt="dcHiChIP Workflow" width="90%"/>
+</p>
 
 **dcHiChIP** is a modular and reproducible Nextflow-based pipeline designed for high-throughput analysis of chromatin architecture using HiChIP data. The pipeline supports a wide range of tools for mapping, loop calling, peak annotation, chromatin feature extraction, and 3D modeling.
 
