@@ -1,20 +1,22 @@
 ---
 title: Documentation and User Guide for dcHiChIP
-contributors: [Abhishek Agarwal, Ziad Al-Bkhetan]
-description: A modular and reproducible pipeline for multi-scale chromatin architecture analysis from HiChIP data.
+sidebar: main          # <- ties to sidebars/main.yml
 toc: false
+permalink: /
 ---
 
-<!-- Top logo -->
+<!-- top logo (optional) -->
 <p align="left">
-  <img src="{{ site.baseurl }}/assets/UW-logo-hover.png" alt="University of Warsaw Logo" width="120"/>
+  <img src="{{ site.baseurl }}/assets/UW-logo-hover.png" alt="UW Logo" width="110">
 </p>
 
 ## dcHiChIP
 
-<!-- Pipeline figure -->
+**dcHiChIP** is a modular and reproducible Nextflow-based pipeline designed for high-throughput analysis of chromatin architecture using HiChIP data.
+
+<!-- pipeline figure -->
 <p align="center">
-  <img src="{{ site.baseurl }}/assets/dcHiChIP_workflow.png" alt="dcHiChIP Workflow" width="90%"/>
+  <img src="{{ site.baseurl }}/assets/dcHiChIP_workflow.png" alt="dcHiChIP workflow" width="90%">
 </p>
 
 **dcHiChIP** is a modular and reproducible Nextflow-based pipeline designed for high-throughput analysis of chromatin architecture using HiChIP data. The pipeline supports a wide range of tools for mapping, loop calling, peak annotation, chromatin feature extraction, and 3D modeling.
