@@ -12,7 +12,7 @@ dcHiChIP supports three primary use cases, designed to accommodate the most comm
 
 This mode processes raw HiChIP paired-end FASTQ files and performs end-to-end analysis, including alignment, peak calling, loop detection, and 3D modeling.
 
-![Case 1 Workflow](../assets/1 - Case_1.png)
+![Case 1 Workflow](../assets/dcHiChIP_Case1.png)
 
 
 
@@ -20,7 +20,7 @@ This mode processes raw HiChIP paired-end FASTQ files and performs end-to-end an
 
 In this mode, the user provides raw HiChIP FASTQ files along with pre-processed ChIP-seq peaks in **narrowPeak** format. This bypasses the need for peak calling from HiChIP reads.
 
-![Case 2 Workflow](../assets/2 - Case_2.png)
+![Case 2 Workflow](../assets/dcHiChIP_Case2.png)
 
 
 
@@ -28,7 +28,7 @@ In this mode, the user provides raw HiChIP FASTQ files along with pre-processed 
 
 This configuration performs joint processing of both HiChIP and ChIP-seq FASTQ files. ChIP-seq reads are aligned, and peaks are called independently to guide HiChIP loop detection.
 
-![Case 3 Workflow](../assets/3 - Case_3.png)
+![Case 3 Workflow](../assets/dcHiChIP_Case3.png)
 
 ---
 
