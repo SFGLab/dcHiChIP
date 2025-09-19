@@ -1,22 +1,15 @@
-# docs/_data/footer.yml
-
-# Copyright statement
-copyright:  © 2025 Abhishek Agarwal, Ziad Al-Bkhetan, and Dariusz Plewczyński. All rights reserved.
-extra_line:
-
-# Optional extra line under footer (e.g., citation or funding info)
-extra_line:
-
-# Footer columns (links, logos, etc.)
+copyright: © dcHiChIP
 columns:
   - type: links
-    width: 3
+    width: 4
+    title: Project
     children:
-      - url_text: Main
-        url: /
-      - url_text: Contributors
-        url: /main/contributors
-      - url_text: Documentation
-        url: /docs/
-      - url_text: GitHub Repository
+      - url_text: GitHub
         url: https://github.com/SFGLab/dcHiChIP
+      - url_text: Issues
+        url: https://github.com/SFGLab/dcHiChIP/issues
+  - type: image
+    width: 2
+    image_width: 120px
+    src: 'assets/UW-logo-hover.png'
+    alt: University of Warsaw
