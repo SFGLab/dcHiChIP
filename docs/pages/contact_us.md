@@ -2,7 +2,7 @@
 title: Support and Contact Us
 toc: false
 ---
-
+---
 For inquiries, feedback, or assistance related to dcHiChIP, please feel free to reach out to the development team or the corresponding author.
 
 ## Development Team
