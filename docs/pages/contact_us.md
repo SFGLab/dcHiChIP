@@ -3,11 +3,11 @@ title: Support and Contact Us
 toc: false
 ---
 
-## 📬 Contact & Support for dcHiChIP
+## Contact & Support for dcHiChIP
 
 For inquiries, feedback, or assistance related to **dcHiChIP**, please feel free to reach out to the development team or the corresponding author.
 
-### 🛠 Development Team
+### Development Team
 - **Ziad Al Bkhetan**  
   Email: [ziad.albkhetan@gmail.com](mailto:ziad.albkhetan@gmail.com)
 
@@ -17,6 +17,8 @@ For inquiries, feedback, or assistance related to **dcHiChIP**, please feel free
 ### 📨 Corresponding Author
 - **Prof. Dariusz Plewczyński**  
   Email: [d.plewczynski@cent.uw.edu.pl](mailto:d.plewczynski@cent.uw.edu.pl)
+
+---
 
 For technical issues, bugs, or feature requests, you can also open an issue on our [GitHub repository](https://github.com/SFGLab/dcHiChIP).
 
