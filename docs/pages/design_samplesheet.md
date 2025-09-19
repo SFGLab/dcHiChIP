@@ -5,7 +5,7 @@ description: Guide to prepare design.csv for all three working cases in dcHiChIP
 toc: false
 ---
 
-This section provides a detailed explanation of the `design.csv` input format for the three working modes of **dcHiChIP**.
+This section provides a detailed explanation of the `design.csv` input format for the three working modes of dcHiChIP.
 
 ---
 
