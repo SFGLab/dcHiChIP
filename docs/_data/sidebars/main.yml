@@ -1,14 +1,12 @@
 title: Main
-title_url: /
 subitems:
-  - title: Fastq Demultiplex
-    url: /demultiplex
-  - title: Template detection
-    url: /template
-  - title: Reports
-    url: /report
-  - title: Reformat reads
-    url: /reformat
+  - title: Fast start
+    url: /
+  - title: Working Cases
+    url: /working_cases
+  - title: Parameters
+    url: /parameters
+  - title: Design samplesheet
+    url: /design_samplesheet
   - title: Contact us
-    url: /contact_us
-  
+    url: /contact
