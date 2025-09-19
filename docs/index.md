@@ -51,12 +51,6 @@ For help, questions, or feedback, feel free to reach out.
 
 <hr/>
 
-## 📚 User Guide Navigation
-
-{% include section-navigation-tiles.html type="guides" %}
-
-<hr/>
-
 ## 📄 Citation
 
 If you use dcHiChIP in your research or publication, please cite the following manuscript (in preparation):
