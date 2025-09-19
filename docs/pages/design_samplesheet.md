@@ -7,8 +7,6 @@ toc: false
 
 This section provides a detailed explanation of the `design.csv` input format for the three working modes of dcHiChIP.
 
----
-
 ## Case 1: Only HiChIP raw FASTQ files (no ChIP-seq input)
 
 > **Use this format when you do not have ChIP-seq data (neither raw nor peak files).**
