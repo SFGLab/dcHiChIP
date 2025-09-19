@@ -1,15 +1,68 @@
 ---
-title: dcHiChIP
+title: Documentation and User Guide for dcHiChIP
+contributors: [Abhishek Agarwal, Ziad Al-Bkhetan]
+description: A modular and reproducible pipeline for multi-scale chromatin architecture analysis from HiChIP data.
+toc: false
 ---
 
-# dcHiChIP
+## dcHiChIP
 
-Welcome to the documentation for `dcHiChIP`, a modular pipeline for multi-scale analysis of chromatin architecture from HiChIP data.
+**dcHiChIP** is a modular and reproducible Nextflow-based pipeline designed for high-throughput analysis of chromatin architecture using HiChIP data. The pipeline supports a wide range of tools for mapping, loop calling, peak annotation, chromatin feature extraction, and 3D modeling.
 
-- 📖 **[Working Test Cases](test_cases)**
-- ⚙️ **[Design of Experiment](design)**
-- 🔧 **[Module Parameters](parameter)**
-- 📈 **[Results & Output](results)**
-- 📬 **[Contact Us](contact)**
+The pipeline includes integrated modules for:
 
-Please use the sidebar to navigate through the documentation.
+- Mapping & filtering of HiChIP/ChIP-seq reads using `BWA`, `SAMtools`, and `MACS3`
+- Loop calling using `MAPS` and conversion to BEDPE format
+- Feature extraction with `cooltools`, `HOMER`, `gStripe`, and `CADLER`
+- Multi-resolution compartment and TAD analysis
+- 3D modeling of genome architecture using `MultiMM`
+
+<hr/>
+
+## 📂 Working Test Cases
+
+The pipeline supports three fully documented test cases with representative input formats and figure overviews.
+
+👉 Visit [Working Test Cases](/dcHiChIP/working_cases) for more.
+
+<hr/>
+
+## 🧪 Design & Sample Sheet
+
+Explore the experimental design principles and detailed sample sheet formats compatible with the pipeline.
+
+👉 Visit [Design and Sample Sheet Guide](/dcHiChIP/design_samplesheet) for more.
+
+<hr/>
+
+## ⚙️ Module Parameters
+
+Each pipeline module supports customizable parameters such as resolution, CPUs, input formats, and modelling levels.
+
+👉 Visit [Module Parameters](/dcHiChIP/parameters) for full details.
+
+<hr/>
+
+## 📫 Contact Us
+
+For help, questions, or feedback, feel free to reach out.
+
+👉 Visit [Contact Page](/dcHiChIP/contact_us)
+
+<hr/>
+
+## 📚 User Guide Navigation
+
+{% include section-navigation-tiles.html type="guides" %}
+
+<hr/>
+
+## 📄 Citation
+
+If you use dcHiChIP in your research or publication, please cite the following manuscript (in preparation):
+
+> Agarwal, A., Al-Bkhetan, Z., Plewczyński, D. *dcHiChIP: A comprehensive Nextflow-based pipeline for Multi-Scale Analysis of Chromatin Architecture from HiChIP Data.*
+
+## 🔒 Commercial Use
+
+Please contact us if you plan to use dcHiChIP for commercial purposes.
