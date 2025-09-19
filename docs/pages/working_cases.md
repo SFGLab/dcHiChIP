@@ -4,7 +4,7 @@ contributors:
 description: A user guide illustrating the three standard modes of dcHiChIP pipeline execution using test-case diagrams.
 toc: false
 ---
-
+---
 dcHiChIP supports three primary use cases, designed to accommodate the most common experimental scenarios involving HiChIP and ChIP-seq data.
 
 
