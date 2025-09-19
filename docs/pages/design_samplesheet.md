@@ -16,7 +16,7 @@ This section provides a detailed explanation of the `design.csv` input format fo
 |S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            |            |
 |S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            |            |
 
-*📝 Notes:*
+**Notes:**
 - The last column (`chipseq`) & (`narrowpeak`) must be left empty.
 - Pseudo-ChIP-seq peaks will be automatically generated from the HiChIP data.
 
@@ -29,7 +29,7 @@ This section provides a detailed explanation of the `design.csv` input format fo
 |S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            | ./chip/SAMPLE1.narrowpeak |
 |S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            | ./chip/SAMPLE2.narrowpeak |    
 
-*📝 Notes:*
+**Notes:**
 - Ensure peak files are in **BED6+4** format.
 - Chromosome names **must** follow the `chrX` naming convention (e.g., `chr1`, `chr21`).
 
@@ -42,7 +42,7 @@ This section provides a detailed explanation of the `design.csv` input format fo
 |S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz | ./chipseq/SAMPLE1_R1.fastq.gz | ./chipseq/SAMPLE1_R2.fastq.gz |            |
 |S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz |            |
 
-*📝 Notes:*
+**Notes:**
 - ChIP-seq input files must correspond to the same sample and replicate scheme.
 - Peak calling will be automatically performed using MACS3.
 
