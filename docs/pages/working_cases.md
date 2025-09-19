@@ -2,10 +2,7 @@
 title: Working Cases
 contributors:
 description: A user guide illustrating the three standard modes of dcHiChIP pipeline execution using test-case diagrams.
-toc: true
-type: guides
-nav_order: 1
-parent: Main
+toc: false
 ---
 
 dcHiChIP supports three primary use cases, designed to accommodate the most common experimental scenarios involving HiChIP and ChIP-seq data.
