@@ -1,7 +1,7 @@
 title: "MGIKIT"
 description: A documenation and user guid for MGIKIT.
 remote_theme: ELIXIR-Belgium/jekyll-bootstrap-theme@2.1.0
-topnav_title: MGIKIT
+topnav_title: dcHiChIP
 
 theme_variables:
   # biocommons blue
