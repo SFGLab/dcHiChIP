@@ -23,7 +23,7 @@ The pipeline includes the following modules:
 ## User Guide
 
 A complete and interactive documentation is available at:  
-📘 <a href="https://sfglab.github.io/dcHiChIP/" target="_blank">https://sfglab.github.io/dcHiChIP/</a>
+📘 <a href="https://sfglab.github.io/dcHiChIP/" target="_blank" rel="noopener">dcHiChIP Documentation</a>
 
 
 ## Example Use Cases
