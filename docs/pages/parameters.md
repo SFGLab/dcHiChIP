@@ -4,7 +4,7 @@ contributors:
 description: Detailed overview of configurable parameters for each module in the dcHiChIP pipeline.
 toc: false
 ---
-
+---
 The dcHiChIP pipeline provides flexible module-level control through a comprehensive set of parameters. Below is an overview of key parameters categorized by module, with default values and usage notes.
 
 
