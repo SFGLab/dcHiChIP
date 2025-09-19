@@ -8,7 +8,7 @@ toc: false
 The dcHiChIP pipeline provides flexible module-level control through a comprehensive set of parameters. Below is an overview of key parameters categorized by module, with default values and usage notes.
 
 
-## Mandatory input files
+## Mandatory Input Paramters
 
 - **`max_cpus`**: Maximum Allocated CPU
 - **`max_memory`**: Maximum Allocated Memory
