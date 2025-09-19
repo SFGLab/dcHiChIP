@@ -2,8 +2,7 @@
 title: Parameters for the Modules
 contributors:
 description: Detailed overview of configurable parameters for each module in the dcHiChIP pipeline.
-toc: true
-type: guides
+toc: false
 ---
 
 ---
