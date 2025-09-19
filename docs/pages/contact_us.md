@@ -5,7 +5,7 @@ toc: false
 
 ## Contact & Support for dcHiChIP
 
-For inquiries, feedback, or assistance related to **dcHiChIP**, please feel free to reach out to the development team or the corresponding author.
+For inquiries, feedback, or assistance related to dcHiChIP, please feel free to reach out to the development team or the corresponding author.
 
 ### Development Team
 - **Ziad Al Bkhetan**  
