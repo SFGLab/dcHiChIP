@@ -23,7 +23,7 @@ The pipeline includes integrated modules for:
 
 The pipeline supports three fully documented test cases with representative input formats and figure overviews.
 
-👉 Visit [Working Test Cases](/dcHiChIP/working_cases) for more.
+👉 Visit [Working Test Cases](./pages/working_cases) for more.
 
 <hr/>
 
@@ -31,7 +31,7 @@ The pipeline supports three fully documented test cases with representative inpu
 
 Explore the experimental design principles and detailed sample sheet formats compatible with the pipeline.
 
-👉 Visit [Design and Sample Sheet Guide](/dcHiChIP/design_samplesheet) for more.
+👉 Visit [Design and Sample Sheet Guide](./pages/design_samplesheet) for more.
 
 <hr/>
 
@@ -39,7 +39,7 @@ Explore the experimental design principles and detailed sample sheet formats com
 
 Each pipeline module supports customizable parameters such as resolution, CPUs, input formats, and modelling levels.
 
-👉 Visit [Module Parameters](/dcHiChIP/parameters) for full details.
+👉 Visit [Module Parameters](./pages//parameters) for full details.
 
 <hr/>
 
@@ -47,7 +47,7 @@ Each pipeline module supports customizable parameters such as resolution, CPUs, 
 
 For help, questions, or feedback, feel free to reach out.
 
-👉 Visit [Contact Page](/dcHiChIP/contact_us)
+👉 Visit [Contact Page](./pages//contact_us)
 
 <hr/>
 
