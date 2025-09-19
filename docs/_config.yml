@@ -5,7 +5,7 @@ topnav_title: dcHiChIP
 
 theme_variables:
   # biocommons blue
-  theme_color: 205a86
+  theme_color: 5C83AC
   topnav:
     brand_logo: assets/UW-logo-hover.png
   privacy_statement_url:
