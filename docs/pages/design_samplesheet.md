@@ -4,7 +4,7 @@ contributors:
 description: Guide to prepare design.csv for all three working cases in dcHiChIP.
 toc: false
 ---
-
+---
 This section provides a detailed explanation of the `design.csv` input format for the three working modes of dcHiChIP.
 
 ## Case 1: Only HiChIP raw FASTQ files (no ChIP-seq input)
