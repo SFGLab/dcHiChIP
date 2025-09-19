@@ -1,0 +1,29 @@
+title: dcHiChIP
+description: "Nextflow-based pipeline for HiChIP analysis"
+remote_theme: ELIXIR-Belgium/elixir-toolkit-theme
+
+# Your Pages base
+url: "https://sfglab.github.io"
+baseurl: "/dcHiChIP"
+
+# Theme options
+topnav_title: dcHiChIP
+theme_variables:
+  topnav:
+    theme: light
+    github: true
+  github_buttons:
+    position: bottom
+    edit_me: true
+    open_issue: true
+    history: true
+  toc:
+    min_headings: 1
+    headings: 'main h2'
+  # set a custom logo if you like (place the file in docs/assets/)
+  # brand_logo: assets/UW-logo-hover.png
+
+# Jekyll defaults (optional)
+defaults:
+  - scope: {path: ""}
+    values: {layout: default}
