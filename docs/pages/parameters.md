@@ -1,6 +1,6 @@
 ---
 title: Parameters for the Modules
-contributors: [Abhishek Agarwal, Ziad Al-Bkhetan]
+contributors:
 description: Detailed overview of configurable parameters for each module in the dcHiChIP pipeline.
 toc: true
 type: guides
