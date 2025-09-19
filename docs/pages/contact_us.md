@@ -6,11 +6,12 @@ toc: false
 For inquiries, feedback, or assistance related to dcHiChIP, please feel free to reach out to the development team or the corresponding author.
 
 ## Development Team
-- **Ziad Al Bkhetan**  
-  Email: [ziad.albkhetan@gmail.com](mailto:ziad.albkhetan@gmail.com)
 
 - **Abhishek Agarwal**  
   Email: [a.agarwal@cent.uw.edu.pl](mailto:a.agarwal@cent.uw.edu.pl)
+  
+- **Ziad Al Bkhetan**  
+  Email: [ziad.albkhetan@gmail.com](mailto:ziad.albkhetan@gmail.com)
 
 ## Corresponding Author
 - **Prof. Dariusz Plewczyński**  
