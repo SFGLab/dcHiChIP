@@ -8,6 +8,7 @@ theme_variables:
   theme_color: 5C83AC
   topnav:
     brand_logo: assets/UW_Logo.png
+    favicon: assets/LGFS_Logo.png
   privacy_statement_url:
 
 permalink: /:categories/:year/:month/:day/:title
