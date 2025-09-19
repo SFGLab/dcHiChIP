@@ -1,19 +1,7 @@
-##
-## Navigation bar links
-##
-
 subitems:
   - title: Home
     url: /
-
-  - title: Documentation
-    url: /docs/
-
-  - title: Workflow
-    url: /docs/workflow/
-
-  - title: Contributors
-    url: /main/contributors/
-
+  - title: Main
+    url: /
   - title: GitHub
     external_url: https://github.com/SFGLab/dcHiChIP
