@@ -9,6 +9,7 @@
 The pipeline includes the following modules:
 
 - **Read Alignment & Filtering** (BWA, SAMtools, pairtools)
+- **Peak Calling** (MACS3)
 - **Loop Calling** (MAPS)
 - **Stripe Calling** (gStripe)
 - **Compartment & TAD Analysis** (cooltools)
