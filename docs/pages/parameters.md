@@ -26,7 +26,6 @@ The `dcHiChIP` pipeline provides flexible module-level control through a compreh
 ## bwa mem
 - **`mapq`**: MAPping Quality (Phred-scaled)
 - **`-t`**: Number of threads
----
 
 ## samtools
 - **`--threads`**: Number of threads
