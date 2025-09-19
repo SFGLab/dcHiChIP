@@ -40,7 +40,7 @@ The dcHiChIP pipeline provides flexible module-level control through a comprehen
     - This specifies which (if any) sex chromosomes the user wants to run MAPS on: X = X chr only, Y = Y chr only, XY = both X and Y chroms, NA = none (just autosomal).
 
 
-**DeepTools (plotCoverage,multiBigwigSummary)**
+**DeepTools (plotCoverage, multiBigwigSummary)**
 - **`--numberOfProcessors`**: Number of processors to use [Default = 1]
 - **`--binSize`**: Size (in bases) of the windows sampled from the genome. [Default: 10000]
 
