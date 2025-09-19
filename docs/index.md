@@ -4,8 +4,7 @@ contributors: [Abhishek Agrawal, Ziad Al-Bkhetan]
 description:
 toc: false
 ---
-
-## dcHiChIP
+## Introduction
 
 <!-- pipeline figure -->
 <p align="center">
@@ -24,7 +23,7 @@ The pipeline includes integrated modules for:
 
 <hr/>
 
-## 📂 Working Test Cases
+## Working Test Cases
 
 The pipeline supports three fully documented test cases with representative input formats and figure overviews.
 
@@ -52,7 +51,7 @@ Each pipeline module supports customizable parameters such as resolution, CPUs, 
 
 For help, questions, or feedback, feel free to reach out.
 
-👉 Visit [Contact Page](./pages/contact_us.d)
+👉 Visit [Contact Page](./pages/contact_us.md)
 
 <hr/>
 
