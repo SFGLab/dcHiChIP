@@ -240,8 +240,7 @@ workflow HICHIP {
         ch_fasta.first(),
         ch_fasta_fai.first()
     )
-    SAMTOOLS_MERGE.out.bam.view()
-    channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList().view()
+    
     FILTER_PAIRES(
         SAMTOOLS_MERGE.out.bam,
         channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
@@ -291,8 +290,6 @@ workflow HICHIP {
     )
     ch_versions = ch_versions.mix(DEEPTOOLS_BAMCOVERAGE.out.versions)
 
-    //REMOVE_DUPLICATES.out.bam.view()
-    
     REMOVE_DUPLICATES.out.bam
     .filter{it[0].type == "hichip"}
     .map { [it[0].id, [it[0], it[1]]]}
@@ -317,7 +314,7 @@ workflow HICHIP {
     )
     ch_versions = ch_versions.mix(MACS3_CALLPEAK.out.versions)
    
-    //ch_bwa_mem_in.view()
+    
     MACS3_CALLPEAK.out.peak
     .map{[it[0].id, it]}
     .mix(ch_narrowpeak.map{[it[0].id, [it[0], it[1]]]})
@@ -340,8 +337,6 @@ workflow HICHIP {
     )
     .set{ch_maps_in}
     
-
-    //ch_maps_fasta_in.view()
 
     if (!params.skip_maps){
         MAPS(
@@ -462,38 +457,6 @@ workflow HICHIP {
         COOLTOOLS_BED_INVERT.out.compartments
     )
     
-    //
-    // MODULE: Run FastQC
-    //
-    
-    //CUSTOM_DUMPSOFTWAREVERSIONS (
-    //    ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    //)
-
-    //
-    // MODULE: MultiQC
-    //
-    /*
-    workflow_summary    = WorkflowHichip.paramsSummaryMultiqc(workflow, summary_params)
-    ch_workflow_summary = Channel.value(workflow_summary)
-
-    methods_description    = WorkflowHichip.methodsDescriptionText(workflow, ch_multiqc_custom_methods_description)
-    ch_methods_description = Channel.value(methods_description)
-
-    ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-
-    MULTIQC (
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        ch_multiqc_custom_config.toList(),
-        ch_multiqc_logo.toList()
-    )
-    multiqc_report = MULTIQC.out.report.toList()
-    */
 }
 
 /*

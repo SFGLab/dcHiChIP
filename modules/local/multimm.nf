@@ -2,8 +2,8 @@ process MULTIMM {
     tag "$meta.id"
     label 'process_medium'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'docker.io/sfglab/multimm:1.0':
-        'docker.io/sfglab/multimm:1.0' }"
+        'docker.io/sfglab/multimm:1.1.0.0.0':
+        'docker.io/sfglab/multimm:1.1.0.0.0' }"
     
     input:
     tuple val(meta), path(loops)
