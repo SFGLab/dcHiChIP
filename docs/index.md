@@ -61,6 +61,3 @@ If you use dcHiChIP in your research or publication, please cite the following m
 
 > Agarwal, A., Al-Bkhetan, Z., Plewczyński, D. *dcHiChIP: A comprehensive Nextflow-based pipeline for Multi-Scale Analysis of Chromatin Architecture from HiChIP Data.*
 
-## Commercial Use
-
-Please contact us if you plan to use dcHiChIP for commercial purposes.
