@@ -1,6 +1,6 @@
 ---
 title: Documentation and User Guide for dcHiChIP
-contributors: [Abhishek Agrawal, Ziad Al-Bkhetan]
+contributors: [Abhishek Agarwal, Ziad Al-Bkhetan]
 description:
 toc: false
 ---
