@@ -31,14 +31,6 @@ The pipeline supports three fully documented test cases with representative inpu
 
 <hr/>
 
-## Design & Sample Sheet
-
-Explore the experimental design principles and detailed sample sheet formats compatible with the pipeline.
-
-👉 Visit [Design and Sample Sheet Guide](./pages/design_samplesheet.md) for more.
-
-<hr/>
-
 ## Module Parameters
 
 Each pipeline module supports customizable parameters such as resolution, CPUs, input formats, and modelling levels.
