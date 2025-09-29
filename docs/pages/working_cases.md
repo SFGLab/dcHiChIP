@@ -7,6 +7,8 @@ toc: false
 ---
 dcHiChIP supports three primary use cases, designed to accommodate the most common experimental scenarios involving HiChIP and ChIP-seq data.
 
+Each case is automatically detected and managed by the pipeline based on input parameters and file formats provided in the configuration file.
+
 
 ## Case 1: HiChIP FASTQ Only
 
@@ -55,8 +57,3 @@ This configuration performs joint processing of both HiChIP and ChIP-seq FASTQ f
 **Notes:**
 - ChIP-seq input files must correspond to the same sample and replicate scheme.
 - Peak calling will be automatically performed using MACS3.
-
----
-
-Each case is automatically detected and managed by the pipeline based on input parameters and file formats provided in the configuration file.
-
