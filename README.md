@@ -70,21 +70,17 @@ To run dcHiChIP, you will need:
 
 Note - You can chain multiple config profiles, e.g., profile test, docker.
 
-3. **Download & test the pipeline** on a minimal dataset:
-
- ```nextflow run sfglab/hichip -profile test,<YOURPROFILE> --outdir <OUTDIR> ```
-
-- Use nf-core/configs to check if your institute already has a config file.
-- For Singularity, pre-download images using nf-core download and set a cache directory (NXF_SINGULARITY_CACHEDIR).
-- For Conda, set a cache directory (NXF_CONDA_CACHEDIR) to avoid re-installing environments.
-
-4. Run your own analysis:
+3. Run your own analysis:
 
 ```
 nextflow run ./dcHiChIP-main/main.nf \
              -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
              -c /mnt/raid/test_config
 ```
-             
-  
+
+Note - 
+- Use nf-core/configs to check if your institute already has a config file.
+- For Singularity, pre-download images using nf-core download and set a cache directory (NXF_SINGULARITY_CACHEDIR).
+- For Conda, set a cache directory (NXF_CONDA_CACHEDIR) to avoid re-installing environments.
+- **Download & test the pipeline** on a minimal dataset :  'nextflow run sfglab/hichip -profile test,<YOURPROFILE> --outdir <OUTDIR>'
 
