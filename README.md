@@ -1,6 +1,6 @@
 # dcHiChIP
 
-**dcHiChIP** is a modular and scalable pipeline for the **multi-scale analysis of chromatin architecture from HiChIP data**, developed using Nextflow DSL2. 
+**dcHiChIP** is a modular and scalable pipeline for the **multi-scale analysis of chromatin architecture from HiChIP data**, developed using Nextflow DSL2.__
 It supports different experimental scenarios, handles a wide variety of input formats, and integrates state-of-the-art tools for loop calling, stripe detection, compartment analysis, and 3D genome modelling.
 
 ---
