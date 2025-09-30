@@ -8,16 +8,20 @@ toc: false
 The dcHiChIP pipeline provides flexible module-level control through a comprehensive set of parameters. Below is an overview of key parameters categorized by module, with default values and usage notes.
 
 
-## Mandatory Input Paramters
+## Mandatory Input Parameters
 
-- **`max_cpus`**: Maximum Allocated CPU
-- **`max_memory`**: Maximum Allocated Memory
-- **`max_time`**: Maximum Execution Time
-- **`input`**: Location of the samplesheet
-- **`fasta`**: Location of the bwa index file
-- **`genomics_features`**: Location of the genomic fetures
-- **`outdir`**: Location of the output directory
-- **`genome_size`**: reference genome (eg, hs or mm)
+- **`input`**: Location of the samplesheet  
+- **`outdir`**: Location of the output directory  
+- **`fasta`**: Location of the BWA index file  
+- **`genomics_features`**: Location of the genomic features file  
+- **`profile`**: Execution environment (choose one: `docker`, `singularity`, `podman`, `shifter`, `charliecloud`, or `conda`)  
+- **`max_cpus`**: Maximum allocated CPU cores  
+- **`max_memory`**: Maximum allocated memory  
+- **`max_time`**: Maximum execution time  
+- **`jaspar_motif`**: JASPAR motif file (`.tsv` format)  
+- **`mapq`**: Minimum mapping quality threshold  
+- **`peak_quality`**: P-value cutoff for peak calling  
+- **`genome_size`**: Reference genome (e.g., `hs` for human, `mm` for mouse)  
 
 ## Other Parameters
 
@@ -118,6 +122,22 @@ The dcHiChIP pipeline provides flexible module-level control through a comprehen
 
 ```groovy
 params {
+  max_cpus   = 32
+  max_memory = '216.GB'
+  max_time   = '120.h'
+
+  input  = "/mnt/raid/test_case/samplesheet.csv"
+  outdir = "/mnt/raid/test_case/results"
+
+  fasta = "/mnt/raid/workspace/reference_genome/bwa_index/bwa1/hg38/Homo_sapiens_assembly38.fasta"
+  genomics_features = "/mnt/raid/dcHiChIP/MAPS/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt"
+  jaspar_motif = "/mnt/raid/workspace/JASPAR/MA0139.1.tsv.gz"
+  gtf = "/mnt/raid/workspace/UCSC/genes.gtf"
+    
+  mapq = 30
+  peak_quality = 0.05
+  genome_size = "hs"
+
   fastqc_args = null
   filter_quality_args = null
   bwa_mem_args = null
