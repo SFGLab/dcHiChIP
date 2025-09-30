@@ -61,14 +61,14 @@ To run dcHiChIP, you will need:
    curl -s https://get.nextflow.io | bash
 
 2. **Set up a software environment** using one of:
-- Docker
-- Singularity (recommended for HPC)
-- Podman
-- Shifter
-- Charliecloud
-- Conda (only as a last resort)
+  - Docker
+  - Singularity (recommended for HPC)
+  - Podman
+  - Shifter
+  - Charliecloud
+  - Conda (only as a last resort)
 
-Note - You can chain multiple config profiles, e.g. -profile test,docker.
+Note - You can chain multiple config profiles, e.g., profile test, docker.
 
 3. **Download & test the pipeline** on a minimal dataset:
 
@@ -80,9 +80,11 @@ Note - You can chain multiple config profiles, e.g. -profile test,docker.
 
 4. Run your own analysis:
 
-```nextflow run ./dcHiChIP-main/main.nf \
+```
+nextflow run ./dcHiChIP-main/main.nf \
              -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
-             -c /mnt/raid/test_config```
+             -c /mnt/raid/test_config
+```
              
   
 
