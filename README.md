@@ -81,5 +81,6 @@ Note -
 - Use nf-core/configs to check if your institute already has a config file.
 - For Singularity, pre-download images using nf-core download and set a cache directory (NXF_SINGULARITY_CACHEDIR).
 - For Conda, set a cache directory (NXF_CONDA_CACHEDIR) to avoid re-installing environments.
-- **Download & test the pipeline** on a minimal dataset:  ```nextflow run sfglab/hichip -profile test,<YOURPROFILE> --outdir <OUTDIR>```
+- **Download & test the pipeline** on a minimal dataset:
+```nextflow run sfglab/hichip -profile test,<YOURPROFILE> --outdir <OUTDIR>```
 
