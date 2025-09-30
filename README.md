@@ -1,6 +1,6 @@
 # dcHiChIP
 
-**dcHiChIP** is a modular and scalable pipeline for the **multi-scale analysis of chromatin architecture from HiChIP data**, developed using Nextflow DSL2.<br />
+**dcHiChIP** is a modular and scalable pipeline for the **multi-scale analysis of chromatin architecture from HiChIP data**, developed using Nextflow DSL2.
 It supports different experimental scenarios, handles a wide variety of input formats, and integrates state-of-the-art tools for loop calling, stripe detection, compartment analysis, and 3D genome modelling.
 
 ---
@@ -57,8 +57,10 @@ To run dcHiChIP, you will need:
 ## Quick Start
 
 1. **Install Nextflow (>=22.10.1)**  
-   ```bash
+   ```
+   bash
    curl -s https://get.nextflow.io | bash
+   ```
 
 2. **Set up a software environment** using one of:
   - Docker
@@ -68,7 +70,7 @@ To run dcHiChIP, you will need:
   - Charliecloud
   - Conda (only as a last resort)
 
-Note - You can chain multiple config profiles, e.g., profile test, docker.
+Note - You can chain multiple config profiles, e.g., ```profile test, docker```.
 
 3. **Run your own analysis**:
 ```
@@ -78,9 +80,9 @@ nextflow run ./dcHiChIP-main/main.nf \
 ```
 
 Note - 
-- Use nf-core/configs to check if your institute already has a config file.
-- For Singularity, pre-download images using nf-core download and set a cache directory (NXF_SINGULARITY_CACHEDIR).
-- For Conda, set a cache directory (NXF_CONDA_CACHEDIR) to avoid re-installing environments.
-- **Download & test the pipeline** on a minimal dataset:
+- Use **nf-core/configs** to check if your institute already has a config file.
+- For **Singularity**, pre-download images using ```nf-core download``` and set a cache directory (```NXF_SINGULARITY_CACHEDIR```).
+- For **Conda**, set a cache directory (```NXF_CONDA_CACHEDIR```) to avoid re-installing environments.
+- **Download & test the pipeline** on a minimal dataset:<br />
 ```nextflow run sfglab/hichip -profile test,<YOURPROFILE> --outdir <OUTDIR>```
 
