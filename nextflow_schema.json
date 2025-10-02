@@ -102,6 +102,21 @@
                 }
             }
         },
+        "3d_modeling_options": {
+            "title": "3D modelling oiptions for multimm",
+            "type": "object",
+            "fa_icon": "fas fa-dna",
+            "description": "bla bla.",
+            "properties": {
+                "multimm_platform": {
+                    "type": "string",
+                    "description": "needs tpo be cpu otr cud or open cel .",
+                    "fa_icon": "fas fa-book",
+                    "help_text": ".",
+                    "default": "-M -v 0"
+                }
+            }
+        },
         "institutional_config_options": {
             "title": "Institutional config options",
             "type": "object",
@@ -298,6 +313,9 @@
         },
         {
             "$ref": "#/definitions/alignment_options"
+        },
+        {
+            "$ref": "#/definitions/3d_modeling_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
