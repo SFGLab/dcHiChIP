@@ -1,0 +1,355 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "dcHiChIP Pipeline Parameters",
+    "description": "Schema definition for dcHiChIP Nextflow pipeline parameters",
+    "type": "object",
+    "definitions": {
+        "general": {
+            "title": "General Options",
+            "type": "object",
+            "fa_icon": "fas fa-cogs",
+            "description": "General pipeline execution options (output, resources, etc.)",
+            "properties": {
+                "ref_short": {
+                    "type": "string",
+                    "description": "ref_short parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "hg38"
+                },
+                "outdir": {
+                    "type": "string",
+                    "description": "outdir parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "results"
+                },
+                "threads": {
+                    "type": "string",
+                    "description": "threads parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 8
+                },
+                "mem": {
+                    "type": "string",
+                    "description": "mem parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 4
+                }
+            }
+        },
+        "mapping_filtering": {
+            "title": "Alignment & Filtering",
+            "type": "object",
+            "fa_icon": "fas fa-dna",
+            "description": "Read alignment and filtering options",
+            "properties": {
+                "mapq": {
+                    "type": "string",
+                    "description": "mapq parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 30
+                },
+                "se_samtools_args": {
+                    "type": "string",
+                    "description": "se_samtools_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "se_bwa_mem_args": {
+                    "type": "string",
+                    "description": "se_bwa_mem_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "bwa_mem_args": {
+                    "type": "string",
+                    "description": "bwa_mem_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "-M -v 0"
+                },
+                "samtools_fixmate_args": {
+                    "type": "string",
+                    "description": "samtools_fixmate_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "-m"
+                },
+                "optical_duplicate_distance": {
+                    "type": "string",
+                    "description": "optical_duplicate_distance parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 0
+                },
+                "remove_duplicates_args": {
+                    "type": "string",
+                    "description": "remove_duplicates_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "-n"
+                },
+                "filter_quality_args": {
+                    "type": "string",
+                    "description": "filter_quality_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "filter_paires_args": {
+                    "type": "string",
+                    "description": "filter_paires_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "samtools_markdup_args": {
+                    "type": "string",
+                    "description": "samtools_markdup_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "samtools_sort_2_args": {
+                    "type": "string",
+                    "description": "samtools_sort_2_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "-n"
+                }
+            }
+        },
+        "references": {
+            "title": "Reference & Annotation",
+            "type": "object",
+            "fa_icon": "fas fa-book",
+            "description": "Reference genome files and annotation resources",
+            "properties": {
+                "jaspar_motif": {
+                    "type": "string",
+                    "description": "jaspar_motif parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz"
+                },
+                "blacklist": {
+                    "type": "string",
+                    "description": "blacklist parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz"
+                },
+                "gtf": {
+                    "type": "string",
+                    "description": "gtf parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf"
+                },
+                "chrom_size": {
+                    "type": "string",
+                    "description": "chrom_size parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "$projectDir/assets/hg38.chrom.sizes"
+                },
+                "genomics_features": {
+                    "type": "string",
+                    "description": "genomics_features parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "https://raw.githubusercontent.com/HuMingLab/MAPS/refs/heads/master/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt"
+                }
+            }
+        },
+        "peaks_loops": {
+            "title": "Peaks & Loops",
+            "type": "object",
+            "fa_icon": "fas fa-project-diagram",
+            "description": "Peak calling and loop detection options",
+            "properties": {
+                "peak_quality": {
+                    "type": "string",
+                    "description": "peak_quality parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 0.05
+                },
+                "genome_size": {
+                    "type": "string",
+                    "description": "genome_size parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "hs"
+                },
+                "macs3_callpeak_args": {
+                    "type": "string",
+                    "description": "macs3_callpeak_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "maps_args": {
+                    "type": "string",
+                    "description": "maps_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "skip_maps": {
+                    "type": "string",
+                    "description": "skip_maps parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": true
+                }
+            }
+        },
+        "matrices": {
+            "title": "Contact Matrices & Binning",
+            "type": "object",
+            "fa_icon": "fas fa-th",
+            "description": "Cooler matrix generation and resolution options",
+            "properties": {
+                "cool_bin": {
+                    "type": "string",
+                    "description": "cool_bin parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 1000
+                },
+                "cooler_cload_args": {
+                    "type": "string",
+                    "description": "cooler_cload_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5"
+                },
+                "cooler_zoomify_res": {
+                    "type": "string",
+                    "description": "cooler_zoomify_res parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "1000N"
+                },
+                "cooler_zoomify_args": {
+                    "type": "string",
+                    "description": "cooler_zoomify_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": ""
+                },
+                "insulation_resultions": {
+                    "type": "string",
+                    "description": "insulation_resultions parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": {
+                        "1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"
+                    }
+                },
+                "cooltools_eigscis_args": {
+                    "type": "string",
+                    "description": "cooltools_eigscis_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "--n-eigs 1"
+                },
+                "cooler_eigscis_resultion": {
+                    "type": "string",
+                    "description": "cooler_eigscis_resultion parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": 100000
+                },
+                "calder_bin": {
+                    "type": "string",
+                    "description": "calder_bin parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "10E3"
+                },
+                "gstripe_args": {
+                    "type": "string",
+                    "description": "gstripe_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "--fix_bin_start"
+                }
+            }
+        },
+        "visualization": {
+            "title": "Visualization & QC",
+            "type": "object",
+            "fa_icon": "fas fa-chart-bar",
+            "description": "Plotting and QC options (deepTools, Juicer, etc.)",
+            "properties": {
+                "plot_method": {
+                    "type": "string",
+                    "description": "plot_method parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "spearman"
+                },
+                "plot_type": {
+                    "type": "string",
+                    "description": "plot_type parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "heatmap"
+                },
+                "fastqc_args": {
+                    "type": "string",
+                    "description": "fastqc_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "--quiet"
+                },
+                "deeptools_plotcoverage_args": {
+                    "type": "string",
+                    "description": "deeptools_plotcoverage_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "--skipZeros"
+                },
+                "deeptools_plotcorrelation_args": {
+                    "type": "string",
+                    "description": "deeptools_plotcorrelation_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "--skipZeros --plotTitle \"Spearman Correlation of Read Counts\"  --colorMap RdYlBu --plotNumbers "
+                },
+                "juicertools_args": {
+                    "type": "string",
+                    "description": "juicertools_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "pairtools_parse2_args": {
+                    "type": "string",
+                    "description": "pairtools_parse2_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                }
+            }
+        },
+        "multimm": {
+            "title": "3D Genome Modelling (MultiMM)",
+            "type": "object",
+            "fa_icon": "fas fa-cube",
+            "description": "Parameters for 3D genome modeling using MultiMM",
+            "properties": {
+                "multimm_platform": {
+                    "type": "string",
+                    "description": "multimm_platform parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "CPU"
+                },
+                "multimm_modelling_level": {
+                    "type": "string",
+                    "description": "multimm_modelling_level parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "chrom"
+                },
+                "multimm_gene_name": {
+                    "type": "string",
+                    "description": "multimm_gene_name parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "multimm_chrom": {
+                    "type": "string",
+                    "description": "multimm_chrom parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": "chr21"
+                },
+                "multimm_loc_start": {
+                    "type": "string",
+                    "description": "multimm_loc_start parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "multimm_loc_end": {
+                    "type": "string",
+                    "description": "multimm_loc_end parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                },
+                "multimm_args": {
+                    "type": "string",
+                    "description": "multimm_args parameter",
+                    "fa_icon": "far fa-file-code",
+                    "default": null
+                }
+            }
+        }
+    },
+    "properties": {}
+}
