@@ -30,6 +30,17 @@ General pipeline execution options (output, resources, etc.)
 - Set this according to the available system memory and dataset size. For example, `--mem 16` allocates 16 GB per task. Insufficient memory may cause process failures on large datasets.
 - *Default flags:* `4`
 
+## Mapping & Filtering
+Parameters controlling read alignment, pair filtering, and mapping quality thresholds for dcHiChIP.
+
+<code style="color:red; font-weight:bold;"> --bwa_index</code>: Path to BWA Index
+
+- Path to the pre-built BWA index of the reference genome.
+- This is required for aligning paired-end reads. Ensure all index files (.bwt, .sa, .ann, .amb, .pac) are in the same directory.
+- Example: --bwa_index /data/genomes/hg38/bwa_index/genome.fa
+- Type: string
+- Default value: None
+
 
 
 
