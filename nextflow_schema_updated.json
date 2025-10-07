@@ -212,164 +212,188 @@
             "title": "Contact Matrices & Binning",
             "type": "object",
             "fa_icon": "fas fa-th",
-            "description": "Cooler matrix generation and resolution options",
+            "description": "Settings controlling the generation, binning, and normalization of contact matrices from HiChIP data. These parameters determine how raw read pairs are converted into multi-resolution .cool files for downstream analysis.",
+            "help_text": "Adjust these options to tune the resolution and structure of the resulting chromatin contact maps. For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but require more memory and processing time, while larger bins (e.g., 10 kb or 25 kb) yield smoother matrices for large-scale analyses.",
             "properties": {
                 "cool_bin": {
-                    "type": "string",
-                    "description": "cool_bin parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": 1000
-                },
+                    "type": "integer",
+                    "title": "Base Bin Size (bp)",
+                    "description": "Defines the base bin size, in base pairs, used for generating contact matrices in the .cool format.",
+                    "help_text": "Smaller bin sizes (e.g., 1000 bp) provide higher resolution but increase memory and runtime requirements. Larger bins (e.g., 5000–25000 bp) are recommended for lower-depth datasets. Example: `--cool_bin 5000`.",
+                    "fa_icon": "fas fa-border-all",
+                    "default": 1000},
                 "cooler_cload_args": {
                     "type": "string",
-                    "description": "cooler_cload_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5"
-                },
+                    "title": "Cooler Cload Arguments",
+                    "description": "Specifies command-line options passed to the `cooler cload` command for loading read pairs into a .cool file.",
+                    "help_text": "Use this to modify how columns from the pairs file are interpreted when generating contact matrices. The default is configured for standard pairtools output. Example: `--cooler_cload_args \"pairs --zero-based -c1 1 -p1 2 -c2 3 -p2 4\"`.",
+                    "fa_icon": "fas fa-database",
+                    "default": "pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5"},
                 "cooler_zoomify_res": {
                     "type": "string",
-                    "description": "cooler_zoomify_res parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "1000N"
-                },
+                    "title": "Zoomify Resolution Preset",
+                    "description": "Specifies the resolution preset key used for multi-resolution cooler files (`cooler zoomify`). Each key corresponds to a predefined set of bin sizes defined in `insulation_resultions`.",
+                    "help_text": "Use this to select which resolution set to apply during matrix zoomification. For example, `1000N` corresponds to 1 kb–500 kb bins by default. Example: `--cooler_zoomify_res 5000N`.",
+                    "fa_icon": "fas fa-layer-group",
+                    "default": "1000N"},
                 "cooler_zoomify_args": {
                     "type": "string",
-                    "description": "cooler_zoomify_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": ""
-                },
+                    "title": "Cooler Zoomify Additional Arguments",
+                    "description": "Extra command-line options for the `cooler zoomify` command that generates multi-resolution cooler files.",
+                    "help_text": "Use this to control balancing, overwrite behavior, or other zoomify parameters. Example: `--cooler_zoomify_args \"--balance --force\"`. Leave empty (`\"\"`) to use defaults.",
+                    "fa_icon": "fas fa-sliders-h",
+                    "default": null},
                 "insulation_resultions": {
-                    "type": "string",
-                    "description": "insulation_resultions parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": {
-                        "1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"
-                    }
-                },
+                    "type": "object",
+                    "title": "Insulation Score Resolutions",
+                    "description": "Specifies the resolution presets (in base pairs) used for insulation score and TAD boundary calculations. Each key defines a named preset containing multiple window sizes.",
+                    "help_text": "Provide one or more resolution sets, where each key (e.g., `1000N`) maps to a list of window sizes. These values determine the granularity of TAD detection. Example:\n```\n--insulation_resultions '{\"5000N\": \"5000 10000 25000 50000 100000\"}'\n```",
+                    "fa_icon": "fas fa-ruler",
+                    "default": {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}},
                 "cooltools_eigscis_args": {
                     "type": "string",
-                    "description": "cooltools_eigscis_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "--n-eigs 1"
-                },
+                    "title": "Cooltools Eigs-Cis Arguments",
+                    "description": "Additional command-line flags for the `cooltools eigs-cis` command, which computes eigenvectors for A/B compartment analysis.",
+                    "help_text": "Modify this to control the number of eigenvectors or specify contact type (cis/trans). Example: `--cooltools_eigscis_args \"--n-eigs 2 --contact-type cis\"`.",
+                    "fa_icon": "fas fa-wave-square",
+                    "default": "--n-eigs 1"},
                 "cooler_eigscis_resultion": {
-                    "type": "string",
-                    "description": "cooler_eigscis_resultion parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": 100000
-                },
+                    "type": "integer",
+                    "title": "Eigenvector Resolution (bp)",
+                    "description": "Specifies the resolution, in base pairs, used for eigenvector computation in A/B compartment analysis.",
+                    "help_text": "Smaller values provide higher resolution but require denser contact maps. Example: `--cooler_eigscis_resultion 250000`.",
+                    "fa_icon": "fas fa-grip-lines",
+                    "default": 100000},
                 "calder_bin": {
                     "type": "string",
-                    "description": "calder_bin parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "10E3"
-                },
+                    "title": "CALDER Bin Size",
+                    "description": "Sets the bin size used for subcompartment calling by CALDER.",
+                    "help_text": "Provide bin size as a number (e.g., 10000) or scientific notation (e.g., `10E3`). Higher bin sizes reduce resolution but speed up computation. Example: `--calder_bin 25000`.",
+                    "fa_icon": "fas fa-cubes",
+                    "default": "10E3"},
                 "gstripe_args": {
                     "type": "string",
-                    "description": "gstripe_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "--fix_bin_start"
-                }
+                    "title": "gStripe Detection Arguments",
+                    "description": "Extra command-line options for the `gStripe` tool, which detects stripe-like chromatin interaction patterns.",
+                    "help_text": "Modify detection thresholds or bin correction behavior. The default `--fix_bin_start` ensures stripe detection starts from bin-aligned positions. Example: `--gstripe_args \"--fix_bin_start --minlen 3 --qval 0.05\"`.",
+                    "fa_icon": "fas fa-grip-lines-vertical",
+                    "default": "--fix_bin_start"}
             }
         },
         "visualization": {
             "title": "Visualization & QC",
             "type": "object",
             "fa_icon": "fas fa-chart-bar",
-            "description": "Plotting and QC options (deepTools, Juicer, etc.)",
+            "description": "Configuration for plotting and quality-control steps (e.g., FastQC, deepTools, Juicer Tools, pairtools). These options affect coverage plots, sample correlations, and other diagnostic visualizations.",
+            "help_text": "Tune these to control plot styles, correlation methods, and output formats. For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps) to speed up rendering.",
             "properties": {
                 "plot_method": {
                     "type": "string",
-                    "description": "plot_method parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "spearman"
-                },
+                    "title": "Correlation Method for Plots",
+                    "description": "Defines the statistical method used to compute sample-to-sample correlations in deepTools visualizations.",
+                    "help_text": "Choose between `spearman` (rank-based, robust to outliers) or `pearson` (linear correlation). The default `spearman` is typically used for read-count correlation heatmaps. Example: `--plot_method pearson`.",
+                    "fa_icon": "fas fa-chart-line",
+                    "default": "spearman"},
                 "plot_type": {
                     "type": "string",
-                    "description": "plot_type parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "heatmap"
-                },
+                    "title": "Plot Type for Correlation Visualization",
+                    "description": "Specifies the visualization format for correlation results — typically a heatmap or scatter plot.",
+                    "help_text": "Select the style best suited to your comparison. `heatmap` provides an overview of pairwise correlations, while `scatter` highlights relationships between specific samples. Example: `--plot_type scatter`.",
+                    "fa_icon": "fas fa-th-large",
+                    "default": "heatmap"},
                 "fastqc_args": {
                     "type": "string",
-                    "description": "fastqc_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "--quiet"
-                },
+                    "title": "FastQC Arguments",
+                    "description": "Specifies additional command-line options for FastQC quality control analysis of raw sequencing reads.",
+                    "help_text": "Use this to control FastQC behavior, such as verbosity or output compression. The default `--quiet` suppresses detailed logging. Example: `--fastqc_args \"--quiet --nogroup\"`.",
+                    "fa_icon": "fas fa-vial",
+                    "default": "--quiet"},
                 "deeptools_plotcoverage_args": {
                     "type": "string",
-                    "description": "deeptools_plotcoverage_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "--skipZeros"
-                },
+                    "title": "deepTools PlotCoverage Arguments",
+                    "description": "Additional flags for the deepTools `plotCoverage` module, which visualizes genome-wide read coverage across samples.",
+                    "help_text": "Customize output options such as file format, scaling, or whether to skip empty bins. The default `--skipZeros` ignores regions with zero coverage. Example: `--deeptools_plotcoverage_args \"--skipZeros --plotFileFormat pdf\"`.",
+                    "fa_icon": "fas fa-chart-area",
+                    "default": "--skipZeros"},
                 "deeptools_plotcorrelation_args": {
                     "type": "string",
-                    "description": "deeptools_plotcorrelation_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "--skipZeros --plotTitle \"Spearman Correlation of Read Counts\"  --colorMap RdYlBu --plotNumbers "
-                },
+                    "title": "deepTools PlotCorrelation Arguments",
+                    "description": "Custom flags for the deepTools `plotCorrelation` command, which computes and visualizes sample correlation matrices.",
+                    "help_text": "Use this to modify correlation type, color scheme, and plot annotations. The default parameters produce a Spearman correlation heatmap with labeled values. Example: `--deeptools_plotcorrelation_args \"--corMethod pearson --colorMap RdBu --what pairwise\"`.",
+                    "fa_icon": "fas fa-border-none",
+                    "default": "--skipZeros --plotTitle \"Spearman Correlation of Read Counts\"  --colorMap RdYlBu --plotNumbers "},
                 "juicertools_args": {
                     "type": "string",
-                    "description": "juicertools_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": null
-                },
+                    "title": "Juicer Tools Arguments",
+                    "description": "Specifies extra command-line parameters for Juicer Tools utilities used for Hi-C/HiChIP contact map analysis.",
+                    "help_text": "Set parameters for operations like normalization, balancing, or matrix extraction. Example: `--juicertools_args \"pre --threads 8 --resolutions 5000\"`. Leave `null` to use default Juicer settings.",
+                    "fa_icon": "fas fa-compact-disc",
+                    "default": null},
                 "pairtools_parse2_args": {
                     "type": "string",
-                    "description": "pairtools_parse2_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": null
-                }
+                    "title": "Pairtools Parse2 Arguments",
+                    "description": "Additional options for the `pairtools parse2` command used to convert alignment files into standardized pairs format.",
+                    "help_text": "Modify column selection, filtering, or threading for parsing steps. Example: `--pairtools_parse2_args \"--add-columns chr1,chr2,pos1,pos2 --nproc 8\"`. Leave `null` for default settings.",
+                    "fa_icon": "fas fa-random",
+                    "default": null}
             }
         },
         "multimm": {
             "title": "3D Genome Modelling (MultiMM)",
             "type": "object",
             "fa_icon": "fas fa-cube",
-            "description": "Parameters for 3D genome modeling using MultiMM",
+            "description": "Configuration options for 3D genome reconstruction and visualization using the MultiMM module. These parameters define which genomic regions are modeled, the computational platform used (CPU or GPU), and optional fine-grained settings for chromosomal or locus-level simulations.",
+            "help_text": "Adjust these parameters to specify the modeling scope (whole chromosome, gene region, or specific locus) and computational mode. MultiMM integrates chromatin contact data to predict spatial genome structures. For large models, prefer GPU acceleration if available.",
             "properties": {
                 "multimm_platform": {
                     "type": "string",
-                    "description": "multimm_platform parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "CPU"
-                },
+                    "title": "MultiMM Computational Platform",
+                    "description": "Specifies the compute platform used for MultiMM 3D genome modeling — either CPU or GPU, depending on system availability and dataset size.",
+                    "help_text": "Use `CPU` for standard desktop or cluster execution. Choose `GPU` to accelerate simulations on compatible hardware, especially for large or high-resolution models. Example: `--multimm_platform GPU`.",
+                    "fa_icon": "fas fa-microchip",
+                    "default": "CPU"},
                 "multimm_modelling_level": {
                     "type": "string",
-                    "description": "multimm_modelling_level parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "chrom"
-                },
+                    "title": "Modelling Granularity Level",
+                    "description": "Defines the level of genomic organization to model using MultiMM — for example, an entire chromosome, a single gene, or a specific locus.",
+                    "help_text": "Supported levels include `chrom` (whole chromosome), `gene` (specific gene region), and `locus` (defined genomic interval). Example: `--multimm_modelling_level locus`.",
+                    "fa_icon": "fas fa-layer-group",
+                    "default": "chrom"},
                 "multimm_gene_name": {
                     "type": "string",
-                    "description": "multimm_gene_name parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": null
-                },
+                    "title": "Gene Name for Modelling",
+                    "description": "Specifies the gene symbol or identifier to be modeled in 3D when the modelling level is set to `gene`.",
+                    "help_text": "Provide a valid gene symbol that exists within your reference annotation (e.g., `CTCF`, `RUNX1`). This parameter is ignored if modelling level is set to `chrom` or `locus`. Example: `--multimm_gene_name RUNX1`.",
+                    "fa_icon": "fas fa-dna",
+                    "default": null},
                 "multimm_chrom": {
                     "type": "string",
-                    "description": "multimm_chrom parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "chr21"
-                },
+                    "title": "Chromosome to Model",
+                    "description": "Defines which chromosome should be used for 3D genome modeling. Required for both chromosome-level and locus-level modeling.",
+                    "help_text": "Use standard chromosome naming consistent with your reference genome (e.g., `chr1`, `chr21`, `chrX`). Example: `--multimm_chrom chr10`.",
+                    "fa_icon": "fas fa-stream",
+                    "default": "chr21"},
                 "multimm_loc_start": {
-                    "type": "string",
-                    "description": "multimm_loc_start parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": null
-                },
+                    "type": "integer",
+                    "title": "Locus Start Coordinate (bp)",
+                    "description": "Specifies the genomic start coordinate (in base pairs) for locus-level 3D modeling.",
+                    "help_text": "Used only when modelling level is set to `locus`. Must be a valid coordinate within the selected chromosome. Example: `--multimm_loc_start 28000000`.",
+                    "fa_icon": "fas fa-crosshairs",
+                    "default": null},
                 "multimm_loc_end": {
-                    "type": "string",
-                    "description": "multimm_loc_end parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": null
-                },
+                    "type": "integer",
+                    "title": "Locus End Coordinate (bp)",
+                    "description": "Specifies the genomic end coordinate (in base pairs) for locus-level 3D modeling.",
+                    "help_text": "Used together with `multimm_loc_start` to define the genomic window for 3D reconstruction. Example: `--multimm_loc_end 32000000`.",
+                    "fa_icon": "fas fa-arrows-alt-h",
+                    "default": null},
                 "multimm_args": {
                     "type": "string",
-                    "description": "multimm_args parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": null
-                }
+                    "title": "MultiMM Additional Arguments",
+                    "description": "Custom command-line arguments passed directly to MultiMM for fine-tuning modeling behavior and output.",
+                    "help_text": "Use this for advanced control — e.g., number of models, iteration limits, or output directory. Example: `--multimm_args \"--n-models 50 --max-iters 2000\"`. Leave empty (`null`) to use defaults.",
+                    "fa_icon": "fas fa-terminal",
+                    "default": null}
             }
         }
     },
