@@ -540,7 +540,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
   - The modelling level automatically determines the number of simulation beads.  
   - Regardless of the user-defined `N_BEADS` value, specifying `--multimm_modelling_level` overrides it with the following defaults:  
     - *GENE*: 1,000 beads  
-    - **REGION*: 5,000 beads  
+    - *REGION*: 5,000 beads  
     - *CHROMOSOME*: 20,000 beads  
     - *GW (Genome-Wide)*: 200,000 beads  
 
