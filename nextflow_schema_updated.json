@@ -116,7 +116,14 @@
                     "description": "Specifies additional parameters for the second sorting step performed by `samtools sort`, typically used for name-sorting or coordinate-sorting read pairs.",
                     "help_text": "The default `-n` flag sorts alignments by read name, which is often required for pairwise operations. You can modify this to coordinate-sort (`-o`) or add threading options. Example: `--samtools_sort_2_args \"-@ 8 -T tmp -o sorted.bam\"`.",
                     "fa_icon": "fas fa-sort-amount-down",
-                    "default": "-n"}
+                    "default": "-n"},
+                "bwa_mem_samtools_args": {
+                    "type": "string",
+                    "title": "BWA-MEM + SAMtools Combined Arguments",
+                    "description": "Specifies additional command-line options applied jointly to the BWA-MEM alignment output and subsequent SAMtools processing steps.",
+                    "help_text": "Use this to adjust output conversion and compression parameters after BWA-MEM alignment. For example, `-bh` converts to BAM format with header included, or `-@ 8` enables multithreading. Leave `null` to use default behavior.\n\nExample: `--bwa_mem_samtools_args \"-bh -@ 8\"`.",
+                    "fa_icon": "fas fa-code-branch",
+                    "default": null}
             }
         },
         "references": {
