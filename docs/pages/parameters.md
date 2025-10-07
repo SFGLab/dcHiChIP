@@ -560,7 +560,7 @@ params {
   genome_size          = "hs"
   macs3_callpeak_args  = null
   maps_args            = null
-  skip_maps            = true
+  skip_maps            = false
 
   /* ========= CONTACT MATRICES & BINNING ========= */
   cool_bin                   = 1000
