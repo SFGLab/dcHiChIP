@@ -252,156 +252,258 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - *Type*: boolean  
 - *Default flags:* true
 
+## Contact Matrices & Binning
+
+Settings controlling the generation, binning, and normalization of contact matrices from HiChIP data.  
+
+These parameters determine how raw read pairs are converted into multi-resolution .cool files for downstream analysis.  
+
+*Help:* Adjust these options to tune the resolution and structure of the resulting chromatin contact maps.  
+
+For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but require more memory and processing time, while larger bins (e.g., 10 kb or 25 kb) yield smoother matrices for large-scale analyses.
+
+---
+
+<code style="color:red; font-weight:bold;"> --cool_bin</code>: Base Bin Size (bp)
+- Defines the base bin size, in base pairs, used for generating contact matrices in the .cool format.  
+- Smaller bin sizes (e.g., 1000 bp) provide higher resolution but increase memory and runtime requirements.
+- Larger bins (e.g., 5000–25000 bp) are recommended for lower-depth datasets.
+- *Example*: `--cool_bin 5000`.  
+- *Type*: integer  
+- *Default flags:* 1000  
+
+---
+
+<code style="color:red; font-weight:bold;"> --cooler_cload_args</code>: Cooler Cload Arguments  
+- Specifies command-line options passed to the `cooler cload` command for loading read pairs into a .cool file.  
+- Use this to modify how columns from the pairs file are interpreted when generating contact matrices. The default is configured for standard pairtools output.
+- *Example*: `--cooler_cload_args "pairs --zero-based -c1 1 -p1 2 -c2 3 -p2 4"`.  
+- *Type*: string  
+- *Default flags:* pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5  
+
+---
+
+<code style="color:red; font-weight:bold;"> --cooler_zoomify_res</code>: Zoomify Resolution Preset  
+- Specifies the resolution preset key used for multi-resolution cooler files (`cooler zoomify`).
+- Each key corresponds to a predefined set of bin sizes defined in `insulation_resultions`.  
+- Use this to select which resolution set to apply during matrix zoomification. For example, `1000N` corresponds to 1 kb–500 kb bins by default.
+- *Example*: `--cooler_zoomify_res 1000N`.  
+- *Type*: string  
+- *Default flags:* 1000N  
+
+---
+
+<code style="color:red; font-weight:bold;"> --cooler_zoomify_args</code>: Cooler Zoomify Additional Arguments  
+- Extra command-line options for the `cooler zoomify` command that generate multi-resolution cooler files.  
+- Use this to control balancing, overwrite behavior, or other Zoomify parameters.
+- *Example*: `--cooler_zoomify_args "--balance --force"`. Leave empty ("") to use defaults.  
+- *Type*: string  
+- *Default flags:* null  
+
+---
+
+<code style="color:red; font-weight:bold;"> --insulation_resultions</code>: Insulation Score Resolutions  
+- Specifies the resolution presets (in base pairs) used for insulation score and TAD boundary calculations.
+- Each key defines a named preset containing multiple window sizes.  
+- Provide one or more resolution sets, where each key (e.g., 1000N) maps to a list of window sizes that correspond to the resolutions used for cooler zoomify. These determine the granularity of TAD detection and insulation profiling..
+- *Example*:  
+  ```
+  --insulation_resultions '{"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}'
+  ```  
+- *Type*: object  
+- *Default flags:* {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}  
+
+---
+
+<code style="color:red; font-weight:bold;">--cooltools_eigscis_args</code>: Cooltools Eigs-Cis Arguments  
+- Additional command-line flags for the `cooltools eigs-cis` command, which computes eigenvectors for A/B compartment analysis.  
+- Modify this to control the number of eigenvectors or specify contact type (cis/trans).
+- *Example*: `--cooltools_eigscis_args "--n-eigs 2 --contact-type cis"`.  
+- *Type*: string  
+- *Default flags:* --n-eigs 1  
+
+---
+
+<code style="color:red; font-weight:bold;">--cooler_eigscis_resultion</code>: Eigenvector Resolution (bp)  
+- Specifies the resolution, in base pairs, used for eigenvector computation in A/B compartment analysis.  
+- Smaller values provide higher resolution but require denser contact maps.
+- *Example*: `--cooler_eigscis_resultion 100000`.  
+- *Type*: integer  
+- *Default flags:* 100000  
+
+---
+
+<code style="color:red; font-weight:bold;">--calder_bin</code>: CALDER Bin Size  
+- Sets the bin size used for subcompartment calling by CALDER.  
+- Provide bin size as a number (e.g., 10000) or scientific notation (e.g., `10E3`). Higher bin sizes reduce resolution but speed up computation.
+- *Example*: `--calder_bin 25000`.  
+- *Type*: string  
+- *Default flags:* 100000  
+
+---
+
+<code style="color:red; font-weight:bold;">--gstripe_args</code>: gStripe Detection Arguments  
+- Extra command-line options for the `gStripe` tool, which detects stripe-like chromatin interaction patterns.  
+- Modify detection thresholds or bin correction behavior. The default `--fix_bin_start` ensures stripe detection starts from bin-aligned positions.
+- *Example*: `--gstripe_args "--fix_bin_start --minlen 3 --qval 0.05"`.  
+- *Type*: string  
+- *Default flags:* --fix_bin_start  
+
+## Visualization & QC
+
+Configuration for plotting and quality-control steps (e.g., FastQC, deepTools, Juicer Tools, pairtools).  
+
+These options affect coverage plots, sample correlations, and other diagnostic visualizations.  
+
+*Help:* Tune these to control plot styles, correlation methods, and output formats.  
+
+For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps) to speed up rendering.
+
+---
+
+<code style="color:red; font-weight:bold;"> --plot_method</code>: Correlation Method for Plots  
+- Defines the statistical method used to compute sample-to-sample correlations in deepTools visualizations.  
+- Choose between `spearman` (rank-based, robust to outliers) or `pearson` (linear correlation).
+- The default `spearman` is typically used for read-count correlation heatmaps.
+- *Example*: `--plot_method pearson`.  
+- *Type*: string  
+- *Default flags:* spearman  
+
+---
+
+<code style="color:red; font-weight:bold;"> --plot_type</code>: Plot Type for Correlation Visualization  
+- Specifies the visualization format for correlation results — typically a heatmap or scatter plot.  
+- Select the style best suited to your comparison. `heatmap` provides an overview of pairwise correlations, while `scatter` highlights relationships between specific samples.
+- *Example*: `--plot_type scatter`.  
+- *Type*: string  
+- *Default flags:* heatmap  
+
+---
+
+<code style="color:red; font-weight:bold;"> --fastqc_args</code>: FastQC Arguments  
+- Specifies additional command-line options for FastQC quality control analysis of raw sequencing reads.  
+- Use this to control FastQC behavior, such as verbosity or output compression. The default `--quiet` suppresses detailed logging.
+- *Example*: `--fastqc_args "--quiet --nogroup"`.  
+- *Type*: string  
+- *Default flags:* --quiet  
+
+---
+
+<code style="color:red; font-weight:bold;"> --deeptools_plotcoverage_args</code>: deepTools PlotCoverage Arguments  
+- Additional flags for the deepTools `plotCoverage` module, which visualizes genome-wide read coverage across samples.  
+- Customize output options such as file format, scaling, or whether to skip empty bins. The default `--skipZeros` ignores regions with zero coverage. Example: `--deeptools_plotcoverage_args "--skipZeros --plotFileFormat pdf"`.  
+- *Type*: string  
+- *Default flags:* --skipZeros  
+
+---
+
+<code style="color:red; font-weight:bold;"> --deeptools_plotcorrelation_args</code>: deepTools PlotCorrelation Arguments  
+- Custom flags for the deepTools `plotCorrelation` command, which computes and visualizes sample correlation matrices.  
+- Use this to modify correlation type, color scheme, and plot annotations. The default parameters produce a Spearman correlation heatmap with labeled values.
+- *Example*: `--deeptools_plotcorrelation_args "--corMethod pearson --colorMap RdBu --what pairwise"`.  
+- *Type*: string  
+- *Default flags:* --skipZeros --plotTitle "Spearman Correlation of Read Counts"  --colorMap RdYlBu --plotNumbers  
+
+---
+
+<code style="color:red; font-weight:bold;"> --juicertools_args</code>: Juicer Tools Arguments  
+- Specifies extra command-line parameters for Juicer Tools utilities used for Hi-C/HiChIP contact map analysis.  
+- Set parameters for operations like normalization, balancing, or matrix extraction. Leave null to use the default Juicer settings.
+- *Example*: `--juicertools_args "pre --threads 8 --resolutions 5000"`  
+- *Type*: string  
+- *Default flags:* null  
+
+---
+
+<code style="color:red; font-weight:bold;"> --pairtools_parse2_args</code>: Pairtools Parse2 Arguments  
+- Additional options for the `pairtools parse2` command used to convert alignment files into a standardized pairs format.  
+- Modify column selection, filtering, or threading for parsing steps. Leave null for default settings.  
+- *Example*: `--pairtools_parse2_args "--add-columns chr1,chr2,pos1,pos2 --nproc 8"`. 
+- *Type*: string  
+- *Default flags:* null
+
  
+## 3D Genome Modelling (MultiMM)
 
+Configuration options for 3D genome reconstruction and visualization using the MultiMM module.  
 
+These parameters define which genomic regions are modeled, the computational platform used (CPU or GPU), and optional fine-grained settings for chromosomal or locus-level simulations.  
 
+*Help:* Adjust these parameters to specify the modeling scope (whole chromosome, gene region, or specific locus) and computational mode.  
 
+MultiMM integrates chromatin contact data to predict spatial genome structures. For large models, prefer GPU acceleration if available.
 
+---
 
+<code style="color:red; font-weight:bold;">--multimm_platform</code>: MultiMM Computational Platform  
+- Specifies the compute platform used for MultiMM 3D genome modeling — either CPU or GPU-based execution, depending on system availability and dataset size.  
+- The following flags can be used:  
+  • `CPU` — standard desktop or cluster execution (default).  
+  • `OpenCL` — enables GPU acceleration using the OpenCL framework for compatible hardware.  
+  • `CUDA` — enables GPU acceleration using NVIDIA CUDA, providing faster simulations for large or high-resolution models.  
+- *Example*: `--multimm_platform CUDA`  
+- *Type*: string  
+- *Default flags:* CPU   
 
+---
 
+<code style="color:red; font-weight:bold;"> --multimm_modelling_level</code>: Modelling Granularity Level  
+- Specifies the genomic scale at which MultiMM performs 3D genome modeling — ranging from a single gene to the entire genome.  
+- Choose the modeling depth according to your analysis goal and computational resources.
+- The following modelling levels are available:
+  • **GENE** — Provide a gene of interest (with an associated .bedpe file path). MultiMM models the gene with a default ±100 kb window around it. Compartment forces are *not* considered at this level.  
+  • **REGION** — Specify a chromosome and genomic coordinates (start–end). Compartment interactions can optionally be included. Only the selected region is modeled.  
+  • **CHROMOSOME** — Provide a chromosome name; MultiMM automatically determines start and end coordinates. Compartments of data have to be imported.  
+  • **GW (Genome-Wide)** — Models the entire genome. No input for chromosome or coordinates is needed. Compartments of data have to be imported. This is the most computationally intensive mode, potentially taking minutes to hours depending on system performance.  
+- *Example*: `--multimm_modelling_level region`  
+- *Type*: string  
+- *Default flags:* chrom  
 
+---
 
+<code style="color:red; font-weight:bold;"> --multimm_gene_name</code>: Gene Name for Modelling  
+- Specifies the gene symbol or identifier to be modeled in 3D when the modelling level is set to `gene`.  
+- Provide a valid gene symbol that exists within your reference annotation (e.g., `PIRAT1`, `RUNX1`). This parameter is ignored if the modelling level is set to `chrom` or `region`.
+- *Example*: `--multimm_gene_name RUNX1`.  
+- *Type*: string  
+- *Default flags:* null  
 
+---
 
+<code style="color:red; font-weight:bold;"> --multimm_chrom</code>: Chromosome to Model  
+- Defines which chromosome should be used for 3D genome modeling. Required for both *chromosome* level and *region* level modeling.  
+- Use standard chromosome naming consistent with your reference genome (e.g., `chr1`, `chr21`, `chrX`).
+- *Example*: `--multimm_chrom chr10`.  
+- *Type*: string  
+- *Default flags:* chr21  
 
+---
 
+<code style="color:red; font-weight:bold;"> --multimm_loc_start</code>: Locus Start Coordinate (bp)  
+- Specifies the genomic start coordinate (in base pairs) for *region* level 3D modeling.  
+- Used only when the modelling level is set to `locus`. Must be a valid coordinate within the selected chromosome.
+- *Example*: `--multimm_loc_start 28000000`.  
+- *Type*: integer  
+- *Default flags:* null  
 
+---
 
+<code style="color:red; font-weight:bold;"> --multimm_loc_end</code>: Locus End Coordinate (bp)  
+- Specifies the genomic end coordinate (in base pairs) for *region* level 3D modeling.  
+- Used together with `multimm_loc_start` to define the genomic window for 3D reconstruction.
+- *Example*: `--multimm_loc_end 32000000`.  
+- *Type*: integer  
+- *Default flags:* null  
 
+---
 
+<code style="color:red; font-weight:bold;"> --multimm_args</code>: MultiMM Additional Arguments  
+- Custom command-line arguments passed directly to MultiMM for fine-tuning modeling behavior and output.  
+- Use this for advanced control — e.g., number of models, iteration limits, or output directory.
+- *Example*: `--multimm_args "--n-models 50 --max-iters 2000"`. Leave empty (`null`) to use defaults.  
+- *Type*: string  
+- *Default flags:* null  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Mandatory Input Parameters
-
-- **`input`**: Location of the samplesheet  
-- **`outdir`**: Location of the output directory  
-- **`fasta`**: Location of the BWA index file  
-- **`genomics_features`**: Location of the genomic features file  
-- **`profile`**: Execution environment (choose one: `docker`, `singularity`, `podman`, `shifter`, `charliecloud`, or `conda`)  
-- **`max_cpus`**: Maximum allocated CPU cores  
-- **`max_memory`**: Maximum allocated memory  
-- **`max_time`**: Maximum execution time  
-- **`jaspar_motif`**: JASPAR motif file (`.tsv` format)  
-- **`mapq`**: Minimum mapping quality threshold  
-- **`peak_quality`**: P-value cutoff for peak calling  
-- **`genome_size`**: Reference genome (e.g., `hs` for human, `mm` for mouse)  
-
-## Other Parameters
-
-- **FILTER_QUALITY**  
-  *Default flags:* `-F 0x04 -q ${params.mapq}`  
-  *Override param:* `params.filter_quality_args`  
-  *Example:* `--filter_quality_args "-F 0x904 -q 30"`
-
-- **BWA_MEM**  
-  *Default flags (aligner):* `-M -v 0` → `params.bwa_mem_args`  
-  *Default flags (samtools view):* `-bh` → `params.bwa_mem_samtools_args`  
-  *Examples:* `--bwa_mem_args "-M -t 16"`, `--bwa_mem_samtools_args "-bh -@ 8"`
-
-- **REMOVE_DUPLICATES**  
-  *Default flags:* `-n`  
-  *Override param:* `params.remove_duplicates_args`  
-  *Example:* `--remove_duplicates_args "-r -s"`
-
-- **MACS3_CALLPEAK**  
-  *Default flags:* `--nomodel -q ${params.peak_quality} -B --format BAMPE`  
-  *Override param:* `params.macs3_callpeak_args`  
-  *Example:* `--macs3_callpeak_args "--nomodel -q 0.01 -B --format BAMPE --keep-dup auto"`
-
-- **MAPS**  
-  *Default flags:* `-n 1 -a ${params.mapq}`  
-  *Override param:* `params.maps_args`  
-  *Example:* `--maps_args "-n 2 -a 10 --res 5000"`
-
-- **JUICERTOOLS**  
-  *Default flags:* `${params.ref_short}`  
-  *Override param:* `params.juicertools_args`  
-  *Example:* `--juicertools_args "pre -r 10000 -k KR"`
-
-- **DEEPTOOLS_PLOTCOVERAGE**  
-  *Default flags:* `--skipZeros`  
-  *Override param:* `params.deeptools_plotcoverage_args`  
-  *Example:* `--deeptools_plotcoverage_args "--bins 5000 --skipZeros"`
-
-- **GSTRIPE**  
-  *Default flags:* `--fix_bin_start`  
-  *Override param:* `params.gstripe_args`  
-  *Example:* `--gstripe_args "--chromsizes path/to.sizes --threads 8 --out results/stripes"`
-
-- **DEEPTOOLS_PLOTCORRELATION**  
-  *Default flags:* `--cmap RdYlBu --plotNumbers`  
-  *Override param:* `params.deeptools_plotcorrelation_args`  
-  *Example:* `--deeptools_plotcorrelation_args "--corMethod spearman --cmap RdBu --what pairwise"`
-
-- **PAIRTOOLS_PARSE2**  
-  *Default flags:* `parse --output-type pairs`  
-  *Override param:* `params.pairtools_parse2_args`  
-  *Example:* `--pairtools_parse2_args "parse --min-mapq 10 --output-type pairs"`
-
-- **COOLER_CLOAD**  
-  *Default flags:* `pairs --zero-based`  
-  *Override param:* `params.cooler_cload_args`  
-  *Example:* `--cooler_cload_args "pairs --zero-based -r 5000"`
-
-- **COOLER_ZOOMIFY**  
-  *Default flags:* *(empty)*  
-  *Override param:* `params.cooler_zoomify_args`  
-  *Example:* `--cooler_zoomify_args "--balance --resolutions 5k,10k,25k"`
-
-- **COOLTOOLS_EIGSCIS**  
-  *Default flags:* `--n-eigs 1`  
-  *Override param:* `params.cooltools_eigscis_args`  
-  *Example:* `--cooltools_eigscis_args "--n-eigs 3 --phasing-track GC"`
-
-- **MULTIMM**  
-  *Default flags:* *(project-defined; override if needed)*  
-  *Override param:* `params.multimm_args`  
-  *Example:* `--multimm_args "--fdr 0.05 --min-dist 1000"`
-
-- **SAMTOOLS_FIXMATE**  
-  *Default flags:* `-m`  
-  *Override param:* `params.samtools_fixmate_args`  
-  *Example:* `--samtools_fixmate_args "-m -@ 8"`
-
-- **FILTER_PAIRES**  
-  *Default flags:* `--mapq ${params.mapq}`  
-  *Override param:* `params.filter_paires_args`  
-  *Example:* `--filter_paires_args "--mapq 20 --max-dist 2000000"`
-
-- **SAMTOOLS_MARKDUP**  
-  *Default flags:* `-r -d ${params.optical_duplicate_distance}`  
-  *Override param:* `params.samtools_markdup_args`  
-  *Output prefix:* `markdup`  
-  *Example:* `--samtools_markdup_args "-r -@ 8 -d 2500"`
-
-- **SAMTOOLS_SORT_2**  
-  *Default flags:* `-n`  
-  *Override param:* `params.samtools_sort_2_args`  
-  *Example:* `--samtools_sort_2_args "-n -@ 8"`
 
 ---
 
