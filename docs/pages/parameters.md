@@ -319,10 +319,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Specifies the resolution presets (in base pairs) used for insulation score and TAD boundary calculations.
 - Each key defines a named preset containing multiple window sizes.  
 - Provide one or more resolution sets, where each key (e.g., 1000N) maps to a list of window sizes that correspond to the resolutions used for cooler zoomify. These determine the granularity of TAD detection and insulation profiling..
-- *Example*:  
-  ```
-  --insulation_resultions '{"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}'
-  ```  
+- *Example*: `--insulation_resultions {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}'  
 - *Type*: object  
 - *Default flags:* {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}  
 
@@ -517,7 +514,38 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - *Type*: string  
 - *Default flags:* null  
 
+---
+```
+### **Notes on MultiMM Modelling Levels**
 
+- **GENE level**  
+  - The user must provide the gene name using `--multimm_gene_name`.  
+  - Parameters such as `--multimm_chrom`, `--multimm_loc_start`, and `--multimm_loc_end` should remain **null**, as they are not required at this level.  
+  - Suitable for detailed, local reconstruction of a single gene and its regulatory environment.  
+
+- **REGION level**  
+  - The user must provide the chromosome name (`--multimm_chrom`), chromosome start (`--multimm_loc_start`), and chromosome end (`--multimm_loc_end`) coordinates of the region.  
+  - The gene name (`--multimm_gene_name`) should remain **null**.  
+  - Used when focusing on a defined genomic segment, such as a TAD or regulatory region.  
+
+- **CHROMOSOME level**  
+  - Only the chromosome name (`--multimm_chrom`) must be provided.  
+  - Parameters `--multimm_gene_name`, `--multimm_loc_start`, and `--multimm_loc_end` should be **null**.  
+  - Ideal for analyzing entire chromosome architecture and its folding pattern.  
+
+- **GW (GENOME-WIDE) level**  
+  - No chromosome, gene, or coordinate inputs are required.  
+  - Parameters `--multimm_gene_name`, `--multimm_chrom`, `--multimm_loc_start`, and `--multimm_loc_end` should all be **null**.  
+  - Used for complete genome-wide modeling to capture inter-chromosomal and large-scale spatial organization.  
+
+- **Automatic bead assignment**  
+  - The modelling level automatically determines the number of simulation beads.  
+  - Regardless of the user-defined `N_BEADS` value, specifying `--multimm_modelling_level` overrides it with the following defaults:  
+    - **GENE**: 1,000 beads  
+    - **REGION**: 5,000 beads  
+    - **CHROMOSOME**: 20,000 beads  
+    - **GW (Genome-Wide)**: 200,000 beads  
+```
 ---
 
 ## Quick Copy‑Paste: params.config template
