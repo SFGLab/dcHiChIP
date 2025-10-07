@@ -30,15 +30,6 @@ General pipeline execution options (output, resources, etc.)
 
 ---
 
-<code style="color:red; font-weight:bold;"> --threads</code>: Number of CPU Threads  
-- Specifies the default number of CPU threads to allocate for each process, unless a specific module overrides it.  
-- Use this to control parallel execution and optimize runtime based on available cores.
-- *Example*: `--threads 16` for a 16-core machine. Increasing threads improves speed but also increases memory usage.  
-- *Type*: integer  
-- *Default flags:* 8  
-
----
-
 <code style="color:red; font-weight:bold;"> --mem</code>: Memory Allocation (GB)  
 - Specifies the default amount of memory (in gigabytes) to allocate per process, unless overridden by module-specific settings.  
 - Set this according to the available system memory and dataset size. For example, `--mem 16` allocates 16 GB per task. Insufficient memory may cause process failures on large datasets.  
