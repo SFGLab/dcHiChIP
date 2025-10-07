@@ -24,13 +24,6 @@
                    "help_text": "Provide either a relative or absolute path. The directory will be created automatically if it does not exist. Example: `--outdir /data/dcHiChIP_results`.",
                    "fa_icon": "far fa-folder-open",
                    "default": "results"},
-                "threads": {
-                    "type": "integer",
-                    "title": "Number of CPU Threads",
-                    "description": "Specifies the default number of CPU threads to allocate for each process, unless a specific module overrides it.",
-                    "help_text": "Use this to control parallel execution and optimize runtime based on available cores. Example: `--threads 16` for a 16-core machine. Increasing threads improves speed but also increases memory usage.",
-                    "fa_icon": "fas fa-microchip",
-                    "default": 8},
                 "mem": {
                    "type": "integer",
                    "title": "Memory Allocation (GB)",
