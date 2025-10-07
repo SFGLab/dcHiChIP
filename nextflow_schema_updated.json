@@ -355,15 +355,15 @@
                 "multimm_modelling_level": {
                     "type": "string",
                     "title": "Modelling Granularity Level",
-                    "description": "Defines the level of genomic organization to model using MultiMM — for example, an entire chromosome, a single gene, or a specific locus.",
-                    "help_text": "Supported levels include `chrom` (whole chromosome), `gene` (specific gene region), and `locus` (defined genomic interval). Example: `--multimm_modelling_level locus`.",
+                    "description": "Specifies the genomic scale at which MultiMM performs 3D genome modeling — ranging from a single gene to the entire genome.",
+                    "help_text": "Choose the modeling depth according to your analysis goal and computational resources.\n\nThe following modelling levels are available:\n\n• **GENE** — Provide a gene of interest (with an associated .bedpe file path). MultiMM models the gene with a default ±100 kb window around it. Compartment forces are *not* considered at this level.\n\n• **REGION** — Specify a chromosome and genomic coordinates (start–end). Compartment interactions can optionally be included. Only the selected region is modeled.\n\n• **CHROMOSOME** — Provide a chromosome name; MultiMM automatically determines start and end coordinates. Compartment data can be imported for large-scale organization.\n\n• **GW (Genome-Wide)** — Models the entire genome. No input for chromosome or coordinates is needed. This is the most computationally intensive mode, potentially taking minutes to hours depending on system performance.\n\nExample: `--multimm_modelling_level region`",
                     "fa_icon": "fas fa-layer-group",
                     "default": "chrom"},
                 "multimm_gene_name": {
                     "type": "string",
                     "title": "Gene Name for Modelling",
                     "description": "Specifies the gene symbol or identifier to be modeled in 3D when the modelling level is set to `gene`.",
-                    "help_text": "Provide a valid gene symbol that exists within your reference annotation (e.g., `CTCF`, `RUNX1`). This parameter is ignored if modelling level is set to `chrom` or `locus`. Example: `--multimm_gene_name RUNX1`.",
+                    "help_text": "Provide a valid gene symbol that exists within your reference annotation (e.g., `CTCF`, `RUNX1`). This parameter is ignored if the modelling level is set to `chrom` or `region`. Example: `--multimm_gene_name RUNX1`.",
                     "fa_icon": "fas fa-dna",
                     "default": null},
                 "multimm_chrom": {
