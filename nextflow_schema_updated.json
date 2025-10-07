@@ -12,22 +12,29 @@
             "properties": {
                 "ref_short": {
                     "type": "string",
-                    "description": "ref_short parameter",
+                    "title": "Reference Genome Short Name",
+                    "description": "A short identifier for the reference genome build used in the workflow. This is mainly used for labeling outputs and maintaining consistency across pipeline steps. Typical values are `hg38` (human GRCh38) or `mm10` (mouse).",
+                    "help_text": "Choose a short, standard genome code matching your input reference (e.g., `hg38`, `GRCh38`, `mm10`, `mm39`). It should correspond to the genome files (FASTA, GTF, chrom sizes) you provide.",
                     "fa_icon": "far fa-file-code",
                     "default": "hg38"
                 },
-                "outdir": {
-                    "type": "string",
-                    "description": "outdir parameter",
-                    "fa_icon": "far fa-file-code",
-                    "default": "results"
-                },
+               "outdir": {
+                   "type": "string",
+                   "title": "Output Directory,
+                   "description": "Path to the main output directory where all pipeline results, logs, and intermediate files will be stored.",
+                   "help_text": "Provide either a relative or absolute path. The directory will be created automatically if it does not exist. Example: `--outdir /data/dcHiChIP_results`.",
+                   "fa_icon": "far fa-folder-open",
+                   "default": "results"
+               },
                 "threads": {
-                    "type": "string",
-                    "description": "threads parameter",
-                    "fa_icon": "far fa-file-code",
+                    "type": "integer",
+                    "title": "Number of CPU Threads",
+                    "description": "Specifies the default number of CPU threads to allocate for each process, unless a specific module overrides it.",
+                    "help_text": "Use this to control parallel execution and optimize runtime based on available cores. Example: `--threads 16` for a 16-core machine. Increasing threads improves speed but also increases memory usage.",
+                    "fa_icon": "fas fa-microchip",
                     "default": 8
-                },
+                }
+                ,
                 "mem": {
                     "type": "string",
                     "description": "mem parameter",
