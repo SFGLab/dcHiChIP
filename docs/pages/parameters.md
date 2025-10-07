@@ -145,6 +145,18 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - *Type*: string  
 - *Default flags:* -n
 
+---
+
+<code style="color:red; font-weight:bold;"> --bwa_mem_samtools_args</code>: BWA-MEM + SAMtools Combined Arguments  
+- Specifies additional command-line options applied jointly to the BWA-MEM alignment output and subsequent SAMtools processing steps.  
+- Use this to adjust output conversion and compression parameters after BWA-MEM alignment.
+- For example, `-bh` converts to BAM format with the header included. Leave `null` to use the default behavior.  
+- *Example*: `--bwa_mem_samtools_args "-bh -@ 8"`  
+- *Type*: string  
+- *Default flags:* null
+
+---
+
 ## Reference & Annotation
 
 Configuration for reference genome files and annotation resources used throughout the pipeline. 
@@ -541,6 +553,7 @@ params {
   filter_paires_args      = null
   samtools_markdup_args   = null
   samtools_sort_2_args    = "-n"
+  bwa_mem_samtools_args   = null
 
   /* ========= PEAKS & LOOPS ========= */
   peak_quality         = 0.05
