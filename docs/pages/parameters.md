@@ -535,6 +535,7 @@ params {
   se_bwa_mem_args         = null
   bwa_mem_args            = "-M -v 0"
   samtools_fixmate_args   = "-m"
+  optical_duplicate_distance = 0
   remove_duplicates_args  = "-n"
   filter_quality_args     = null
   filter_paires_args      = null
