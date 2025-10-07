@@ -142,7 +142,117 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - The default `-n` flag sorts alignments by read name, which is often required for pairwise operations. You can modify this to coordinate-sort (`-o`) or add threading options.
 - *Example*: `--samtools_sort_2_args "-@ 8 -T tmp -o sorted.bam"`.  
 - *Type*: string  
-- *Default flags:* -n  
+- *Default flags:* -n
+
+## Reference & Annotation
+
+Configuration for reference genome files and annotation resources used throughout the pipeline. 
+
+These parameters ensure consistent genome build usage across mapping, feature annotation, and downstream analyses.  
+
+*Help:* Provide correct and consistent genome resources (FASTA index, GTF, chromosome sizes, and blacklist) matching your chosen reference build (e.g., hg38, mm10). Mismatched files can lead to coordinate errors or missing annotations.
+
+---
+
+<code style="color:red; font-weight:bold;"> --jaspar_motif</code>: JASPAR Motif File (TSV)  
+- Specifies the URL or local path to the JASPAR motif file (TSV format) used for motif scanning and peak annotation — typically representing transcription factor binding motifs such as CTCF.  
+- Provide the path or direct download link to a JASPAR motif file compatible with your reference genome. The default points to the CTCF motif (MA0139.1) for hg38.
+- *Example*: `--jaspar_motif http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz`.  
+- *Type*: string  
+- *Default flags:* http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz  
+
+---
+
+<code style="color:red; font-weight:bold;"> --blacklist</code>: ENCODE Blacklist Regions (BED)  
+- Path or URL to a BED file containing ENCODE blacklist regions that should be excluded from peak calling, loop detection, and coverage calculations. These regions are known to produce artificially high signal or mapping artifacts.  
+- Use the appropriate blacklist file for your genome build (e.g., hg19, hg38, mm10). The default points to the ENCODE hg38 blacklist (`ENCFF356LFX`).
+- *Example*: `--blacklist /refs/hg38-blacklist.bed.gz`.  
+- *Type*: string  
+- *Default flags:* https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz  
+
+---
+
+<code style="color:red; font-weight:bold;"> --gtf</code>: Gene Annotation File (GTF)  
+- Specifies the path or URL to the GTF file containing gene annotations for the reference genome. This file is used to assign peaks, loops, and other genomic features to known genes and transcripts.  
+- Provide a GTF file compatible with your chosen reference genome (e.g., Ensembl or GENCODE format). The default points to the GRCh38 annotation from the Illumina iGenomes collection.
+- *Example*: `--gtf /data/genomes/GRCh38/genes.gtf`.  
+- *Type*: string  
+- *Default flags:* s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf  
+
+---
+
+<code style="color:red; font-weight:bold;"> --chrom_size</code>: Chromosome Sizes File  
+- Path to a two-column file listing chromosome names and their corresponding lengths, used to define genomic bounds during binning and matrix construction.  
+- This file ensures that cooler and related modules apply consistent chromosome boundaries. It must match the same reference genome build as the input FASTA and GTF files.
+- *Example*: `--chrom_size /refs/hg38.chrom.sizes`.  
+- *Type*: string  
+- *Default flags:* $projectDir/assets/hg38.chrom.sizes  
+
+---
+
+<code style="color:red; font-weight:bold;"> --genomics_features</code>: Genomic Features File (MAPS)  
+- Specifies the path or URL to the genomic features file required by MAPS for loop calling. This file contains mappability, GC content, and restriction enzyme fragment information used for bias correction.  
+- Use the appropriate MAPS genomic features file matching your genome build and restriction enzyme (e.g., MboI or DpnII). The default points to the hg38 MboI 10 kb resolution file.
+- *Example*: `--genomics_features /refs/MAPS_features_hg38_MboI_10kb.txt`.  
+- *Type*: string  
+- *Default flags:* https://raw.githubusercontent.com/HuMingLab/MAPS/refs/heads/master/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt
+
+## Peaks & Loops
+
+Configuration of parameters related to peak calling and chromatin loop detection.  
+
+These settings control how enriched regions (peaks) and chromatin interactions (loops) are identified from HiChIP data.  
+
+*Help:* Adjust these options to fine-tune sensitivity and specificity in peak and loop detection.  
+
+For example, you can modify the p-value threshold for MACS3 or enable MAPS loop calling for specific experimental setups.
+
+---
+
+<code style="color:red; font-weight:bold;"> --peak_quality</code>: Peak Significance Threshold  
+- Sets the significance cutoff (p-value or q-value, depending on MACS3 configuration) for peak calling to identify enriched regions.  
+- Lower values (e.g., 0.01 or 1e-5) increase stringency, reducing false positives but possibly missing weaker peaks. The default of 0.05 is a balanced threshold.
+- *Example*: `--peak_quality 0.05`.  
+- *Type*: number  
+- *Default flags:* 0.05  
+
+---
+
+<code style="color:red; font-weight:bold;"> --genome_size</code>: Genome Size (MACS3)  
+- Specifies the genome size shortcut for MACS3 peak calling, corresponding to the total mappable genome length.  
+- Use MACS3-supported short codes like `hs` (human), `mm` (mouse), or provide an exact value (e.g., 2.7e9). Must match your reference genome build.
+- *Example*: `--genome_size hs`.  
+- *Type*: string  
+- *Default flags:* hs  
+
+---
+
+<code style="color:red; font-weight:bold;"> --macs3_callpeak_args</code>: MACS3 Additional Arguments  
+- Optional custom arguments passed directly to the MACS3 `callpeak` command for advanced configuration.  
+- Use this to customize peak calling — for example, enabling model-free mode, adjusting shift/extension sizes, or specifying control input.
+- *Example*: `--macs3_callpeak_args "-q 0.01 --nomodel --shift -75 --extsize 150"`.  
+- *Type*: string  
+- *Default flags:* null  
+
+---
+
+<code style="color:red; font-weight:bold;"> --maps_args</code>: MAPS Loop Calling Arguments  
+- Additional command-line flags for the MAPS (Model-based Analysis of PLAC-seq/HiChIP) tool, used for chromatin loop detection.  
+- Adjust MAPS behavior such as bin size, distance range, or resolution.
+- *Example*: `--maps_args "--bin-size 5000 --cis-only"`. Leave empty (null) to use the default MAPS settings.  
+- *Type*: string  
+- *Default flags:* null  
+
+---
+
+<code style="color:red; font-weight:bold;"> --skip_maps</code>: Skip MAPS Module  
+- Determines whether to skip the MAPS loop calling module during the pipeline execution.  
+- Set this to `true` to disable loop calling (useful for QC or peak-only runs). Set to `false` to perform full MAPS-based loop analysis.
+- *Example*: `--skip_maps false`.  
+- *Type*: boolean  
+- *Default flags:* true
+
+ 
 
 
 
