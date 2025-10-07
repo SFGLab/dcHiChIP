@@ -438,9 +438,9 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 <code style="color:red; font-weight:bold;">--multimm_platform</code>: MultiMM Computational Platform  
 - Specifies the compute platform used for MultiMM 3D genome modeling — either CPU or GPU-based execution, depending on system availability and dataset size.  
 - The following flags can be used:  
-  • `CPU` — standard desktop or cluster execution (default).  
-  • `OpenCL` — enables GPU acceleration using the OpenCL framework for compatible hardware.  
-  • `CUDA` — enables GPU acceleration using NVIDIA CUDA, providing faster simulations for large or high-resolution models.  
+  - `CPU` — standard desktop or cluster execution (default).  
+  - `OpenCL` — enables GPU acceleration using the OpenCL framework for compatible hardware.  
+  - `CUDA` — enables GPU acceleration using NVIDIA CUDA, providing faster simulations for large or high-resolution models.  
 - *Example*: `--multimm_platform CUDA`  
 - *Type*: string  
 - *Default flags:* CPU   
@@ -451,10 +451,10 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Specifies the genomic scale at which MultiMM performs 3D genome modeling — ranging from a single gene to the entire genome.  
 - Choose the modeling depth according to your analysis goal and computational resources.
 - The following modelling levels are available:
-  • **GENE** — Provide a gene of interest (with an associated .bedpe file path). MultiMM models the gene with a default ±100 kb window around it. Compartment forces are *not* considered at this level.  
-  • **REGION** — Specify a chromosome and genomic coordinates (start–end). Compartment interactions can optionally be included. Only the selected region is modeled.  
-  • **CHROMOSOME** — Provide a chromosome name; MultiMM automatically determines start and end coordinates. Compartments of data have to be imported.  
-  • **GW (Genome-Wide)** — Models the entire genome. No input for chromosome or coordinates is needed. Compartments of data have to be imported. This is the most computationally intensive mode, potentially taking minutes to hours depending on system performance.  
+  - **GENE** — Provide a gene of interest (with an associated .bedpe file path). MultiMM models the gene with a default ±100 kb window around it. Compartment forces are *not* considered at this level.
+  - **REGION** — Specify a chromosome and genomic coordinates (start–end). Compartment interactions can optionally be included. Only the selected region is modeled.
+  - **CHROMOSOME** — Provide a chromosome name; MultiMM automatically determines start and end coordinates. Compartments of data have to be imported.
+  - **GW (Genome-Wide)** — Models the entire genome. No input for chromosome or coordinates is needed. Compartments of data have to be imported. This is the most computationally intensive mode, potentially taking minutes to hours depending on system performance.  
 - *Example*: `--multimm_modelling_level region`  
 - *Type*: string  
 - *Default flags:* chrom  
@@ -511,43 +511,77 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 
 ```groovy
 params {
+
+  /* ========= GENERAL OPTIONS ========= */
+  ref_short = "hg38"
+  outdir    = "/mnt/raid/test_case/results"
+  threads   = 8
+  mem       = 4
+
+  /* ========= INPUT FILES ========= */
+  input  = "/mnt/raid/test_case/samplesheet.csv"
+
+  /* ========= REFERENCES & ANNOTATION ========= */
+  jaspar_motif       = "http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz"
+  blacklist          = "https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz"
+  gtf                = "s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf"
+  chrom_size         = "$projectDir/assets/hg38.chrom.sizes"
+  genomics_features  = "https://raw.githubusercontent.com/HuMingLab/MAPS/refs/heads/master/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt"
+
+  /* ========= MAPPING & FILTERING ========= */
+  mapq                   = 30
+  se_samtools_args        = null
+  se_bwa_mem_args         = null
+  bwa_mem_args            = "-M -v 0"
+  samtools_fixmate_args   = "-m"
+  remove_duplicates_args  = "-n"
+  filter_quality_args     = null
+  filter_paires_args      = null
+  samtools_markdup_args   = null
+  samtools_sort_2_args    = "-n"
+
+  /* ========= PEAKS & LOOPS ========= */
+  peak_quality         = 0.05
+  genome_size          = "hs"
+  macs3_callpeak_args  = null
+  maps_args            = null
+  skip_maps            = true
+
+  /* ========= CONTACT MATRICES & BINNING ========= */
+  cool_bin                   = 1000
+  cooler_cload_args          = "pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5"
+  cooler_zoomify_res         = "1000N"
+  cooler_zoomify_args        = null
+  insulation_resultions      = '{"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}'
+  cooltools_eigscis_args     = "--n-eigs 1"
+  cooler_eigscis_resultion   = 100000
+  calder_bin                 = "10E3"
+  gstripe_args               = "--fix_bin_start"
+
+  /* ========= VISUALIZATION & QC ========= */
+  plot_method                 = "spearman"
+  plot_type                   = "heatmap"
+  fastqc_args                 = "--quiet"
+  deeptools_plotcoverage_args = "--skipZeros"
+  deeptools_plotcorrelation_args = '--skipZeros --plotTitle "Spearman Correlation of Read Counts" --colorMap RdYlBu --plotNumbers'
+  juicertools_args            = null
+  pairtools_parse2_args       = null
+
+  /* ========= 3D GENOME MODELLING (MULTIMM) ========= */
+  multimm_platform         = "CPU"
+  multimm_modelling_level  = "chrom"
+  multimm_gene_name        = null
+  multimm_chrom            = "chr21"
+  multimm_loc_start        = null
+  multimm_loc_end          = null
+  multimm_args             = null
+
+  /* ========= PIPELINE EXECUTION LIMITS ========= */
   max_cpus   = 32
   max_memory = '216.GB'
   max_time   = '120.h'
-
-  input  = "/mnt/raid/test_case/samplesheet.csv"
-  outdir = "/mnt/raid/test_case/results"
-
-  fasta = "/mnt/raid/workspace/reference_genome/bwa_index/bwa1/hg38/Homo_sapiens_assembly38.fasta"
-  genomics_features = "/mnt/raid/dcHiChIP/MAPS/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt"
-  jaspar_motif = "/mnt/raid/workspace/JASPAR/MA0139.1.tsv.gz"
-  gtf = "/mnt/raid/workspace/UCSC/genes.gtf"
-    
-  mapq = 30
-  peak_quality = 0.05
-  genome_size = "hs"
-
-  fastqc_args = null
-  filter_quality_args = null
-  bwa_mem_args = null
-  bwa_mem_samtools_args = null
-  remove_duplicates_args = null
-  macs3_callpeak_args = null
-  maps_args = null
-  juicertools_args = null
-  deeptools_plotcoverage_args = null
-  deeptools_plotcorrelation_args = null
-  gstripe_args = null
-  pairtools_parse2_args = null
-  cooler_cload_args = null
-  cooler_zoomify_args = null
-  cooltools_eigscis_args = null
-  multimm_args = null
-  samtools_fixmate_args = null
-  filter_paires_args = null
-  samtools_markdup_args = null
-  samtools_sort_2_args = null
 }
+
 ```
 
 ---
