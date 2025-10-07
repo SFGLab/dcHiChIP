@@ -11,36 +11,24 @@ The dcHiChIP pipeline provides flexible module-level control through a comprehen
 
 General pipeline execution options (output, resources, etc.)
 
-`--mem`: mem.
+**`--input`**: Input file-path
+- Path to a comma-separated file containing information about the samples in the experiment.
+- You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns and a header row.
 
-mem parameter
+**`--output`**: Output file-path
+- Path to the main output directory where all pipeline results, logs, and intermediate files will be stored
+- Provide either a relative or absolute path. The directory will be created automatically if it does not exist. Example: `--outdir /data/dcHiChIP_results`.
+- *Default flags:* `result`
 
-Type: **string**. Default: **4**.
+**`--output`**: Output file-path
+- Specifies the default number of CPU threads to allocate for each process, unless a specific module overrides it.
+- Use this to control parallel execution and optimize runtime based on available cores. Example: `--threads 16` for a 16-core machine. Increasing threads improves speed but also increases memory usage.
+- *Default flags:* `8`
 
-`--outdir`: Output Directory.
-
-Path to the main output directory where all pipeline results, logs, and intermediate files will be stored.
-
-Provide either a relative or absolute path. The directory will be created automatically if it does not exist. Example: `--outdir /data/dcHiChIP_results`.
-
-Type: **string**. Default: **"results"**.
-
-`--ref_short`: Reference Genome Short Name.
-
-A short identifier for the reference genome build used in the workflow. This is mainly used for labeling outputs and maintaining consistency across pipeline steps. Typical values are `hg38` (human) or `mm10` (mouse).
-
-Choose a short, standard genome code matching your input reference (e.g., `hg38`, `mm10`). It should correspond to the genome files (FASTA, GTF, chrom sizes) you provide.
-
-Type: **string**. Default: **"hg38"**.
-
-`--threads`: Number of CPU Threads.
-
-Specifies the default number of CPU threads to allocate for each process, unless a specific module overrides it.
-
-Use this to control parallel execution and optimize runtime based on available cores. Example: `--threads 16` for a 16-core machine. Increasing threads improves speed but also increases memory usage.
-
-Type: **integer**. Default: **8**.
-
+**`--mem`**: Memory Allocation (GB)"
+- Specifies the default amount of memory (in gigabytes) to allocate per process, unless overridden by module-specific settings.
+- Set this according to the available system memory and dataset size. For example, `--mem 16` allocates 16 GB per task. Insufficient memory may cause process failures on large datasets.
+- *Default flags:* `4`
 
 
 
