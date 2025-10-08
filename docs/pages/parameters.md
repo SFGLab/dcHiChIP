@@ -590,12 +590,12 @@ params {
   /* ========= CONTACT MATRICES & BINNING ========= */
   cool_bin                   = 1000
   cooler_cload_args          = "pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5"
-  cooler_zoomify_res         = "1000N"
+  cooler_zoomify_res         = 1000N
   cooler_zoomify_args        = null
   insulation_resultions      = '{"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}'
   cooltools_eigscis_args     = "--n-eigs 1"
   cooler_eigscis_resultion   = 100000
-  calder_bin                 = "10E3"
+  calder_bin                 = 100000
   gstripe_args               = "--fix_bin_start"
 
   /* ========= VISUALIZATION & QC ========= */
