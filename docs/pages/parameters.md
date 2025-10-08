@@ -131,8 +131,8 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 
 <code style="color:red; font-weight:bold;"> --samtools_markdup_args</code>: SAMtools Markdup Arguments  
 - Specifies additional options for the `samtools markdup` command, which marks or removes duplicate reads in BAM files.  
-- Use this to control duplicate marking behavior, threading, or reporting options. For example, adding `-r` removes duplicates instead of marking them, and `-@ 8` sets the number of threads.
-- *Example*: `--samtools_markdup_args "-r -@ 8"`. Leave empty (null) to use SAMtools default settings.  
+- Use this to control duplicate marking behavior, threading, or reporting options. For example, adding `-r` removes duplicates instead of marking them.
+- *Example*: `--samtools_markdup_args "-r"`. Leave empty (null) to use SAMtools default settings.  
 - *Type*: string  
 - *Default flags:* null  
 
@@ -419,7 +419,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 <code style="color:red; font-weight:bold;"> --juicertools_args</code>: Juicer Tools Arguments  
 - Specifies extra command-line parameters for Juicer Tools utilities used for Hi-C/HiChIP contact map analysis.  
 - Set parameters for operations like normalization, balancing, or matrix extraction. Leave null to use the default Juicer settings.
-- *Example*: `--juicertools_args "pre --threads 8 --resolutions 5000"`  
+- *Example*: `--juicertools_args "pre --resolutions 5000"`  
 - *Type*: string  
 - *Default flags:* null  
 
@@ -428,7 +428,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 <code style="color:red; font-weight:bold;"> --pairtools_parse2_args</code>: Pairtools Parse2 Arguments  
 - Additional options for the `pairtools parse2` command used to convert alignment files into a standardized pairs format.  
 - Modify column selection, filtering, or threading for parsing steps. Leave null for default settings.  
-- *Example*: `--pairtools_parse2_args "--add-columns chr1,chr2,pos1,pos2 --nproc 8"`. 
+- *Example*: `--pairtools_parse2_args "--add-columns chr1,chr2,pos1,pos2"`. 
 - *Type*: string  
 - *Default flags:* null
 
@@ -554,7 +554,6 @@ params {
   /* ========= GENERAL OPTIONS ========= */
   ref_short = "hg38"
   outdir    = "/mnt/raid/test_case/results"
-  threads   = 8
   mem       = 4
 
   /* ========= INPUT FILES ========= */
