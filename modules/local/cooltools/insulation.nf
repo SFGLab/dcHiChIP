@@ -1,7 +1,8 @@
 
 process COOLTOOLS_INSULATION {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_medium'
+    label 'process_long'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'oras://community.wave.seqera.io/library/cooltools:0.7.1--52a846d378a83a4f':
         'community.wave.seqera.io/library/cooltools:0.7.1--2b886db64cb0cd87' }"

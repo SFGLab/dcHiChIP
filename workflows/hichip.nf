@@ -360,7 +360,8 @@ workflow HICHIP {
         CALDER(
             JUICERTOOLS.out.hic,
             params.calder_bin,
-            params.ref_short
+            params.ref_short,
+            params.calder_chrom
         )
 
         ch_multimm_in = ch_multimm_in.mix(MAPS.out.bedpe)

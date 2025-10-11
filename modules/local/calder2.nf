@@ -3,13 +3,14 @@ process CALDER {
     tag "$meta.id"
     label 'process_medium'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'docker.io/lucananni93/calder2:0.3':
-        'docker.io/lucananni93/calder2:0.3' }"
+        'community.wave.seqera.io/library/r-calder2_r-r6:62ef6858209773b9':
+        'community.wave.seqera.io/library/r-calder2_r-r6:62ef6858209773b9' }"
     
     input:
     tuple val(meta), path(hic)
     val(bin_size)
     val(genome_build)
+    val(chrom_ls)
     
     output:
     tuple val(meta), path("*_output"), emit: outputs
@@ -24,7 +25,7 @@ process CALDER {
 
     # and load Calder
     library(CALDER)
-    chrs = c(1:22)
+    chrs = c(${chrom_ls})
     CALDER(contact_file_hic="${hic}", 
 			chrs=chrs, 
 			bin_size=${bin_size},
