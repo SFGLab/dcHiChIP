@@ -74,15 +74,15 @@ Note - You can chain multiple config profiles, e.g., ```profile test, docker```.
 
 3. **Run your own analysis**:
 ```
-nextflow run ./dcHiChIP-main/main.nf \
-             -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
-             -c /mnt/raid/test_config
+nextflow run SFGLab/dcHiChIP \
+             -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
+             --input samplesheet.csv \
+             --outdir results
 ```
 
 Note - 
 - Use **nf-core/configs** to check if your institute already has a config file.
-- For **Singularity**, pre-download images using ```nf-core download``` and set a cache directory (```NXF_SINGULARITY_CACHEDIR```).
+- For **Singularity**, pre-download images using ```nf-core download``` and set a cache directory (`NXF_SINGULARITY_CACHEDIR`).
 - For **Conda**, set a cache directory (```NXF_CONDA_CACHEDIR```) to avoid re-installing environments.
-- **Download & test the pipeline** on a minimal dataset:<br />
-```nextflow run sfglab/hichip -profile test,<YOURPROFILE> --outdir <OUTDIR>```
+
 
