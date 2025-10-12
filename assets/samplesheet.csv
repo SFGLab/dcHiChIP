@@ -1,3 +1,3 @@
 id,group,hichip_r1,hichip_r2,chipseq_r1,chipseq_r2,narrowpeak
-s1-0,s1,/g/data/ll61/development-space/hichip/full_data/s1_r1.fastq.gz,/g/data/ll61/development-space/hichip/full_data/s1_r2.fastq.gz,,,
-s1-1,s1,/g/data/ll61/development-space/hichip/full_data/s2_r1.fastq.gz,/g/data/ll61/development-space/hichip/full_data/s2_r2.fastq.gz,,,
+s1-0,s1,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/006/SRR7990656/SRR7990656_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/006/SRR7990656/SRR7990656_2.fastq.gz,,,
+s1-1,s1,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/007/SRR7990657/SRR7990657_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/007/SRR7990657/SRR7990657_2.fastq.gz,,,
