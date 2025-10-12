@@ -223,6 +223,8 @@ workflow HICHIP {
         ch_bwa_index,
         true
     )
+    ch_versions = ch_versions.mix(BWA_MEM_SE_R1.out.versions)
+
     BWA_MEM_SE_R2(
         ch_bwa_mem_in
         .filter{it[0].type == "hichip"}
@@ -233,6 +235,7 @@ workflow HICHIP {
         ch_bwa_index,
         true
     )
+    ch_versions = ch_versions.mix(BWA_MEM_SE_R2.out.versions)
     SAMTOOLS_MERGE(
         BWA_MEM_SE_R1.out.bam
         .join(BWA_MEM_SE_R2.out.bam)
@@ -240,27 +243,36 @@ workflow HICHIP {
         ch_fasta.first(),
         ch_fasta_fai.first()
     )
+    ch_versions = ch_versions.mix(SAMTOOLS_MERGE.out.versions)
     
     FILTER_PAIRES(
         SAMTOOLS_MERGE.out.bam,
         channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
     )
+    ch_versions = ch_versions.mix(FILTER_PAIRES.out.versions)
+
     SAMTOOLS_FIXMATE(
         FILTER_PAIRES.out.bam
     )
+    ch_versions = ch_versions.mix(SAMTOOLS_FIXMATE.out.versions)
+
     SAMTOOLS_SORT(
         SAMTOOLS_FIXMATE.out.bam,
         ch_fasta.first()
     )
+    ch_versions = ch_versions.mix(SAMTOOLS_SORT.out.versions)
 
     SAMTOOLS_MARKDUP(
         SAMTOOLS_SORT.out.bam,
         ch_fasta.first()
     )
+    ch_versions = ch_versions.mix(SAMTOOLS_MARKDUP.out.versions)
+
     SAMTOOLS_SORT_2(
         SAMTOOLS_MARKDUP.out.bam,
         ch_fasta.first()
     )
+    ch_versions = ch_versions.mix(SAMTOOLS_SORT_2.out.versions)
 
     BWA_MEM(
         ch_bwa_mem_in,
@@ -357,13 +369,15 @@ workflow HICHIP {
         GSTRIPE(
             MAPS.out.bedpe
         )
+        ch_versions = ch_versions.mix(GSTRIPE.out.versions)
+
         CALDER(
             JUICERTOOLS.out.hic,
             params.calder_bin,
             params.ref_short,
             params.calder_chrom
         )
-
+        ch_versions = ch_versions.mix(CALDER.out.versions)
         ch_multimm_in = ch_multimm_in.mix(MAPS.out.bedpe)
     }
     
@@ -372,33 +386,39 @@ workflow HICHIP {
         ch_fasta.map{it[1]}.first(),
         ch_gtf.first()
     )
+    ch_versions = ch_versions.mix(HOMER_ANNOTATEPEAKS.out.versions)
 
     HOMER_FINDMOTIFSGENOME(
         ch_maps_in.map{it[1]},
         ch_fasta.map{it[1]}.first()
     )
+    ch_versions = ch_versions.mix(HOMER_FINDMOTIFSGENOME.out.versions)
 
     BIOFRAME(
         ch_maps_in.map{it[1]},
         ch_jaspar_motif.first(),
         ch_blacklist.first()
     )
+    ch_versions = ch_versions.mix(BIOFRAME.out.versions)
+
     DEEPTOOLS_BAMCOVERAGE.out.bigwig
         .map{[["id": it[0].group, "type":it[0].type], it[0].id, it[1]]}
         .groupTuple()
         .filter{it[2].size() > 1}
         .set{ch_bigwigs}
-        
+  
     //ch_bigwigs.view()
 
     DEEPTOOLS_MUTIBIGWIGSUMMARY(
        ch_bigwigs.map{[it[0], it[2]]},
        ch_bigwigs.map{it[1]}
     )
+    ch_versions = ch_versions.mix(DEEPTOOLS_MUTIBIGWIGSUMMARY.out.versions)
 
     DEEPTOOLS_PLOTPCA(
         DEEPTOOLS_MUTIBIGWIGSUMMARY.out.npz
     )
+    ch_versions = ch_versions.mix(DEEPTOOLS_PLOTPCA.out.versions)
     
     REMOVE_DUPLICATES.out.bam
     .join(REMOVE_DUPLICATES.out.csi)
@@ -410,53 +430,65 @@ workflow HICHIP {
     DEEPTOOLS_PLOTCOVERAGE(
         ch_coverage_in.map{[it[0], it[2], it[3]]},
         ch_coverage_in.map{it[1]}
-         
     )
+    ch_versions = ch_versions.mix(DEEPTOOLS_PLOTCOVERAGE.out.versions)
 
     DEEPTOOLS_PLOTCORRELATION(
         DEEPTOOLS_MUTIBIGWIGSUMMARY.out.npz,
         channel.value(params.plot_method),
         channel.value(params.plot_type)
     )
+    ch_versions = ch_versions.mix(DEEPTOOLS_PLOTCORRELATION.out.versions)
 
     PAIRTOOLS_PARSE2(
         BWA_MEM.out.bam.filter{it[0].type == "hichip"},
         ch_chrom_size.first()
     )
+    ch_versions = ch_versions.mix(PAIRTOOLS_PARSE2.out.versions)
     
     COOLER_CLOAD(
         PAIRTOOLS_PARSE2.out.nodups.map{[it[0], it[1], [], params.cool_bin]},
         ch_chrom_size.first()
-
     )
+    ch_versions = ch_versions.mix(COOLER_CLOAD.out.versions)
 
     COOLER_ZOOMIFY(
         COOLER_CLOAD.out.cool.map{[it[0], it[1]]}
     )
+    ch_versions = ch_versions.mix(COOLER_ZOOMIFY.out.versions)
 
     COOLTOOLS_INSULATION(
         COOLER_ZOOMIFY.out.mcool.map{[it[0], it[1]]},
         params.insulation_resultions[params.cooler_zoomify_res]
     )
+    ch_versions = ch_versions.mix(COOLTOOLS_INSULATION.out.versions)
 
     COOLTOOLS_EIGSCIS(
         COOLER_ZOOMIFY.out.mcool,
         params.cooler_eigscis_resultion
     )
+    ch_versions = ch_versions.mix(COOLTOOLS_EIGSCIS.out.versions)
     
     AWK(
         COOLTOOLS_EIGSCIS.out.scores
     )
+    ch_versions = ch_versions.mix(AWK.out.versions)
+
     BEDTOOLS_NUC(
         AWK.out.bed.combine(ch_fasta.map{it[1]}).map{[it[0], it[2], it[1]]}
     )
+    ch_versions = ch_versions.mix(BEDTOOLS_NUC.out.versions)
+
     COOLTOOLS_BED_INVERT(
         BEDTOOLS_NUC.out.bed
     )
+    ch_versions = ch_versions.mix(COOLTOOLS_BED_INVERT.out.versions)
+    
     MULTIMM(
         ch_multimm_in,
         COOLTOOLS_BED_INVERT.out.compartments
     )
+    ch_versions = ch_versions.mix(MULTIMM.out.versions)
     
 }
 
