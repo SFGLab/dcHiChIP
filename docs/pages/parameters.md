@@ -7,6 +7,8 @@ toc: false
 ---
 The dcHiChIP pipeline provides flexible module-level control through a comprehensive set of parameters. Below is an overview of key parameters categorized by module, with default values and usage notes.
 
+---
+
 ## General Options
 
 General pipeline execution options (output, resources, etc.)
@@ -60,6 +62,8 @@ General pipeline execution options (output, resources, etc.)
 - *Example*: `--outdir /data/dcHiChIP_results`.  
 - *Type*: string  
 - *Default flags:* results
+
+---  
 
 ## Alignment & Filtering
 
@@ -290,6 +294,8 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - *Type*: boolean  
 - *Default flags:* true
 
+---
+
 ## Contact Matrices & Binning
 
 Settings controlling the generation, binning, and normalization of contact matrices from HiChIP data.  
@@ -382,7 +388,9 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Modify detection thresholds or bin correction behavior. The default `--fix_bin_start` ensures stripe detection starts from bin-aligned positions.
 - *Example*: `--gstripe_args "--fix_bin_start --minlen 3 --qval 0.05"`.  
 - *Type*: string  
-- *Default flags:* --fix_bin_start  
+- *Default flags:* --fix_bin_start
+
+--- 
 
 ## Visualization & QC
 
@@ -457,7 +465,8 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - *Type*: string  
 - *Default flags:* null
 
- 
+---
+
 ## 3D Genome Modelling (MultiMM)
 
 Configuration options for 3D genome reconstruction and visualization using the MultiMM module.  
@@ -570,6 +579,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
     - *GW (Genome-Wide)*: 200,000 beads  
 
 ---
+
 **Maximum Job Request Options**
 
 - These parameters define the upper resource limits available to the Nextflow scheduler during pipeline execution.
