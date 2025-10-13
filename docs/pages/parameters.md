@@ -59,15 +59,7 @@ General pipeline execution options (output, resources, etc.)
 - Provide either a relative or absolute path. The directory will be created automatically if it does not exist.
 - *Example*: `--outdir /data/dcHiChIP_results`.  
 - *Type*: string  
-- *Default flags:* results  
-
----
-
-<code style="color:red; font-weight:bold;"> --mem</code>: Memory Allocation (GB)  
-- Specifies the default amount of memory (in gigabytes) to allocate per process, unless overridden by module-specific settings.  
-- Set this according to the available system memory and dataset size. For example, `--mem 16` allocates 16 GB per task. Insufficient memory may cause process failures on large datasets.  
-- *Type*: integer  
-- *Default flags:* 4  
+- *Default flags:* results
 
 ## Alignment & Filtering
 
@@ -578,6 +570,39 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
     - *GW (Genome-Wide)*: 200,000 beads  
 
 ---
+**Maximum Job Request Options**
+
+- These parameters define the upper resource limits available to the Nextflow scheduler during pipeline execution.
+- They ensure that individual processes do not exceed the maximum computational resources defined by the user or system administrator.
+
+---
+
+<code style="color:red; font-weight:bold;">--max_cpus</code>: Maximum Number of CPU Cores
+- Specifies the maximum number of CPU cores that can be allocated to any process in the pipeline.
+- Increasing this value allows more parallel execution but may require a high-performance computing (HPC) environment.
+- *Example*: `--max_cpus 50`
+- *Type*: *integer*
+- Default flags: null
+
+---
+
+<code style="color:red; font-weight:bold;">--max_memory</code>: Maximum Memory Allocation
+- Defines the maximum amount of memory that can be used by any single process in the pipeline.
+- The value must include units (MB, GB, or TB). It is recommended to allocate sufficient memory for alignment and matrix generation steps.
+- *Example*: `--max_memory '216.GB'`
+- Type: string
+- Default flags: null
+
+---
+
+<code style="color:red; font-weight:bold;">--max_time</code>: Maximum Execution Time
+- Specifies the maximum wall-clock time allowed for any process.
+- The value must include time units (e.g., h for hours, m for minutes). It helps prevent indefinitely running jobs.
+- *Example*: `--max_time '1200.h'`
+- *Type*: string
+- *Default flags*: null
+
+---
 
 ## Quick Copy‑Paste: params.config template
 
@@ -630,6 +655,12 @@ params {
   cooler_eigscis_resultion   = 100000
   calder_bin                 = 100000
   gstripe_args               = "--fix_bin_start"
+
+/* ========= Max job request options ========= */
+  max_cpus: 32
+  max_memory: `216.GB`
+  max_time: `120.h`
+
 
   /* ========= VISUALIZATION & QC ========= */
   plot_method                 = "spearman"
