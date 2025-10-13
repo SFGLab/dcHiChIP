@@ -19,8 +19,8 @@ General pipeline execution options (output, resources, etc.)
 - You must create a design file with sample information before running the pipeline.
 - This file should contain three columns with a header row, typically representing sample ID, read 1 path, and read 2 path.
 - The file must have a .csv extension and follow the required structure for successful parsing.
-- If you need assistance preparing your sample sheet, you can refer to the example templates available here:
-  - `[dcHiChIP Working Cases](https://sfglab.github.io/dcHiChIP/working_cases)` - Select the case that matches your experimental setup.
+- If you need assistance preparing your sample sheet, you can refer to the `example templates` available here:
+  - [dcHiChIP Working Cases](https://sfglab.github.io/dcHiChIP/working_cases) - Select the case that matches your experimental setup.
 - *Example*: `--input /mnt/raid/test_case/samplesheet.csv`
 - *Type*: string
 - *Format*: file-path (CSV)
@@ -31,6 +31,7 @@ General pipeline execution options (output, resources, etc.)
 <code style="color:red; font-weight:bold;">--fasta</code>: Reference Genome FASTA (with BWA Index)
 - Specifies the path to the reference genome FASTA file used for read alignment and genome indexing.
 - The provided FASTA file must be accompanied by its corresponding BWA index files, typically including:
+```
   - Homo_sapiens_assembly38.fasta
   - Homo_sapiens_assembly38.fasta.amb
   - Homo_sapiens_assembly38.fasta.ann
@@ -38,6 +39,7 @@ General pipeline execution options (output, resources, etc.)
   - Homo_sapiens_assembly38.fasta.pac
   - Homo_sapiens_assembly38.fasta.sa
   - Homo_sapiens_assembly38.fasta.fai
+```
 - Ensure all index files are present in the same directory as the FASTA file before running the pipeline.
 - Missing or mismatched index files can cause alignment failures.
 - *Example*: `--fasta "/mtn/raid/bwa_index/bwa1/hg38/Homo_sapiens_assembly38.fasta"
