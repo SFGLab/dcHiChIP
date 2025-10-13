@@ -52,7 +52,7 @@ General pipeline execution options (output, resources, etc.)
 - A short identifier for the reference genome build used in the workflow. This is mainly used for labeling outputs and maintaining consistency across pipeline steps. Typical values are `hg38` (human) or `mm10` (mouse).  
 - Choose a short, standard genome code matching your input reference (e.g., `hg38`, `mm10`). It should correspond to the genome files (FASTA, GTF, chrom sizes) you provide.  
 - *Type*: string  
-- *Default flags:* hg38  
+- *Default flags*: hg38  
 
 ---
 
@@ -61,7 +61,7 @@ General pipeline execution options (output, resources, etc.)
 - Provide either a relative or absolute path. The directory will be created automatically if it does not exist.
 - *Example*: `--outdir /data/dcHiChIP_results`.  
 - *Type*: string  
-- *Default flags:* results
+- *Default flags*: results
 
 ---  
 
@@ -71,7 +71,7 @@ Configuration options for read alignment, mapping quality filtering, duplicate r
 
 These parameters control how raw HiChIP reads are aligned to the reference genome and preprocessed before downstream analyses.  
 
-*Help:* Adjust these settings to balance mapping stringency, computational cost, and data quality.  
+*Help*: Adjust these settings to balance mapping stringency, computational cost, and data quality.  
 
 For example, lowering the mapping quality (`mapq`) may include more reads but increase background noise, while increasing it improves precision.
 
@@ -81,7 +81,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Sets the minimum MAPQ threshold for retaining aligned reads. Reads with mapping quality below this value are filtered out before downstream analysis.  
 - Use higher MAPQ values (e.g., 30) to include only confidently aligned reads and reduce background noise. Lower values may retain more reads but can increase false positives. Typical range: 10–60.  
 - *Type*: integer  
-- *Default flags:* 30  
+- *Default flags*: 30  
 
 ---
 
@@ -90,7 +90,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Use this to fine-tune how SAMtools handles single-end BAM/SAM files — for example, adjusting compression, threading, or output format.
 - *Example*: `--se_samtools_args "-@ 8 -bh"`. Leave empty (null) to use default SAMtools behavior.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -99,7 +99,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Use this to customize BWA-MEM behavior for single-end reads — for example, seed length (`-k`), mismatch penalties, or output verbosity.
 - *Example*: `--se_bwa_mem_args "-k 19 -B 4 -O 6,6 -E 1,1"`. Leave empty (null) to use default alignment settings.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -108,7 +108,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Use this to modify BWA-MEM parameters such as alignment scoring, read group tagging, or reporting options. The default `-M -v 0` marks shorter split hits as secondary and suppresses verbose output.
 - *Example*: `--bwa_mem_args "-M -K 100000000 -Y -R '@RG\tID:sample\tSM:sample'"`.  
 - *Type*: string  
-- *Default flags:* -M -v 0  
+- *Default flags*: -M -v 0  
 
 ---
 
@@ -117,7 +117,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - The default `-m` option marks missing mate reads and adds mate coordinate information to each read pair. Adjust this if you need to control how mate tags or secondary alignments are handled.
 - *Example*: `--samtools_fixmate_args "-m -O bam"`.  
 - *Type*: string  
-- *Default flags:* -m  
+- *Default flags*: -m  
 
 ---
 
@@ -127,7 +127,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - A value of `0` disables optical duplicate detection. Typical values range between `100` and `2500`, depending on the sequencing platform.
 - *Example*: `--optical_duplicate_distance 2500`.  
 - *Type*: integer  
-- *Default flags:* 0
+- *Default flags*: 0
   
 ---
 
@@ -136,7 +136,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - The default `-n` flag skips duplicate removal but still counts duplicates for statistics. Modify this if you want to fully remove duplicates or change behavior depending on your data.
 - *Example*: `--remove_duplicates_args "-n --stats dupstats.txt"`.  
 - *Type*: string  
-- *Default flags:* -n  
+- *Default flags*: -n  
 
 ---
 
@@ -145,7 +145,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Use this to apply extra filtering thresholds beyond MAPQ, such as minimum alignment length or mismatch rate. Leave empty (null) to use the default filtering behavior.
 - *Example*: `--filter_quality_args "--min-MAPQ 10 --min-len 30"`.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -154,7 +154,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Use this to refine which read pairs are retained for contact map generation. For example, you can exclude pairs beyond a distance threshold or with invalid orientations.
 - *Example*: `--filter_paires_args "--max-dist 2000 --min-dist 100"`. Leave empty (null) to keep default pair filtering behavior.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -163,7 +163,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - Use this to control duplicate marking behavior, threading, or reporting options. For example, adding `-r` removes duplicates instead of marking them.
 - *Example*: `--samtools_markdup_args "-r"`. Leave empty (null) to use SAMtools default settings.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -172,7 +172,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - The default `-n` flag sorts alignments by read name, which is often required for pairwise operations. You can modify this to coordinate-sort (`-o`) or add threading options.
 - *Example*: `--samtools_sort_2_args "-@ 8 -T tmp -o sorted.bam"`.  
 - *Type*: string  
-- *Default flags:* -n
+- *Default flags*: -n
 
 ---
 
@@ -182,7 +182,7 @@ For example, lowering the mapping quality (`mapq`) may include more reads but in
 - For example, `-bh` converts to BAM format with the header included. Leave `null` to use the default behavior.  
 - *Example*: `--bwa_mem_samtools_args "-bh -@ 8"`  
 - *Type*: string  
-- *Default flags:* null
+- *Default flags*: null
 
 ---
 
@@ -192,7 +192,7 @@ Configuration for reference genome files and annotation resources used throughou
 
 These parameters ensure consistent genome build usage across mapping, feature annotation, and downstream analyses.  
 
-*Help:* Provide correct and consistent genome resources (FASTA index, GTF, chromosome sizes, and blacklist) matching your chosen reference build (e.g., hg38, mm10). Mismatched files can lead to coordinate errors or missing annotations.
+*Help*: Provide correct and consistent genome resources (FASTA index, GTF, chromosome sizes, and blacklist) matching your chosen reference build (e.g., hg38, mm10). Mismatched files can lead to coordinate errors or missing annotations.
 
 ---
 
@@ -201,7 +201,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 - Provide the path or direct download link to a JASPAR motif file compatible with your reference genome. The default points to the CTCF motif (MA0139.1) for hg38.
 - *Example*: `--jaspar_motif http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz`.  
 - *Type*: string  
-- *Default flags:* http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz  
+- *Default flags*: http://expdata.cmmt.ubc.ca/JASPAR/downloads/UCSC_tracks/2022/hg38/MA0139.1.tsv.gz  
 
 ---
 
@@ -210,7 +210,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 - Use the appropriate blacklist file for your genome build (e.g., hg19, hg38, mm10). The default points to the ENCODE hg38 blacklist (`ENCFF356LFX`).
 - *Example*: `--blacklist /refs/hg38-blacklist.bed.gz`.  
 - *Type*: string  
-- *Default flags:* https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz  
+- *Default flags*: https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz  
 
 ---
 
@@ -219,7 +219,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 - Provide a GTF file compatible with your chosen reference genome (e.g., Ensembl or GENCODE format). The default points to the GRCh38 annotation from the Illumina iGenomes collection.
 - *Example*: `--gtf /data/genomes/GRCh38/genes.gtf`.  
 - *Type*: string  
-- *Default flags:* s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf  
+- *Default flags*: s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf  
 
 ---
 
@@ -228,7 +228,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 - This file ensures that cooler and related modules apply consistent chromosome boundaries. It must match the same reference genome build as the input FASTA and GTF files.
 - *Example*: `--chrom_size /refs/hg38.chrom.sizes`.  
 - *Type*: string  
-- *Default flags:* $projectDir/assets/hg38.chrom.sizes  
+- *Default flags*: $projectDir/assets/hg38.chrom.sizes  
 
 ---
 
@@ -237,7 +237,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 - Use the appropriate MAPS genomic features file matching your genome build and restriction enzyme (e.g., MboI or DpnII). The default points to the hg38 MboI 10 kb resolution file.
 - *Example*: `--genomics_features /refs/MAPS_features_hg38_MboI_10kb.txt`.  
 - *Type*: string  
-- *Default flags:* https://raw.githubusercontent.com/HuMingLab/MAPS/refs/heads/master/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt
+- *Default flags*: https://raw.githubusercontent.com/HuMingLab/MAPS/refs/heads/master/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt
 
 ## Peaks & Loops
 
@@ -245,7 +245,7 @@ Configuration of parameters related to peak calling and chromatin loop detection
 
 These settings control how enriched regions (peaks) and chromatin interactions (loops) are identified from HiChIP data.  
 
-*Help:* Adjust these options to fine-tune sensitivity and specificity in peak and loop detection.  
+*Help*: Adjust these options to fine-tune sensitivity and specificity in peak and loop detection.  
 
 For example, you can modify the p-value threshold for MACS3 or enable MAPS loop calling for specific experimental setups.
 
@@ -256,7 +256,7 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - Lower values (e.g., 0.01 or 1e-5) increase stringency, reducing false positives but possibly missing weaker peaks. The default of 0.05 is a balanced threshold.
 - *Example*: `--peak_quality 0.05`.  
 - *Type*: number  
-- *Default flags:* 0.05  
+- *Default flags*: 0.05  
 
 ---
 
@@ -265,7 +265,7 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - Use MACS3-supported short codes like `hs` (human), `mm` (mouse), or provide an exact value (e.g., 2.7e9). Must match your reference genome build.
 - *Example*: `--genome_size hs`.  
 - *Type*: string  
-- *Default flags:* hs  
+- *Default flags*: hs  
 
 ---
 
@@ -274,7 +274,7 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - Use this to customize peak calling — for example, enabling model-free mode, adjusting shift/extension sizes, or specifying control input.
 - *Example*: `--macs3_callpeak_args "-q 0.01 --nomodel --shift -75 --extsize 150"`.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -283,7 +283,7 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - Adjust MAPS behavior such as bin size, distance range, or resolution.
 - *Example*: `--maps_args "--bin-size 5000 --cis-only"`. Leave empty (null) to use the default MAPS settings.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -292,7 +292,7 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - Set this to `true` to disable loop calling (useful for QC or peak-only runs). Set to `false` to perform full MAPS-based loop analysis.
 - *Example*: `--skip_maps false`.  
 - *Type*: boolean  
-- *Default flags:* true
+- *Default flags*: true
 
 ---
 
@@ -302,7 +302,7 @@ Settings controlling the generation, binning, and normalization of contact matri
 
 These parameters determine how raw read pairs are converted into multi-resolution .cool files for downstream analysis.  
 
-*Help:* Adjust these options to tune the resolution and structure of the resulting chromatin contact maps.  
+*Help*: Adjust these options to tune the resolution and structure of the resulting chromatin contact maps.  
 
 For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but require more memory and processing time, while larger bins (e.g., 10 kb or 25 kb) yield smoother matrices for large-scale analyses.
 
@@ -314,7 +314,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Larger bins (e.g., 5000–25000 bp) are recommended for lower-depth datasets.
 - *Example*: `--cool_bin 5000`.  
 - *Type*: integer  
-- *Default flags:* 1000  
+- *Default flags*: 1000  
 
 ---
 
@@ -323,7 +323,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Use this to modify how columns from the pairs file are interpreted when generating contact matrices. The default is configured for standard pairtools output.
 - *Example*: `--cooler_cload_args "pairs --zero-based -c1 1 -p1 2 -c2 3 -p2 4"`.  
 - *Type*: string  
-- *Default flags:* pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5  
+- *Default flags*: pairs --zero-based  -c1 2 -p1 3 -c2 4 -p2 5  
 
 ---
 
@@ -332,8 +332,8 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Each key corresponds to a predefined set of bin sizes defined in `insulation_resultions`.  
 - Use this to select which resolution set to apply during matrix zoomification. For example, `1000N` corresponds to 1 kb–500 kb bins by default.
 - *Example*: `--cooler_zoomify_res 1000N`.  
-- *Type*: string  
-- *Default flags:* 1000N  
+- *Type*: string
+- *Default flags*: 1000N  
 
 ---
 
@@ -342,7 +342,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Use this to control balancing, overwrite behavior, or other Zoomify parameters.
 - *Example*: `--cooler_zoomify_args "--balance --force"`. Leave empty ("") to use defaults.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -352,7 +352,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Provide one or more resolution sets, where each key (e.g., 1000N) maps to a list of window sizes that correspond to the resolutions used for cooler zoomify. These determine the granularity of TAD detection and insulation profiling..
 - *Example*: `--insulation_resultions {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}'  
 - *Type*: object  
-- *Default flags:* {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}  
+- *Default flags*: {"1000N": "1000 2000 5000 10000 20000 50000 100000 200000 500000"}  
 
 ---
 
@@ -361,7 +361,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Modify this to control the number of eigenvectors or specify contact type (cis/trans).
 - *Example*: `--cooltools_eigscis_args "--n-eigs 2 --contact-type cis"`.  
 - *Type*: string  
-- *Default flags:* --n-eigs 1  
+- *Default flags*: --n-eigs 1  
 
 ---
 
@@ -370,7 +370,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Smaller values provide higher resolution but require denser contact maps.
 - *Example*: `--cooler_eigscis_resultion 100000`.  
 - *Type*: integer  
-- *Default flags:* 100000  
+- *Default flags*: 100000  
 
 ---
 
@@ -379,7 +379,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Provide bin size as a number (e.g., 10000). Higher bin sizes reduce resolution but speed up computation.
 - *Example*: `--calder_bin 25000`.  
 - *Type*: string  
-- *Default flags:* 100000  
+- *Default flags*: 100000  
 
 ---
 
@@ -388,8 +388,8 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - You can specify a single chromosome or multiple chromosomes separated by commas.
 - When providing multiple entries, do not include spaces between chromosome numbers.
 - *Example*:
-  - For a single chromosome: `--calder_chrom 1`
-  - For multiple chromosomes: `--calder_chrom 1,2,3,19,20`
+  - For a single chromosome: `--calder_chrom "1"`
+  - For multiple chromosomes: `--calder_chrom "1,2,3,19,20"`
 - *Type*: string
 - *Default flags*: 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22
 
@@ -400,7 +400,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 - Modify detection thresholds or bin correction behavior. The default `--fix_bin_start` ensures stripe detection starts from bin-aligned positions.
 - *Example*: `--gstripe_args "--fix_bin_start --minlen 3 --qval 0.05"`.  
 - *Type*: string  
-- *Default flags:* --fix_bin_start
+- *Default flags*: --fix_bin_start
 
 --- 
 
@@ -410,7 +410,7 @@ Configuration for plotting and quality-control steps (e.g., FastQC, deepTools, J
 
 These options affect coverage plots, sample correlations, and other diagnostic visualizations.  
 
-*Help:* Tune these to control plot styles, correlation methods, and output formats.  
+*Help*: Tune these to control plot styles, correlation methods, and output formats.  
 
 For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps) to speed up rendering.
 
@@ -422,7 +422,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - The default `spearman` is typically used for read-count correlation heatmaps.
 - *Example*: `--plot_method pearson`.  
 - *Type*: string  
-- *Default flags:* spearman  
+- *Default flags*: spearman  
 
 ---
 
@@ -431,7 +431,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - Select the style best suited to your comparison. `heatmap` provides an overview of pairwise correlations, while `scatter` highlights relationships between specific samples.
 - *Example*: `--plot_type scatter`.  
 - *Type*: string  
-- *Default flags:* heatmap  
+- *Default flags*: heatmap  
 
 ---
 
@@ -440,7 +440,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - Use this to control FastQC behavior, such as verbosity or output compression. The default `--quiet` suppresses detailed logging.
 - *Example*: `--fastqc_args "--quiet --nogroup"`.  
 - *Type*: string  
-- *Default flags:* --quiet  
+- *Default flags*: --quiet  
 
 ---
 
@@ -448,7 +448,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - Additional flags for the deepTools `plotCoverage` module, which visualizes genome-wide read coverage across samples.  
 - Customize output options such as file format, scaling, or whether to skip empty bins. The default `--skipZeros` ignores regions with zero coverage. Example: `--deeptools_plotcoverage_args "--skipZeros --plotFileFormat pdf"`.  
 - *Type*: string  
-- *Default flags:* --skipZeros  
+- *Default flags*: --skipZeros  
 
 ---
 
@@ -457,7 +457,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - Use this to modify correlation type, color scheme, and plot annotations. The default parameters produce a Spearman correlation heatmap with labeled values.
 - *Example*: `--deeptools_plotcorrelation_args "--corMethod pearson --colorMap RdBu --what pairwise"`.  
 - *Type*: string  
-- *Default flags:* --skipZeros --plotTitle "Spearman Correlation of Read Counts"  --colorMap RdYlBu --plotNumbers  
+- *Default flags*: --skipZeros --plotTitle "Spearman Correlation of Read Counts"  --colorMap RdYlBu --plotNumbers  
 
 ---
 
@@ -466,7 +466,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - Set parameters for operations like normalization, balancing, or matrix extraction. Leave null to use the default Juicer settings.
 - *Example*: `--juicertools_args "pre --resolutions 5000"`  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -475,7 +475,7 @@ For large cohorts, consider lighter settings (e.g., skipping numbers on heatmaps
 - Modify column selection, filtering, or threading for parsing steps. Leave null for default settings.  
 - *Example*: `--pairtools_parse2_args "--add-columns chr1,chr2,pos1,pos2"`. 
 - *Type*: string  
-- *Default flags:* null
+- *Default flags*: null
 
 ---
 
@@ -485,7 +485,7 @@ Configuration options for 3D genome reconstruction and visualization using the M
 
 These parameters define which genomic regions are modeled, the computational platform used (CPU or GPU), and optional fine-grained settings for chromosomal or locus-level simulations.  
 
-*Help:* Adjust these parameters to specify the modeling scope (whole chromosome, gene region, or specific locus) and computational mode.  
+*Help*: Adjust these parameters to specify the modeling scope (whole chromosome, gene region, or specific locus) and computational mode.  
 
 MultiMM integrates chromatin contact data to predict spatial genome structures. For large models, prefer GPU acceleration if available.
 
@@ -499,7 +499,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
   - `CUDA` — enables GPU acceleration using NVIDIA CUDA, providing faster simulations for large or high-resolution models.  
 - *Example*: `--multimm_platform CUDA`  
 - *Type*: string  
-- *Default flags:* CPU   
+- *Default flags*: CPU   
 
 ---
 
@@ -513,7 +513,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
   - **GW (Genome-Wide)** — Models the entire genome. No input for chromosome or coordinates is needed. Compartments of data have to be imported. This is the most computationally intensive mode, potentially taking minutes to hours depending on system performance.  
 - *Example*: `--multimm_modelling_level region`  
 - *Type*: string  
-- *Default flags:* chrom  
+- *Default flags*: chrom  
 
 ---
 
@@ -522,7 +522,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Provide a valid gene symbol that exists within your reference annotation (e.g., `PIRAT1`, `RUNX1`). This parameter is ignored if the modelling level is set to `chrom` or `region`.
 - *Example*: `--multimm_gene_name RUNX1`.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -531,7 +531,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Use standard chromosome naming consistent with your reference genome (e.g., `chr1`, `chr21`, `chrX`).
 - *Example*: `--multimm_chrom chr10`.  
 - *Type*: string  
-- *Default flags:* chr21  
+- *Default flags*: chr21  
 
 ---
 
@@ -540,7 +540,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Used only when the modelling level is set to `locus`. Must be a valid coordinate within the selected chromosome.
 - *Example*: `--multimm_loc_start 28000000`.  
 - *Type*: integer  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -549,7 +549,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Used together with `multimm_loc_start` to define the genomic window for 3D reconstruction.
 - *Example*: `--multimm_loc_end 32000000`.  
 - *Type*: integer  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ---
 
@@ -558,7 +558,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Use this for advanced control — e.g., number of models, iteration limits, or output directory.
 - *Example*: `--multimm_args "--n-models 50 --max-iters 2000"`. Leave empty (`null`) to use defaults.  
 - *Type*: string  
-- *Default flags:* null  
+- *Default flags*: null  
 
 ## **Notes on MultiMM Modelling Levels**
 
