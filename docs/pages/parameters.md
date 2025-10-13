@@ -61,7 +61,7 @@ Homo_sapiens_assembly38.fasta.fai
 <code style="color:red; font-weight:bold;"> --outdir</code>: Output Directory  
 - Path to the main output directory where all pipeline results, logs, and intermediate files will be stored.  
 - Provide either a relative or absolute path. The directory will be created automatically if it does not exist.
-- *Example*: `--outdir /data/dcHiChIP_results`.  
+- *Example*: `--outdir "/data/dcHiChIP_results"`.  
 - *Type*: string  
 - *Default flags*: results
 
