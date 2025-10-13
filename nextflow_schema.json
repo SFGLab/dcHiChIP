@@ -329,7 +329,7 @@
                     "fa_icon": "fas fa-grip-lines",
                     "default": 100000},
                 "calder_bin": {
-                    "type": "string",
+                    "type": "integer",
                     "title": "CALDER Bin Size",
                     "description": "Sets the bin size used for subcompartment calling by CALDER.",
                     "help_text": "Provide bin size as a number (e.g., 10000) or scientific notation (e.g., `10E3`). Higher bin sizes reduce resolution but speed up computation. Example: `--calder_bin 25000`.",
@@ -338,8 +338,8 @@
                 "calder_chrom": {
                     "type": "string",
                     "title": "CALDER chromosomes",
-                    "description": "teh chromosames to be analayses by CALDER.",
-                    "help_text": "Provide a chromosme or multiple as numbers. For multiple chromosmes, they need to be comma `,` separated. Example: `--calder_chrom 1` or `--calder_chrom 1,2,3,19,20`.",
+                    "description": "the chromosomes to be analyzed by CALDER.",
+                    "help_text": "Provide a chromosome or multiple as numbers. For multiple chromosmes, they need to be comma `,` separated. Example: `--calder_chrom 1` or `--calder_chrom 1,2,3,19,20`.",
                     "fa_icon": "fas fa-cubes",
                     "default": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"
                 },
