@@ -21,7 +21,7 @@ General pipeline execution options (output, resources, etc.)
 - The file must have a .csv extension and follow the required structure for successful parsing.
 - If you need assistance preparing your sample sheet, you can refer to the `example templates` available here:
   - [dcHiChIP Working Cases](https://sfglab.github.io/dcHiChIP/working_cases) - Select the case that matches your experimental setup.
-- *Example*: `--input /mnt/raid/test_case/samplesheet.csv`
+- *Example*: `--input /data/samplesheet/samplesheet.csv`
 - *Type*: string
 - *Format*: file-path (CSV)
 - *Default flags*: None
@@ -210,7 +210,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 <code style="color:red; font-weight:bold;"> --blacklist</code>: ENCODE Blacklist Regions (BED)  
 - Path or URL to a BED file containing ENCODE blacklist regions that should be excluded from peak calling, loop detection, and coverage calculations. These regions are known to produce artificially high signal or mapping artifacts.  
 - Use the appropriate blacklist file for your genome build (e.g., hg19, hg38, mm10). The default points to the ENCODE hg38 blacklist (`ENCFF356LFX`).
-- *Example*: `--blacklist /data/blacklist_region/hg38-blacklist.bed.gz`.  
+- *Example*: `--blacklist /data/blacklist_region/hg38/hg38-blacklist.bed.gz`.  
 - *Type*: string  
 - *Default flags*: https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz  
 
@@ -219,7 +219,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 <code style="color:red; font-weight:bold;"> --gtf</code>: Gene Annotation File (GTF)  
 - Specifies the path or URL to the GTF file containing gene annotations for the reference genome. This file is used to assign peaks, loops, and other genomic features to known genes and transcripts.  
 - Provide a GTF file compatible with your chosen reference genome (e.g., Ensembl or GENCODE format). The default points to the GRCh38 annotation from the Illumina iGenomes collection.
-- *Example*: `--gtf /data/gtf_file/GRCh38/genes.gtf`.  
+- *Example*: `--gtf /data/gtf_file/hg38/genes.gtf`.  
 - *Type*: string  
 - *Default flags*: s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf  
 
