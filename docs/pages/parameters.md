@@ -580,7 +580,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 
 ---
 
-**Maximum Job Request Options**
+## **Maximum Job Request Options**
 
 - These parameters define the upper resource limits available to the Nextflow scheduler during pipeline execution.
 - They ensure that individual processes do not exceed the maximum computational resources defined by the user or system administrator.
