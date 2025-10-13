@@ -20,7 +20,7 @@ General pipeline execution options (output, resources, etc.)
 - This file should contain three columns with a header row, typically representing sample ID, read 1 path, and read 2 path.
 - The file must have a .csv extension and follow the required structure for successful parsing.
 - If you need assistance preparing your sample sheet, you can refer to the example templates available here:
-  [dcHiChIP Working Cases](https://sfglab.github.io/dcHiChIP/working_cases) - Select the case that matches your experimental setup.
+  - `[dcHiChIP Working Cases](https://sfglab.github.io/dcHiChIP/working_cases)` - Select the case that matches your experimental setup.
 - *Example*: `--input /mnt/raid/test_case/samplesheet.csv`
 - *Type*: string
 - *Format*: file-path (CSV)
