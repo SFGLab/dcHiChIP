@@ -32,13 +32,13 @@ General pipeline execution options (output, resources, etc.)
 - Specifies the path to the reference genome FASTA file used for read alignment and genome indexing.
 - The provided FASTA file must be accompanied by its corresponding BWA index files, typically including:
 ```
-  - Homo_sapiens_assembly38.fasta
-  - Homo_sapiens_assembly38.fasta.amb
-  - Homo_sapiens_assembly38.fasta.ann
-  - Homo_sapiens_assembly38.fasta.bwt
-  - Homo_sapiens_assembly38.fasta.pac
-  - Homo_sapiens_assembly38.fasta.sa
-  - Homo_sapiens_assembly38.fasta.fai
+Homo_sapiens_assembly38.fasta
+Homo_sapiens_assembly38.fasta.amb
+Homo_sapiens_assembly38.fasta.ann
+Homo_sapiens_assembly38.fasta.bwt
+Homo_sapiens_assembly38.fasta.pac
+Homo_sapiens_assembly38.fasta.sa
+Homo_sapiens_assembly38.fasta.fai
 ```
 - Ensure all index files are present in the same directory as the FASTA file before running the pipeline.
 - Missing or mismatched index files can cause alignment failures.
