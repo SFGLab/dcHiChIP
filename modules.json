@@ -1,6 +1,6 @@
 {
-  "name": "sfglab/hichip",
-  "homePage": "https://github.com/sfglab/hichip",
+  "name": "sfglab/dchichip",
+  "homePage": "https://github.com/sfglab/dchichip",
   "repos": {
     "https://github.com/nf-core/modules.git": {
       "modules": {

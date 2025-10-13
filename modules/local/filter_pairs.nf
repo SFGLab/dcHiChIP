@@ -14,7 +14,7 @@ process FILTER_PAIRES {
     tuple val(meta), path('*.bam')       , emit: bam
     path "versions.yml", emit: versions
 
-    script: // This script is bundled with the pipeline, in sfglab/hichip/bin/
+    script: // This script is bundled with the pipeline, in sfglab/dchichip/bin/
     """
     run_maps_filter_pairs.sh \\
     --outdir ./ \\

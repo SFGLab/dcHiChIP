@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the main.nf workflow in the sfglab/hichip pipeline
+// This file holds several functions specific to the main.nf workflow in the sfglab/dchichip pipeline
 //
 
 class WorkflowMain {

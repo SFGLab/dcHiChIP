@@ -1,4 +1,4 @@
-# sfglab/hichip: Output
+# sfglab/dchichip: Output
 
 ## Introduction
 

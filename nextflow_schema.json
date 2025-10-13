@@ -1,10 +1,10 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/sfglab/hichip/master/nextflow_schema.json",
-    "title": "sfglab/hichip pipeline parameters",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/sfglab/dchichip/master/nextflow_schema.json",
+    "title": "sfglab/dchichip pipeline parameters",
     "description": "Workflow description - to be filled",
     "type": "object",
-    "definitions": {
+    "$defs": {
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
@@ -659,34 +659,38 @@
     },
     "allOf": [
         {
-            "$ref": "#/definitions/input_output_options"
+            "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/definitions/reference_genome_options"
+            "$ref": "#/$defs/reference_genome_options"
         },
         {
-            "$ref": "#/definitions/annotation_options"
+            "$ref": "#/$defs/annotation_options"
         },
         {
-            "$ref": "#/definitions/mapping_filtering_options"
+            "$ref": "#/$defs/mapping_filtering_options"
         },
         {
-            "$ref": "#/definitions/peaks_loops_options"
+            "$ref": "#/$defs/peaks_loops_options"
         },
         {
-            "$ref": "#/definitions/matrices_options"
+            "$ref": "#/$defs/matrices_options"
         },
         {
-            "$ref": "#/definitions/visualization_options"
+            "$ref": "#/$defs/visualization_options"
+        }
+        ,
+        {
+            "$ref": "#/$defs/multimm_options"
         },
         {
-            "$ref": "#/definitions/institutional_config_options"
+            "$ref": "#/$defs/institutional_config_options"
         },
         {
-            "$ref": "#/definitions/max_job_request_options"
+            "$ref": "#/$defs/max_job_request_options"
         },
         {
-            "$ref": "#/definitions/generic_options"
+            "$ref": "#/$defs/generic_options"
         }
     ]
 }

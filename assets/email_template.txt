@@ -1,10 +1,10 @@
 Run Name: $runName
 
 <% if (success){
-    out << "## sfglab/hichip execution completed successfully! ##"
+    out << "## sfglab/dchichip execution completed successfully! ##"
 } else {
     out << """####################################################
-## sfglab/hichip execution completed unsuccessfully! ##
+## sfglab/dchichip execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -27,5 +27,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-sfglab/hichip
-https://github.com/sfglab/hichip
+sfglab/dchichip
+https://github.com/sfglab/dchichip

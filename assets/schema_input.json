@@ -1,36 +1,60 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/sfglab/hichip/master/assets/schema_input.json",
-    "title": "sfglab/hichip pipeline - params.input schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/sfglab/dchichip/master/assets/schema_input.json",
+    "title": "sfglab/dchichip - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",
     "items": {
         "type": "object",
         "properties": {
-            "sample": {
+            "id": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces"
+                "errorMessage": "Sequence name must be provided and cannot contain spaces",
+                "meta": ["id"]
             },
-            "fastq_1": {
+            "group": {
                 "type": "string",
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "pattern": "^\\S+$",
+                "meta": ["group"],
+                "default": "all"
             },
-            "fastq_2": {
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'",
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.f(ast)?q\\.gz$"
-                    },
-                    {
-                        "type": "string",
-                        "maxLength": 0
-                    }
-                ]
+            "hichip_r1": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.(fq.gz|fastq.gz)$",
+                "errorMessage": "Fastq file must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "hichip_r2": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.(fq.gz|fastq.gz)$",
+                "errorMessage": "Fastq file must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "chipseq_r1": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.(fq.gz|fastq.gz)$",
+                "errorMessage": "Fastq file must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "chipseq_r2": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.(fq.gz|fastq.gz)$",
+                "errorMessage": "Fastq file must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "narrowpeak": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.narrowpeak$",
+                "errorMessage": "narrowpeak file must be provided, cannot contain spaces and must have extension '.narrowpeak'"
             }
         },
-        "required": ["sample", "fastq_1"]
+        "required": ["id", "hichip_r1", "hichip_r2"]
     }
 }

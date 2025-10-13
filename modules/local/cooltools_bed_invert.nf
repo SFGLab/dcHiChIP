@@ -17,7 +17,7 @@ process COOLTOOLS_BED_INVERT {
     when:
     task.ext.when == null || task.ext.when
 
-    script: // This script is bundled with the pipeline, in sfglab/hichip/bin/
+    script: // This script is bundled with the pipeline, in sfglab/dchichip/bin/
     """
     cooltools_bed_invert.py \\
         --path_comp ${bed_in} \\

@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for the sfglab/hichip pipeline
+description: Suggest an idea for the sfglab/dchichip pipeline
 labels: enhancement
 body:
   - type: textarea

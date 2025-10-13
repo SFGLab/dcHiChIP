@@ -17,7 +17,7 @@ process AWK {
     when:
     task.ext.when == null || task.ext.when
 
-    script: // This script is bundled with the pipeline, in sfglab/hichip/bin/
+    script: // This script is bundled with the pipeline, in sfglab/dchichip/bin/
     """
     # converting tsv file to bed format:
     awk 'NR > 1 && \$1 != "" && \$2 != "" && \$3 != "" && \$5 != "" {OFS="\\t"; print \$1, \$2, \$3, \$5}' ${egis_scores} > ${egis_scores.name}_temp.bed

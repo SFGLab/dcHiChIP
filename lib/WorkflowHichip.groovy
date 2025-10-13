@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the workflow/hichip.nf in the sfglab/hichip pipeline
+// This file holds several functions specific to the workflow/dchichip.nf in the sfglab/dchichip pipeline
 //
 
 import groovy.text.SimpleTemplateEngine

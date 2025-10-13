@@ -20,8 +20,8 @@ This mode processes raw HiChIP paired-end FASTQ files and performs end-to-end an
 
 |id   | group  | hichip_r1                    | hichip_r2                    | chipseq_r1 | chipseq_r2 | narrowpeak |
 |-----|--------|------------------------------|------------------------------|------------|------------|------------|
-|S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            |            |
-|S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            |            |
+|S-1  | S1     | ./dchichip/SAMPLE1_R1.fastq.gz | ./dchichip/SAMPLE1_R2.fastq.gz |            |            |            |
+|S-2  | S1     | ./dchichip/SAMPLE2_R1.fastq.gz | ./dchichip/SAMPLE2_R2.fastq.gz |            |            |            |
 
 **Notes:**
 - The last column (`chipseq`) & (`narrowpeak`) must be left empty.
@@ -37,8 +37,8 @@ In this mode, the user provides raw HiChIP FASTQ files along with pre-processed 
 
 |id   | group  | hichip_r1                    | hichip_r2                    | chipseq_r1 | chipseq_r2 | narrowpeak                |
 |-----|--------|------------------------------|------------------------------|------------|------------|---------------------------|
-|S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz |            |            | ./chip/SAMPLE1.narrowpeak |
-|S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz |            |            | ./chip/SAMPLE2.narrowpeak |    
+|S-1  | S1     | ./dchichip/SAMPLE1_R1.fastq.gz | ./dchichip/SAMPLE1_R2.fastq.gz |            |            | ./chip/SAMPLE1.narrowpeak |
+|S-2  | S1     | ./dchichip/SAMPLE2_R1.fastq.gz | ./dchichip/SAMPLE2_R2.fastq.gz |            |            | ./chip/SAMPLE2.narrowpeak |    
 
 
 ## Case 3: HiChIP FASTQ + ChIP-Seq FASTQ
@@ -51,8 +51,8 @@ This configuration performs joint processing of both HiChIP and ChIP-seq FASTQ f
 
 |id   | group  | hichip_r1                    | hichip_r2                    | chipseq_r1                    | chipseq_r2                    | narrowpeak |
 |-----|--------|------------------------------|------------------------------|-------------------------------|-------------------------------|------------|
-|S-1  | S1     | ./hichip/SAMPLE1_R1.fastq.gz | ./hichip/SAMPLE1_R2.fastq.gz | ./chipseq/SAMPLE1_R1.fastq.gz | ./chipseq/SAMPLE1_R2.fastq.gz |            |
-|S-2  | S1     | ./hichip/SAMPLE2_R1.fastq.gz | ./hichip/SAMPLE2_R2.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz |            |
+|S-1  | S1     | ./dchichip/SAMPLE1_R1.fastq.gz | ./dchichip/SAMPLE1_R2.fastq.gz | ./chipseq/SAMPLE1_R1.fastq.gz | ./chipseq/SAMPLE1_R2.fastq.gz |            |
+|S-2  | S1     | ./dchichip/SAMPLE2_R1.fastq.gz | ./dchichip/SAMPLE2_R2.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz | ./chipseq/SAMPLE2_R1.fastq.gz |            |
 
 **Notes:**
 - ChIP-seq input files must correspond to the same sample and replicate scheme.
