@@ -42,7 +42,7 @@ Homo_sapiens_assembly38.fasta.fai
 ```
 - Ensure all index files are present in the same directory as the FASTA file before running the pipeline.
 - Missing or mismatched index files can cause alignment failures.
-- *Example*: `--fasta "/mtn/raid/bwa_index/bwa1/hg38/Homo_sapiens_assembly38.fasta"`
+- *Example*: `--fasta "/data/bwa_index/hg38/Homo_sapiens_assembly38.fasta"`
 - This parameter is required for the alignment module and should match the genome build specified by --ref_short (e.g., hg38, mm10).
 - Type: string
 - Format: file-path
@@ -210,7 +210,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 <code style="color:red; font-weight:bold;"> --blacklist</code>: ENCODE Blacklist Regions (BED)  
 - Path or URL to a BED file containing ENCODE blacklist regions that should be excluded from peak calling, loop detection, and coverage calculations. These regions are known to produce artificially high signal or mapping artifacts.  
 - Use the appropriate blacklist file for your genome build (e.g., hg19, hg38, mm10). The default points to the ENCODE hg38 blacklist (`ENCFF356LFX`).
-- *Example*: `--blacklist /refs/hg38-blacklist.bed.gz`.  
+- *Example*: `--blacklist /data/blacklist_region/hg38-blacklist.bed.gz`.  
 - *Type*: string  
 - *Default flags*: https://www.encodeproject.org/files/ENCFF356LFX/@@download/ENCFF356LFX.bed.gz  
 
@@ -219,7 +219,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 <code style="color:red; font-weight:bold;"> --gtf</code>: Gene Annotation File (GTF)  
 - Specifies the path or URL to the GTF file containing gene annotations for the reference genome. This file is used to assign peaks, loops, and other genomic features to known genes and transcripts.  
 - Provide a GTF file compatible with your chosen reference genome (e.g., Ensembl or GENCODE format). The default points to the GRCh38 annotation from the Illumina iGenomes collection.
-- *Example*: `--gtf /data/genomes/GRCh38/genes.gtf`.  
+- *Example*: `--gtf /data/gtf_file/GRCh38/genes.gtf`.  
 - *Type*: string  
 - *Default flags*: s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf  
 
@@ -228,7 +228,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 <code style="color:red; font-weight:bold;"> --chrom_size</code>: Chromosome Sizes File  
 - Path to a two-column file listing chromosome names and their corresponding lengths, used to define genomic bounds during binning and matrix construction.  
 - This file ensures that cooler and related modules apply consistent chromosome boundaries. It must match the same reference genome build as the input FASTA and GTF files.
-- *Example*: `--chrom_size /refs/hg38.chrom.sizes`.  
+- *Example*: `--chrom_size /data/chrom_size/hg38/hg38.chrom.sizes`.  
 - *Type*: string  
 - *Default flags*: $projectDir/assets/hg38.chrom.sizes  
 
@@ -237,7 +237,7 @@ These parameters ensure consistent genome build usage across mapping, feature an
 <code style="color:red; font-weight:bold;"> --genomics_features</code>: Genomic Features File (MAPS)  
 - Specifies the path or URL to the genomic features file required by MAPS for loop calling. This file contains mappability, GC content, and restriction enzyme fragment information used for bias correction.  
 - Use the appropriate MAPS genomic features file matching your genome build and restriction enzyme (e.g., MboI or DpnII). The default points to the hg38 MboI 10 kb resolution file.
-- *Example*: `--genomics_features /refs/MAPS_features_hg38_MboI_10kb.txt`.  
+- *Example*: `--genomics_features /data/MAPS/features/MAPS_features_hg38_MboI_10kb.txt`.  
 - *Type*: string  
 - *Default flags*: https://raw.githubusercontent.com/HuMingLab/MAPS/refs/heads/master/MAPS_data_files/hg38/genomic_features/F_GC_M_MboI_10Kb_el.GRCh38.txt
 
