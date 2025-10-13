@@ -591,7 +591,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - Specifies the maximum number of CPU cores that can be allocated to any process in the pipeline.
 - Increasing this value allows more parallel execution but may require a high-performance computing (HPC) environment.
 - *Example*: `--max_cpus 50`
-- *Type*: *integer*
+- *Type*: integer
 - Default flags: null
 
 ---
