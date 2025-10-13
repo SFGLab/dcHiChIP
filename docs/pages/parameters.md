@@ -294,7 +294,7 @@ For example, you can modify the p-value threshold for MACS3 or enable MAPS loop 
 - Set this to `true` to disable loop calling (useful for QC or peak-only runs). Set to `false` to perform full MAPS-based loop analysis.
 - *Example*: `--skip_maps false`.  
 - *Type*: boolean  
-- *Default flags*: true
+- *Default flags*: false
 
 ---
 
