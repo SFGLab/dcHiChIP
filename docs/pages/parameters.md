@@ -42,7 +42,7 @@ Homo_sapiens_assembly38.fasta.fai
 ```
 - Ensure all index files are present in the same directory as the FASTA file before running the pipeline.
 - Missing or mismatched index files can cause alignment failures.
-- *Example*: `--fasta "/mtn/raid/bwa_index/bwa1/hg38/Homo_sapiens_assembly38.fasta"
+- *Example*: `--fasta "/mtn/raid/bwa_index/bwa1/hg38/Homo_sapiens_assembly38.fasta"`
 - This parameter is required for the alignment module and should match the genome build specified by --ref_short (e.g., hg38, mm10).
 - Type: string
 - Format: file-path
