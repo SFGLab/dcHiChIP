@@ -356,7 +356,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 
 ---
 
-<code style="color:red; font-weight:bold;">--cooltools_eigscis_args</code>: Cooltools Eigs-Cis Arguments  
+<code style="color:red; font-weight:bold;"> --cooltools_eigscis_args</code>: Cooltools Eigs-Cis Arguments  
 - Additional command-line flags for the `cooltools eigs-cis` command, which computes eigenvectors for A/B compartment analysis.  
 - Modify this to control the number of eigenvectors or specify contact type (cis/trans).
 - *Example*: `--cooltools_eigscis_args "--n-eigs 2 --contact-type cis"`.  
@@ -365,7 +365,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 
 ---
 
-<code style="color:red; font-weight:bold;">--cooler_eigscis_resultion</code>: Eigenvector Resolution (bp)  
+<code style="color:red; font-weight:bold;"> --cooler_eigscis_resultion</code>: Eigenvector Resolution (bp)  
 - Specifies the resolution, in base pairs, used for eigenvector computation in A/B compartment analysis.  
 - Smaller values provide higher resolution but require denser contact maps.
 - *Example*: `--cooler_eigscis_resultion 100000`.  
@@ -374,7 +374,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 
 ---
 
-<code style="color:red; font-weight:bold;">--calder_bin</code>: CALDER Bin Size  
+<code style="color:red; font-weight:bold;"> --calder_bin</code>: CALDER Bin Size  
 - Sets the bin size used for subcompartment calling by CALDER.  
 - Provide bin size as a number (e.g., 10000) or scientific notation (e.g., `10E3`). Higher bin sizes reduce resolution but speed up computation.
 - *Example*: `--calder_bin 25000`.  
@@ -383,7 +383,19 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 
 ---
 
-<code style="color:red; font-weight:bold;">--gstripe_args</code>: gStripe Detection Arguments  
+<code style="color:red; font-weight:bold;"> --calder_chrom</code>: CALDER Chromosomes
+- Defines the chromosomes to be analyzed by the CALDER subcompartment detection module.
+- You can specify a single chromosome or multiple chromosomes separated by commas.
+- When providing multiple entries, do not include spaces between chromosome numbers.
+- *Example*:
+  - For a single chromosome: `--calder_chrom 1`
+  - For multiple chromosomes: `--calder_chrom 1,2,3,19,20`
+- *Type*: string
+- *Default flags*: 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22
+
+---
+
+<code style="color:red; font-weight:bold;"> --gstripe_args</code>: gStripe Detection Arguments  
 - Extra command-line options for the `gStripe` tool, which detects stripe-like chromatin interaction patterns.  
 - Modify detection thresholds or bin correction behavior. The default `--fix_bin_start` ensures stripe detection starts from bin-aligned positions.
 - *Example*: `--gstripe_args "--fix_bin_start --minlen 3 --qval 0.05"`.  
