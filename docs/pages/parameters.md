@@ -376,7 +376,7 @@ For example, smaller bin sizes (e.g., 1 kb) provide higher resolution but requir
 
 <code style="color:red; font-weight:bold;"> --calder_bin</code>: CALDER Bin Size  
 - Sets the bin size used for subcompartment calling by CALDER.  
-- Provide bin size as a number (e.g., 10000) or scientific notation (e.g., `10E3`). Higher bin sizes reduce resolution but speed up computation.
+- Provide bin size as a number (e.g., 10000). Higher bin sizes reduce resolution but speed up computation.
 - *Example*: `--calder_bin 25000`.  
 - *Type*: string  
 - *Default flags:* 100000  
