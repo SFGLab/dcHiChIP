@@ -8,8 +8,8 @@ process JUICERTOOLS {
     tuple val(meta), path(hic_input)
 
     output:
-    tuple val(meta),       path("*.hic"), emit: hic
-    path "versions.yml"                       , emit: versions
+    tuple val(meta), path("*.hic")  , emit: hic
+    path "versions.yml"             , emit: versions
 
     script:
     def args = task.ext.args ?: ''

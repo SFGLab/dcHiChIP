@@ -446,6 +446,8 @@ workflow DCHICHIP {
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files
                         .mix(FASTQC.out.zip.map{it[1]})
+                        .mix(MACS3_CALLPEAK.out.xls.map{it[1]})
+
 
     MULTIQC (
         ch_multiqc_files.collect(sort: true),
