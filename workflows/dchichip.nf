@@ -79,12 +79,31 @@ include { FILTER_PAIRES } from '../modules/local/filter_pairs.nf'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// Info required for completion email and summary
-def multiqc_report = []
 
 workflow DCHICHIP {
 
     take:
+    ch_fasta
+    ch_fasta_fai
+    ch_bwa_index
+    ch_genomics_features
+    ch_jaspar_motif
+    ch_blacklist
+    ch_gtf
+    ch_chrom_size
+    ch_chipseq
+    ch_hichip
+    ch_narrowpeak
+    ch_genome_size
+    skip_maps
+    calder_bin
+    ref_short
+    calder_chrom
+    plot_method
+    plot_type
+    cool_bin
+    insulation_resultions
+    cooler_eigscis_resultion
     ch_multiqc_config
     ch_multiqc_custom_config
     ch_multiqc_logo
@@ -97,91 +116,20 @@ workflow DCHICHIP {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    Channel
-        .fromPath(params.fasta, checkIfExists:true)
-        .map{[["id": it.baseName], it]}
-        .set{ch_fasta}
-    
-    Channel
-        .fromPath(params.genomics_features, checkIfExists:true)
-        .set{ch_genomics_features}
-    
-    Channel
-        .fromPath(params.jaspar_motif, checkIfExists:true)
-        .set{ch_jaspar_motif}
 
-    Channel
-        .fromPath(params.blacklist, checkIfExists:true)
-        .set{ch_blacklist}
-    
-    Channel
-        .fromPath(params.gtf, checkIfExists:true)
-        .set{ch_gtf}
-    
-    Channel
-        .fromPath("${params.fasta}.fai", checkIfExists:true)
-        .map{[["id": it.baseName], it]}
-        .set{ch_fasta_fai}
-
-    Channel
-        .fromPath("${params.chrom_size}", checkIfExists:true)
-        .set{ch_chrom_size}
-
-    //params.bwa_index ? params.bwa_index : 
-    Channel
-        .fromPath( params.fasta + '.{bwt,sa,ann,amb,pac}', checkIfExists:true)
-        .toSortedList()
-        .map{[["id": it[0].baseName], it]}
-        .set{ch_bwa_index}
-    
-    //ch_fasta.view()
-    //ch_fasta_fai.view()
-    //ch_bwa_index.view()
-    def samples_cnt = 0;
-    Channel
-        .fromPath(params.input, checkIfExists:true)
-        .splitCsv(header:true, strip:true)
-        .map {samples_cnt += 1; [it, samples_cnt]}
-        .multiMap {row, idx -> 
-            ch_hichip: tuple(
-                ["id": "${row.id}", "single_end": false, "group": row.group, "type": "hichip"], 
-                [file(row.hichip_r1, checkIfExists: true),
-                file(row.hichip_r2, checkIfExists: true)]
-            )
-            ch_chipseq: row.chipseq_r1 ? 
-                tuple(
-                    ["id": "${row.id}", "single_end": false, "group": row.group, "type": "chipseq"], 
-                    [file(row.chipseq_r1, checkIfExists: true),
-                    file(row.chipseq_r2, checkIfExists: true)]
-                ) : tuple()
-            ch_narrowpeak: row.narrowpeak ? 
-                tuple(
-                    ["id": "${row.id}", "single_end": false, "group": row.group], 
-                    file(row.narrowpeak, checkIfExists: true)
-                ) : tuple()
-        }
-        .set{ch_input_data}
-    
-    ch_input_data
-    .ch_chipseq
-    .filter{it.size() > 0}
+    ch_chipseq
     .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
     .map{meta, fastqs -> meta["type"] = "chipseq"; [meta, fastqs.flatten()]}
-    .set{ch_chipseq}
+    .set{ch_chipseq_grouped}
     
-    ch_input_data
-    .ch_hichip
+    ch_hichip
     .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
     .map{meta, fastqs -> meta["type"] = "hichip"; [meta, fastqs.flatten()]}
-    .set{ch_hichip}
+    .set{ch_hichip_grouped}
 
-    ch_input_data
-    .ch_narrowpeak
-    .filter{it.size() > 0}
-    .set{ch_narrowpeak}
-
+    
     //ch_hichip.view()
 
     FASTQC(
@@ -191,21 +139,17 @@ workflow DCHICHIP {
     ch_versions = ch_versions.mix(FASTQC.out.versions)
     
     CAT_FASTQ(
-        ch_hichip
+        ch_hichip_grouped
         .filter{(it[0].single_end && it[1].size() > 1) || (!it[0].single_end && it[1].size() > 2)}
         .mix(
-            ch_chipseq
+            ch_chipseq_grouped
             .filter{(it[0].single_end && it[1].size() > 1) || (!it[0].single_end && it[1].size() > 2)}
         )
     )
     ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
 
-    ch_input_data
-    .ch_hichip
-    .mix(ch_input_data
-        .ch_chipseq
-        .filter{it.size() > 0}
-    )
+    ch_hichip
+    .mix(ch_chipseq)
     .mix(CAT_FASTQ.out.reads)
     .set{ch_bwa_mem_in}
     
@@ -322,7 +266,7 @@ workflow DCHICHIP {
             ch_bams
             .filter{it[2] && !it[3]}.map{[it[2][0], it[2][1], []]}
         ),
-        Channel.value(params.genome_size)
+        ch_genome_size
     )
     ch_versions = ch_versions.mix(MACS3_CALLPEAK.out.versions)
    
@@ -350,7 +294,7 @@ workflow DCHICHIP {
     .set{ch_maps_in}
     
 
-    if (!params.skip_maps){
+    if (!skip_maps){
         MAPS(
             ch_maps_fasta_in.map{[it[2][0], it[2][1][0], it[2][1][1]]},
             ch_maps_in.map{[it[2][0], it[2][1]]},
@@ -373,9 +317,9 @@ workflow DCHICHIP {
 
         CALDER(
             JUICERTOOLS.out.hic,
-            params.calder_bin,
-            params.ref_short,
-            params.calder_chrom
+            calder_bin,
+            ref_short,
+            calder_chrom
         )
         ch_versions = ch_versions.mix(CALDER.out.versions)
         ch_multimm_in = ch_multimm_in.mix(MAPS.out.bedpe)
@@ -435,8 +379,8 @@ workflow DCHICHIP {
 
     DEEPTOOLS_PLOTCORRELATION(
         DEEPTOOLS_MUTIBIGWIGSUMMARY.out.npz,
-        channel.value(params.plot_method),
-        channel.value(params.plot_type)
+        plot_method,
+        plot_type
     )
     ch_versions = ch_versions.mix(DEEPTOOLS_PLOTCORRELATION.out.versions)
 
@@ -447,7 +391,7 @@ workflow DCHICHIP {
     ch_versions = ch_versions.mix(PAIRTOOLS_PARSE2.out.versions)
     
     COOLER_CLOAD(
-        PAIRTOOLS_PARSE2.out.nodups.map{[it[0], it[1], [], params.cool_bin]},
+        PAIRTOOLS_PARSE2.out.nodups.map{[it[0], it[1], [], cool_bin]},
         ch_chrom_size.first()
     )
     ch_versions = ch_versions.mix(COOLER_CLOAD.out.versions)
@@ -459,13 +403,13 @@ workflow DCHICHIP {
 
     COOLTOOLS_INSULATION(
         COOLER_ZOOMIFY.out.mcool.map{[it[0], it[1]]},
-        params.insulation_resultions[params.cooler_zoomify_res]
+        insulation_resultions
     )
     ch_versions = ch_versions.mix(COOLTOOLS_INSULATION.out.versions)
 
     COOLTOOLS_EIGSCIS(
         COOLER_ZOOMIFY.out.mcool,
-        params.cooler_eigscis_resultion
+        cooler_eigscis_resultion
     )
     ch_versions = ch_versions.mix(COOLTOOLS_EIGSCIS.out.versions)
     
@@ -532,7 +476,8 @@ workflow DCHICHIP {
     ch_versions = ch_versions.mix(MULTIQC.out.versions)
 
     emit:
-    versions   = ch_versions
+    versions        = ch_versions
+    multiqc_report  = MULTIQC.out.report
 }
 
 /*

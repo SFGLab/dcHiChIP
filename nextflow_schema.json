@@ -42,51 +42,22 @@
                 }
             }
         },
-        "reference_genome_options": {
-            "title": "Reference genome options",
-            "type": "object",
-            "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
-            "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "igenomes_base": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "Directory / URL base for iGenomes references.",
-                    "default": "s3://ngi-igenomes/igenomes",
-                    "fa_icon": "fas fa-cloud-download-alt",
-                    "hidden": true
-                },
-                "igenomes_ignore": {
-                    "type": "boolean",
-                    "description": "Do not load the iGenomes reference config.",
-                    "fa_icon": "fas fa-ban",
-                    "hidden": true,
-                    "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
-                }
-            }
-        },
-        "annotation_options": {
-            "title": "Annotation resources options",
+        "reference_annotation_options": {
+            "title": "Genome reference and annotation resources options",
             "type": "object",
             "fa_icon": "fas fa-dna",
             "description": "Configuration for reference genome files and annotation resources used throughout the pipeline. These parameters ensure consistent genome build usage across mapping, feature annotation, and downstream analyses.",
             "help_text": "Provide correct and consistent genome resources (FASTA index, GTF, chromosome sizes, and blacklist) matching your chosen reference build (e.g., hg38, mm10). Mismatched files can lead to coordinate errors or missing annotations.",
             "properties": {
+                "fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Path to FASTA genome file, fai and bwa indexes.",
+                    "help_text": "This parameter is *mandatory*.",
+                    "fa_icon": "far fa-file-code"
+                },
                 "ref_short": {
                     "type": "string",
                     "title": "Reference Genome Short Name",
@@ -662,10 +633,7 @@
             "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/$defs/reference_genome_options"
-        },
-        {
-            "$ref": "#/$defs/annotation_options"
+            "$ref": "#/$defs/reference_annotation_options"
         },
         {
             "$ref": "#/$defs/mapping_filtering_options"
@@ -678,8 +646,7 @@
         },
         {
             "$ref": "#/$defs/visualization_options"
-        }
-        ,
+        },
         {
             "$ref": "#/$defs/multimm_options"
         },
