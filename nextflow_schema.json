@@ -305,7 +305,7 @@
                     "description": "Sets the bin size used for subcompartment calling by CALDER.",
                     "help_text": "Provide bin size as a number (e.g., 10000) or scientific notation (e.g., `10E3`). Higher bin sizes reduce resolution but speed up computation. Example: `--calder_bin 25000`.",
                     "fa_icon": "fas fa-cubes",
-                    "default": "10E3"},
+                    "default": "10000"},
                 "calder_chrom": {
                     "type": "string",
                     "title": "CALDER chromosomes",
