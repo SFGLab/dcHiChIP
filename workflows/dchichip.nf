@@ -113,10 +113,7 @@ workflow DCHICHIP {
     main:
     ch_versions = Channel.empty()
     ch_multimm_in = Channel.empty()
-    //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-
+    
     ch_chipseq
     .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
@@ -129,15 +126,12 @@ workflow DCHICHIP {
     .map{meta, fastqs -> meta["type"] = "hichip"; [meta, fastqs.flatten()]}
     .set{ch_hichip_grouped}
 
-    
-    //ch_hichip.view()
-
     FASTQC(
         ch_chipseq
         .mix(ch_hichip)
     )
     ch_versions = ch_versions.mix(FASTQC.out.versions)
-    
+
     CAT_FASTQ(
         ch_hichip_grouped
         .filter{(it[0].single_end && it[1].size() > 1) || (!it[0].single_end && it[1].size() > 2)}
@@ -152,10 +146,6 @@ workflow DCHICHIP {
     .mix(ch_chipseq)
     .mix(CAT_FASTQ.out.reads)
     .set{ch_bwa_mem_in}
-    
-    //ch_input_data
-    //.ch_hichip.view()
-    //ch_bwa_mem_in.view()
 
     BWA_MEM_SE_R1(
         ch_bwa_mem_in
