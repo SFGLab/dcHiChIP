@@ -109,17 +109,17 @@ workflow DCHICHIP {
     ch_multiqc_logo
     ch_multiqc_methods_description
     outdir
-    
+
     main:
     ch_versions = Channel.empty()
     ch_multimm_in = Channel.empty()
-    
+
     ch_chipseq
     .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
     .map{meta, fastqs -> meta["type"] = "chipseq"; [meta, fastqs.flatten()]}
     .set{ch_chipseq_grouped}
-    
+
     ch_hichip
     .map{[["id": "${it[0].group}", "single_end": it[0].single_end, "group": it[0].group], it[1]]}
     .groupTuple()
@@ -178,7 +178,7 @@ workflow DCHICHIP {
         ch_fasta_fai.first()
     )
     ch_versions = ch_versions.mix(SAMTOOLS_MERGE.out.versions)
-    
+
     FILTER_PAIRES(
         SAMTOOLS_MERGE.out.bam,
         channel.fromPath(["$projectDir/assets/feather", "$projectDir/assets/MAPS"]).toSortedList()
@@ -222,7 +222,7 @@ workflow DCHICHIP {
         []
     )
     ch_versions = ch_versions.mix(FILTER_QUALITY.out.versions)
-    
+
     REMOVE_DUPLICATES(
         FILTER_QUALITY.out.bam,
         ch_fasta.first()
@@ -259,8 +259,8 @@ workflow DCHICHIP {
         ch_genome_size
     )
     ch_versions = ch_versions.mix(MACS3_CALLPEAK.out.versions)
-   
-    
+
+
     MACS3_CALLPEAK.out.peak
     .map{[it[0].id, it]}
     .mix(ch_narrowpeak.map{[it[0].id, [it[0], it[1]]]})
@@ -272,7 +272,7 @@ workflow DCHICHIP {
         .map { [it[0].id, [it[0], it[1]]]}
     )
     .set{ch_maps_fasta_in}
-    
+
 
     MACS3_CALLPEAK.out.peak
     .map{[it[0].id, it]}
@@ -282,7 +282,7 @@ workflow DCHICHIP {
         .map{[it[0].id, it]}
     )
     .set{ch_maps_in}
-    
+
 
     if (!skip_maps){
         MAPS(
@@ -299,7 +299,7 @@ workflow DCHICHIP {
             MAPS.out.hic
         )
         ch_versions = ch_versions.mix(JUICERTOOLS.out.versions)
-        
+
         GSTRIPE(
             MAPS.out.bedpe
         )
@@ -314,7 +314,7 @@ workflow DCHICHIP {
         ch_versions = ch_versions.mix(CALDER.out.versions)
         ch_multimm_in = ch_multimm_in.mix(MAPS.out.bedpe)
     }
-    
+
     HOMER_ANNOTATEPEAKS(
         ch_maps_in.map{it[1]},
         ch_fasta.map{it[1]}.first(),
@@ -340,8 +340,6 @@ workflow DCHICHIP {
         .groupTuple()
         .filter{it[2].size() > 1}
         .set{ch_bigwigs}
-  
-    //ch_bigwigs.view()
 
     DEEPTOOLS_MUTIBIGWIGSUMMARY(
        ch_bigwigs.map{[it[0], it[2]]},
@@ -353,7 +351,7 @@ workflow DCHICHIP {
         DEEPTOOLS_MUTIBIGWIGSUMMARY.out.npz
     )
     ch_versions = ch_versions.mix(DEEPTOOLS_PLOTPCA.out.versions)
-    
+
     REMOVE_DUPLICATES.out.bam
     .join(REMOVE_DUPLICATES.out.csi)
          .map{[["type":it[0].type, "id": it[0].group], it[0].id, it[1], it[2]]}
@@ -379,7 +377,7 @@ workflow DCHICHIP {
         ch_chrom_size.first()
     )
     ch_versions = ch_versions.mix(PAIRTOOLS_PARSE2.out.versions)
-    
+
     COOLER_CLOAD(
         PAIRTOOLS_PARSE2.out.nodups.map{[it[0], it[1], [], cool_bin]},
         ch_chrom_size.first()
@@ -402,7 +400,7 @@ workflow DCHICHIP {
         cooler_eigscis_resultion
     )
     ch_versions = ch_versions.mix(COOLTOOLS_EIGSCIS.out.versions)
-    
+
     AWK(
         COOLTOOLS_EIGSCIS.out.scores
     )
@@ -417,13 +415,13 @@ workflow DCHICHIP {
         BEDTOOLS_NUC.out.bed
     )
     ch_versions = ch_versions.mix(COOLTOOLS_BED_INVERT.out.versions)
-    
+
     MULTIMM(
         ch_multimm_in,
         COOLTOOLS_BED_INVERT.out.compartments
     )
     ch_versions = ch_versions.mix(MULTIMM.out.versions)
-    
+
     //
     // Collate and save software versions
     //
@@ -448,7 +446,7 @@ workflow DCHICHIP {
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files
                         .mix(FASTQC.out.zip.map{it[1]})
-                        
+
     MULTIQC (
         ch_multiqc_files.collect(sort: true),
         ch_multiqc_config.collect()
