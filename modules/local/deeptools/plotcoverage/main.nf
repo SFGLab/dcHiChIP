@@ -27,7 +27,7 @@ process DEEPTOOLS_PLOTCOVERAGE {
     --numberOfProcessors ${task.cpus} \\
     --labels ${labels.join(" ")} \\
     $args \\
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         deeptools: \$(plotCoverage --version | sed -e "s/plotCoverage //g")
@@ -38,7 +38,7 @@ process DEEPTOOLS_PLOTCOVERAGE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_coverage.png
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         deeptools: \$(plotCoverage --version | sed -e "s/plotCoverage //g")

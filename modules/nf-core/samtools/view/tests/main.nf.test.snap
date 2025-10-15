@@ -32,7 +32,7 @@
     "bam_bai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -44,7 +44,7 @@
     "bam_stub_bai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -68,7 +68,7 @@
     "cram_to_bam_index_cram": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -80,7 +80,7 @@
     "cram_to_bam_sam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -92,7 +92,7 @@
     "cram_to_bam_index_sam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -104,7 +104,7 @@
     "cram_crai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -116,7 +116,7 @@
     "cram_csi": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -128,7 +128,7 @@
     "cram_to_bam_cram": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -150,7 +150,7 @@
     "bam_stub_sam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -182,7 +182,7 @@
     "bam_csi": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -194,7 +194,7 @@
     "cram_to_bam_crai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -206,7 +206,7 @@
     "cram_to_bam_index_crai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -262,7 +262,7 @@
     "cram_to_bam_bai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -286,7 +286,7 @@
     "cram_bam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -298,7 +298,7 @@
     "bam_stub_cram": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -310,7 +310,7 @@
     "cram_to_bam_index_qname_bai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -322,7 +322,7 @@
     "cram_to_bam_index_qname_crai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -334,7 +334,7 @@
     "cram_bai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -346,7 +346,7 @@
     "bam_stub_crai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -400,7 +400,7 @@
     "cram_to_bam_index_qname_cram": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -412,7 +412,7 @@
     "bam_crai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -424,7 +424,7 @@
     "bam_cram": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -436,7 +436,7 @@
     "cram_to_bam_csi": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -448,7 +448,7 @@
     "cram_sam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -482,7 +482,7 @@
     "bam_sam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -494,7 +494,7 @@
     "cram_to_bam_index_bai": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -506,7 +506,7 @@
     "cram_to_bam_index_qname_sam": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {

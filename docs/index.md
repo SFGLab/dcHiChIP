@@ -4,6 +4,7 @@ contributors: [Abhishek Agarwal, Ziad Al-Bkhetan]
 description:
 toc: false
 ---
+
 ## Introduction
 
 <!-- pipeline figure -->
@@ -51,5 +52,4 @@ For help, questions, or feedback, feel free to reach out.
 
 If you use dcHiChIP in your research or publication, please cite the following manuscript (in preparation):
 
-> Agarwal, A., Al-Bkhetan, Z., Plewczyński, D. *dcHiChIP: A comprehensive Nextflow-based pipeline for Multi-Scale Analysis of Chromatin Architecture from HiChIP Data.*
-
+> Agarwal, A., Al-Bkhetan, Z., Plewczyński, D. _dcHiChIP: A comprehensive Nextflow-based pipeline for Multi-Scale Analysis of Chromatin Architecture from HiChIP Data._

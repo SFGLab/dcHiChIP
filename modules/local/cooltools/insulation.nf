@@ -6,15 +6,15 @@ process COOLTOOLS_INSULATION {
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'oras://community.wave.seqera.io/library/cooltools:0.7.1--52a846d378a83a4f':
         'community.wave.seqera.io/library/cooltools:0.7.1--2b886db64cb0cd87' }"
-    
+
     input:
     tuple val(meta), path(mcool)
     val(resolutions)
-    
+
     output:
     tuple val(meta), path("*_InsulationScore.tsv"), emit: scores
     path "versions.yml"                 , emit: versions
-    
+
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def args = task.ext.args ?: ''

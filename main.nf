@@ -26,7 +26,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_dchi
 workflow SFGLAB_DCHICHIP {
     take:
     samplesheet
-    
+
     main:
     ch_samplesheet              = samplesheet
     ch_multiqc                  = Channel.empty()
@@ -36,12 +36,12 @@ workflow SFGLAB_DCHICHIP {
     ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath( params.multiqc_config ).first()  : Channel.empty()
     ch_multiqc_logo          = params.multiqc_logo   ? Channel.fromPath( params.multiqc_logo ).first()    : Channel.empty()
     ch_multiqc_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-    
+
     Channel
         .fromPath(params.fasta, checkIfExists:true)
         .map{[["id": it.baseName], it]}
         .set{ch_fasta}
-    
+
     Channel
         .fromPath("${params.fasta}.fai", checkIfExists:true)
         .map{[["id": it.baseName], it]}
@@ -51,11 +51,11 @@ workflow SFGLAB_DCHICHIP {
         .toSortedList()
         .map{[["id": it[0].baseName], it]}
         .set{ch_bwa_index}
-    
+
     Channel
         .fromPath(params.genomics_features, checkIfExists:true)
         .set{ch_genomics_features}
-    
+
     Channel
         .fromPath(params.jaspar_motif, checkIfExists:true)
         .set{ch_jaspar_motif}
@@ -63,29 +63,29 @@ workflow SFGLAB_DCHICHIP {
     Channel
         .fromPath(params.blacklist, checkIfExists:true)
         .set{ch_blacklist}
-    
+
     Channel
         .fromPath(params.gtf, checkIfExists:true)
         .set{ch_gtf}
-    
+
     Channel
         .fromPath("${params.chrom_size}", checkIfExists:true)
         .set{ch_chrom_size}
 
     ch_samplesheet
-        .multiMap { meta, hichip_r1, hichip_r2, chipseq_r1, chipseq_r2, narrowpeak -> 
+        .multiMap { meta, hichip_r1, hichip_r2, chipseq_r1, chipseq_r2, narrowpeak ->
             hichip: tuple(
-                ["id": "${meta.id}", "single_end": false, "group": "${meta.group}", "type": "hichip"], 
+                ["id": "${meta.id}", "single_end": false, "group": "${meta.group}", "type": "hichip"],
                 [hichip_r1, hichip_r2]
             )
-            chipseq: chipseq_r1 ? 
+            chipseq: chipseq_r1 ?
                 tuple(
-                    ["id": "${meta.id}", "single_end": false, "group": "${meta.group}", "type": "chipseq"], 
+                    ["id": "${meta.id}", "single_end": false, "group": "${meta.group}", "type": "chipseq"],
                     [chipseq_r1, chipseq_r2]
                 ) : tuple()
-            narrowpeak: narrowpeak ? 
+            narrowpeak: narrowpeak ?
                 tuple(
-                    ["id": "${meta.id}", "single_end": false, "group": "${meta.group}"], 
+                    ["id": "${meta.id}", "single_end": false, "group": "${meta.group}"],
                     narrowpeak
                 ) : tuple()
         }
@@ -158,7 +158,7 @@ workflow {
     //
     // SUBWORKFLOW: Run completion tasks
     //
-    
+
     PIPELINE_COMPLETION (
         params.email,
         params.email_on_fail,

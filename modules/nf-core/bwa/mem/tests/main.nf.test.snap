@@ -2,13 +2,13 @@
     "Single-End": {
         "content": [
             [
-                
+
             ],
             [
-                
+
             ],
             [
-                
+
             ],
             [
                 "versions.yml:md5,478b816fbd37871f5e8c617833d51d80"
@@ -25,13 +25,13 @@
     "Single-End Sort": {
         "content": [
             [
-                
+
             ],
             [
-                
+
             ],
             [
-                
+
             ],
             [
                 "versions.yml:md5,478b816fbd37871f5e8c617833d51d80"
@@ -48,13 +48,13 @@
     "Paired-End": {
         "content": [
             [
-                
+
             ],
             [
-                
+
             ],
             [
-                
+
             ],
             [
                 "versions.yml:md5,478b816fbd37871f5e8c617833d51d80"
@@ -71,13 +71,13 @@
     "Paired-End Sort": {
         "content": [
             [
-                
+
             ],
             [
-                
+
             ],
             [
-                
+
             ],
             [
                 "versions.yml:md5,478b816fbd37871f5e8c617833d51d80"
@@ -104,7 +104,7 @@
                     ]
                 ],
                 "1": [
-                    
+
                 ],
                 "2": [
                     [
@@ -146,7 +146,7 @@
                     ]
                 ],
                 "cram": [
-                    
+
                 ],
                 "csi": [
                     [
@@ -171,13 +171,13 @@
     "Paired-End - no fasta": {
         "content": [
             [
-                
+
             ],
             [
-                
+
             ],
             [
-                
+
             ],
             [
                 "versions.yml:md5,478b816fbd37871f5e8c617833d51d80"
@@ -204,7 +204,7 @@
                     ]
                 ],
                 "1": [
-                    
+
                 ],
                 "2": [
                     [
@@ -246,7 +246,7 @@
                     ]
                 ],
                 "cram": [
-                    
+
                 ],
                 "csi": [
                     [

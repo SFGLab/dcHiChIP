@@ -11,5 +11,5 @@ columns:
   - type: image
     width: 2
     image_width: 120px
-    src: 'assets/UW_Logo.png'
+    src: "assets/UW_Logo.png"
     alt: University of Warsaw

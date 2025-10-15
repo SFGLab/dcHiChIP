@@ -57,7 +57,7 @@ nextflow_process {
     test("homo_sampiens - bam - stub") {
 
         options "-stub"
-        
+
         setup {
             run("DEEPTOOLS_MULTIBAMSUMMARY") {
                 script "../../multibamsummary/main.nf"

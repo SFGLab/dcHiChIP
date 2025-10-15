@@ -6,7 +6,7 @@ Created by Rongxin Fang
 Modified by Armen Abnousi
 """
 import sys
-import pysam 
+import pysam
 import collections
 from itertools import islice
 from itertools import combinations
@@ -57,7 +57,7 @@ def cat_temps(indir1, indir2, outdir_temps, chr_pairs, chr_pairs1, chr_pairs2):
 		with open(outfile_name, "w") as outfile:
 			proc = subprocess.Popen(command, stdout = outfile, shell= False)
 			proc.communicate()
-		
+
 
 def get_chr_pairs(indir):
 	temp_files = glob.glob(indir + "/*")

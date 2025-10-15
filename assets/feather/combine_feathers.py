@@ -54,7 +54,7 @@ def compute_frip(short_filename, chip_filename, outdir, prefix):
     proc = subprocess.Popen(command, shell = True, stdout = subprocess.PIPE)
     chip_count = int(proc.stdout.read().decode("utf-8").split()[0])
     #print(on_chip, chip_count)
-    on_chip_ratio = float(on_chip) / chip_count 
+    on_chip_ratio = float(on_chip) / chip_count
     return on_chip_ratio
 
 def extract_filenames(datasets, chrom, suffix):
@@ -64,7 +64,7 @@ def extract_filenames(datasets, chrom, suffix):
         raise Exception(f'inconsistent naming problem ({suffix})')
     filenames = [name[0] for name in filenames if len(name) == 1]
     return filenames
-    
+
 def cat_files(filenames, outfile):
     cmd = 'cat ' + ' '.join(filenames) + ' > ' + outfile
     proc = subprocess.Popen(cmd, shell = True)
@@ -86,7 +86,7 @@ def combine_shorts(datasets, chroms, outdir, prefix):
         cat_files(filenames, outfile)
         shrt_files.append(outfile)
     cat_files(shrt_files, f'{output_prefix}.shrt.vip.bed')
-    
+
 def get_union_chroms(datasets):
     chroms = set()
     for dataset in datasets:
@@ -94,7 +94,7 @@ def get_union_chroms(datasets):
         filenames = glob.glob(f'{dataset}/*.chr*.long.intra.bedpe')
         chroms = chroms.union(set(map(lambda x: re.search('chr.*?\.', x)[0][:-1], filenames)))
     return chroms
-    
+
 def create_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--prefix', help = 'dataset name')

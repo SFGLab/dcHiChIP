@@ -9,7 +9,7 @@ process HOMER_FINDMOTIFSGENOME {
     input:
     tuple val(meta), path(peak)
     path fasta
-    
+
     output:
     tuple val(meta), path("*_motifs"), emit: motifs
     path "versions.yml", emit: versions

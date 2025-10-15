@@ -59,7 +59,7 @@ def filter_main(fastq1, fastq2, bwa_index, mapq, outdir, prefix, threads, optica
 	filter_pair_reads(combined_bwa_filename, mapq, paired_filename, qc_filename)
 	print(time.ctime() + " paired bam file generated. Calling fixmate")
 	print(paired_filename)
-	print(os.path.isfile(paired_filename + ".bam")) 
+	print(os.path.isfile(paired_filename + ".bam"))
 	pysam.fixmate("-m", "-@", str(threads), (paired_filename + ".bam"), (paired_filename + ".fixmated.bam"))
 	print(time.ctime() + " sorting by coordinates.")
 	pysam.sort("-o", paired_filename + ".srt.bam", "-@", str(threads), paired_filename + ".fixmated.bam")
@@ -70,14 +70,14 @@ def filter_main(fastq1, fastq2, bwa_index, mapq, outdir, prefix, threads, optica
 	#proc = subprocess.Popen(["samtools", "rmdup", paired_filename + ".srt.bam", paired_filename + ".rmdup.bam"])
 	#proc.communicate()
 	print(time.ctime() + " calling samtools flagstat on mapped file")
-	proc = subprocess.Popen("samtools flagstat " + paired_filename + ".srt.bam > " + paired_filename + ".srt.bam.flagstat", 
+	proc = subprocess.Popen("samtools flagstat " + paired_filename + ".srt.bam > " + paired_filename + ".srt.bam.flagstat",
 				shell = True)
 	proc.communicate()
 	with open(paired_filename + ".srt.bam.flagstat") as flag_file:
 		lines = flag_file.readlines()
 		uniquely_mapped_count = lines[7].split()[0]
 	print(time.ctime() + " calling samtools flagstat on mapped and duplicate-removed file")
-	proc = subprocess.Popen("samtools flagstat " + paired_filename + ".rmdup.bam > " + paired_filename + ".rmdup.flagstat", 
+	proc = subprocess.Popen("samtools flagstat " + paired_filename + ".rmdup.bam > " + paired_filename + ".rmdup.flagstat",
 				shell = True)
 	proc.communicate()
 	with open(paired_filename + ".rmdup.flagstat") as flag_file:
@@ -90,7 +90,7 @@ def filter_main(fastq1, fastq2, bwa_index, mapq, outdir, prefix, threads, optica
 			intra_count = str(int(float(intra_count)) / 2)
 	print(time.ctime() + " calling samtools sort for sorting by query names")
 	#pysam.sort("-n", "-o", bwa_filename + ".srtn.rmdup.bam", paired_filename + ".rmdup.bam")
-	pysam.sort("-o", paired_filename + ".srtn.rmdup.bam", 
+	pysam.sort("-o", paired_filename + ".srtn.rmdup.bam",
 				"-@", str(threads), "-n", paired_filename + ".rmdup.bam")
 	#proc.communicate()
 	#proc.wait()
@@ -207,7 +207,7 @@ def set_tempfile(input_content = None, output_content = None, binary = True):
 		tfile.write(input_content)
 		tfile.seek(0)
 	return(tfile)
-		
+
 
 def bwa_mem(fastq, bwa_index, threads, output_filename):
 	print(time.ctime() + " calling bwa for " + fastq)
@@ -239,7 +239,7 @@ def select_valid_pair(aligned_reads, count, chr_count):
 			matched_indices = [1, 2]
 		pair_indices = sorted([base_index, min(matched_indices)])
 	return (pair_indices)
-		
+
 def pair_up(read_pair):
 	r1_cp = pysam.AlignedSegment()
 	r2_cp = pysam.AlignedSegment()
@@ -289,4 +289,3 @@ def check_file_existance(files):
 		if not os.path.exists(file_name):
 			exit("ERROR: Input file " + file_name + " does not exist. Please make sure " +
 			"the correct path is provided. Exiting!")
-

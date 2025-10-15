@@ -20,18 +20,15 @@ exclude:
   - Gemfile*
   - LICENSE
 
-
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
       type: "pages"
     values:
       permalink: /:basename
       layout: "page"
       sidebar: main
-    
-    
+
 plugins:
   - elixir-toolkit-theme-plugins
   - jekyll-redirect-from

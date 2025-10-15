@@ -9,7 +9,7 @@ process AWK {
 
     input:
     tuple val(meta) , path(egis_scores)
-    
+
     output:
     tuple val(meta), path("*_temp.bed"),  emit: bed
     path "versions.yml", emit: versions
@@ -30,7 +30,7 @@ process AWK {
     """
 
     stub:
-    
+
     """
     touch ${egis_scores.name}_temp.bed
 

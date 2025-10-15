@@ -3,7 +3,7 @@ process MAPS {
     tag "$meta.id"
     label 'process_medium'
     container "community.wave.seqera.io/library/bedtools_bwa_pybedtools_pysam_pruned:8a65a012e7f8bbf1"
-    
+
     input:
     tuple val(meta), path(fastq1), path(fastq2)
     tuple val(meta1), path(bam)
@@ -16,12 +16,12 @@ process MAPS {
     tuple val(meta), path("*.bedpe"), emit: bedpe
     tuple val(meta), path("*.hic.input"), emit: hic
     path "versions.yml"                 , emit: versions
-    
+
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def args = task.ext.args ?: ''
     """
-    INDEX=`find -L ./ -name "*.amb" | sed 's/\\.amb\$//'`    
+    INDEX=`find -L ./ -name "*.amb" | sed 's/\\.amb\$//'`
     run_maps_pipeline.sh \\
     -i ${prefix} \\
     -p ${peaks} \\
@@ -32,7 +32,7 @@ process MAPS {
     -1 ${fastq1} \\
     -2 ${fastq2} \\
     ${args}
-    
+
     cp MAPS_output/${prefix}_current/${prefix}.5k.2.sig3Dinteractions.bedpe ${prefix}.bedpe
     cp feather_output/${prefix}_current/${prefix}.hic.input .
 
@@ -45,7 +45,7 @@ process MAPS {
     stub:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
+
     """
     touch ${prefix}.bedpe
     touch ${prefix}.hic.input

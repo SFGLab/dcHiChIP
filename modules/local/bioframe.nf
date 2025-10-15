@@ -22,7 +22,7 @@ process BIOFRAME {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
+
     """
     #!/usr/bin/env python3
     # taken from https://bioframe.readthedocs.io/en/latest/tutorials/tutorial_assign_motifs_to_peaks.html
@@ -89,10 +89,10 @@ process BIOFRAME {
     stub:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
+
     """
     touch ${prefix}_peak_with_CTCFmotif.tsv
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')

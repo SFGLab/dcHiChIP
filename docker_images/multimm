@@ -3,8 +3,8 @@ FROM community.wave.seqera.io/library/openmm:8.1.1--8398d80d6b65ec94
 LABEL version="1.1.0.0.0" \
       title="MultiMM 1.1.0.0.0" \
 	  authors="Ziad Al-Bkhetan <ziad.albkhetan@gmail.com>"
-		
-		
+
+
 # Set up working directory
 WORKDIR /app
 RUN apt-get update && apt-get install -y libx11-6 libxrender1 ocl-icd-libopencl1 pocl-opencl-icd clinfo \

@@ -51,7 +51,7 @@ for c in ${unique_chrs[@]}
 do
 	chr_hic_files=()
 	for f in ${dirs[@]}
-	do 
+	do
 		chr_hic_files+=($f"/*"$hic_affix$c)
 	done
 	outfile_hic=$outdir"/"$hic_dir"/"$dataset_name"."$hic_affix$c

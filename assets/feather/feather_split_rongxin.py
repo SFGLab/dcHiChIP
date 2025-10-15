@@ -6,7 +6,7 @@ Created by Rongxin Fang
 Modified by Armen Abnousi
 """
 import sys
-import pysam 
+import pysam
 import collections
 from itertools import islice
 from itertools import combinations
@@ -65,7 +65,7 @@ def split_main(input_bam, outdir, prefix, cutoff, per_chr, generate_hic, chip_pe
 	fname_output_shrt = temp_filename_prefix + ".shrt.bam"
 	#fname_output_shrt_genomewide =  temp_filename_prefix + ".shrt.genomewide.bam"
 	if (per_chr):
-		short_bed_files, long_intra_bam_files, long_intra_bam_filenames, long_intra_bedpe_files = generate_per_chrom_files(chr_list, 
+		short_bed_files, long_intra_bam_files, long_intra_bam_filenames, long_intra_bedpe_files = generate_per_chrom_files(chr_list,
 									filename_prefix, temp_filename_prefix, new_header)
 	fname_output_long_intra = temp_filename_prefix + ".long.intra.bam"
 	fout_long_intra = pysam.AlignmentFile(fname_output_long_intra, "wb", header = new_header)
@@ -175,7 +175,7 @@ def split_main(input_bam, outdir, prefix, cutoff, per_chr, generate_hic, chip_pe
 		command.extend(temp_files)
 		#print(command)
 		with open(hic_output, 'w') as outfile:
-			
+
 			proc = subprocess.Popen(command, stdout = outfile, shell= False)
 			proc.communicate()
 #		for chrom in chr_list:
@@ -238,7 +238,7 @@ def split_main(input_bam, outdir, prefix, cutoff, per_chr, generate_hic, chip_pe
 	with open(qc_filename, 'a') as outfile:
 		outfile.write("{0:70} {1} ".format("number of intrachromosomal pairs", str(int(intra_all_count))))
 		outfile.write("\t({0:.2f}%)\n".format(100 * int(float(intra_all_count)) / int(float(read_count))))
-		
+
 		##newly added
 		outfile.write("{0:70} {1} ".format("number of long-range intrachromosomal pairs", str(int(long_intra_count))))
 		outfile.write("\t({0:.2f}%)\n".format(100 * int(float(long_intra_count)) / int(float(read_count))))

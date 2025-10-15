@@ -6,7 +6,7 @@ Created by Rongxin Fang
 Modified by Armen Abnousi
 """
 import sys
-import pysam 
+import pysam
 import collections
 from itertools import islice
 import pybedtools

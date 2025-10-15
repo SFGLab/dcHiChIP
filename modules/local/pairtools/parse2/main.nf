@@ -40,7 +40,7 @@ process PAIRTOOLS_PARSE2 {
         pairtools dedup --n-proc $args5  \\
         --output ${prefix}.nodups.pairs.gz \\
         --output-dups ${prefix}.dups.pairs.gz \\
-        --output-unmapped ${prefix}.unmapped.pairs.gz 
+        --output-unmapped ${prefix}.unmapped.pairs.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -49,12 +49,12 @@ process PAIRTOOLS_PARSE2 {
     """
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
+
     """
     touch ${prefix}.nodups.pairs.gz
     touch ${prefix}.dups.pairs.gz
-    touch ${prefix}.unmapped.pairs.gz 
-    
+    touch ${prefix}.unmapped.pairs.gz
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         pairtools: \$(pairtools --version | tr '\\n' ',' | sed 's/.*pairtools.*version //' | sed 's/,\$/\\n/')

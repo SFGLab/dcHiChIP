@@ -9,7 +9,7 @@ process COOLTOOLS_BED_INVERT {
 
     input:
     tuple val(meta) , path(bed_in)
-    
+
     output:
     tuple val(meta), path("*_compartments.bed"),  emit: compartments
     path "versions.yml", emit: versions

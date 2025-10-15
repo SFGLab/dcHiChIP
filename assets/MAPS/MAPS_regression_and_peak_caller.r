@@ -342,7 +342,7 @@ for (r in runs) {
         print(paste(fdr_cutoff,':',singletons))
         summary_one_run = rbind(summary_one_run, do_summaries(peaks_and, peaks_xor, peaks, fraction, r))
     }
-    ## find singletons, sharp peaks, broad peaks    
+    ## find singletons, sharp peaks, broad peaks
     summary_all_runs = rbind(summary_all_runs, summary_one_run)
 }
 summary_outf_name = paste(INFDIR,'summary.',SET,'.txt',sep='')

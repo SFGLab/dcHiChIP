@@ -39,7 +39,7 @@ process DEEPTOOLS_MUTIBIGWIGSUMMARY {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.results.npz
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         deeptools: \$(multiBigwigSummary --version | sed -e "s/multiBigwigSummary //g")

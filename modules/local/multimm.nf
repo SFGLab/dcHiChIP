@@ -5,23 +5,23 @@ process MULTIMM {
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'docker.io/sfglab/multimm:1.1.0.0.0':
         'docker.io/sfglab/multimm:1.1.0.0.0' }"
-    
+
     input:
     tuple val(meta), path(loops)
     tuple val(meta2), path(compartment)
-    
+
     output:
     tuple val(meta), path("*.bedpe"), emit: bedpe
     tuple val(meta), path("*.hic.input"), emit: hic
     path "versions.yml"                 , emit: versions
-    
+
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def args = task.ext.args ?: ''
-    
+
     """
     tail -n +2 ${loops} > tmp_loops.bedpe
-    
+
     MultiMM \\
     --loops_path tmp_loops.bedpe \\
     --compartment_path ${compartment} \\
@@ -38,7 +38,7 @@ process MULTIMM {
     stub:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
+
     """
     touch ${prefix}.bedpe
     touch ${prefix}.hic.input
@@ -48,6 +48,3 @@ process MULTIMM {
     END_VERSIONS
     """
 }
-
-
-

@@ -4,13 +4,13 @@ nextflow_process {
     config "./nextflow.config"
     script "../main.nf"
     process "COOLER_CLOAD"
-   
+
     tag "modules"
     tag "modules_nfcore"
     tag "cooler"
     tag "cooler/cload"
-    tag "cooler/dump"    
-    
+    tag "cooler/dump"
+
     test("test_cooler_cload_pairix") {
         when {
             params {
@@ -37,10 +37,10 @@ nextflow_process {
             )
         }
     }
-    
-    
+
+
     test("test_cooler_cload_pairs") {
-        
+
         when {
             params {
                 module_args = 'pairs --chrom1 1 --pos1 2 --chrom2 4 --pos2 5 -N'
@@ -66,8 +66,8 @@ nextflow_process {
             )
         }
     }
-    
-    
+
+
     test("test_cooler_cload_tabix") {
         when {
             params {
@@ -94,8 +94,8 @@ nextflow_process {
             )
         }
     }
-    
-    
+
+
     test("test_cooler_cload_pairix - stub") {
         options '-stub'
         when {

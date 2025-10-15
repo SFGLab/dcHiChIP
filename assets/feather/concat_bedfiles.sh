@@ -67,7 +67,7 @@ do
 	chr_long_files=()
 	chr_short_files=()
 	for f in ${dirs[@]}
-	do 
+	do
 		chr_long_files+=($f"/*"$c$long_suffix)
 		chr_short_files+=($f"/*"$c$short_suffix)
 	done

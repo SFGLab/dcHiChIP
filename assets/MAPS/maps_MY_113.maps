@@ -31,7 +31,3 @@ BINNING_RANGE=1000000
 
 ## number of chromosomes
 N_CHROMS=19
-
-
-
-

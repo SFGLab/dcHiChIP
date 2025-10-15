@@ -67,7 +67,7 @@ def parse_args(parser):
 
 def setup_arg_parsers():
 	parser = argparse.ArgumentParser()
-	subparsers = parser.add_subparsers(dest = "cmd", 
+	subparsers = parser.add_subparsers(dest = "cmd",
 					description = "valid processing subcommands. One subcommand has " +
 							"to be entered to run the program",
 					help = "run each with -h for command-specific help")
@@ -81,7 +81,7 @@ def setup_arg_parsers():
 	split_parser = subparsers.add_parser("split", help = "split a bam by contact length threshold",
 						parents = [parent_parser])
 	set_split_parser_args(split_parser)
-	preproc_parser = subparsers.add_parser("preprocess", help = "run preprocessing, starting from two fastq/bam" + 
+	preproc_parser = subparsers.add_parser("preprocess", help = "run preprocessing, starting from two fastq/bam" +
 						"files to two short and long bedpe files",
 						parents = [parent_parser])
 	set_preproc_parser_args(preproc_parser)
@@ -100,7 +100,7 @@ def set_filter_parser_args(parser):
 def set_split_parser_args(parser):
 	parser.add_argument("-l", "--length-threshold", help = "length threshold for long/short splitting", type = int)
 	parser.add_argument("-s", "--split-filename", help = "bam or sam file that needs to be split")
-	parser.add_argument("-c", "--per-chr-bedpe", help = "generate one bedpe file for each chromosome", 
+	parser.add_argument("-c", "--per-chr-bedpe", help = "generate one bedpe file for each chromosome",
 				type = str2bool, nargs = '?', const = True, default = "t")
 	parser.add_argument("-j", "--generate-hic", help = "Generate .hic file", type = str2bool, nargs = '?', const = True, default = generate_hic)
 	parser.add_argument("-a", "--chip-peaks", help = "1D anchors bed file (ChIP/ATAC-seq)", default = chip_peaks)

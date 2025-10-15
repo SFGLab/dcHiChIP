@@ -10,7 +10,7 @@ process MERGE_FASTQ {
     val(meta.chipseq), emit: chipseq
     path("${meta.id}_sample_R1.fastq"), emit: fastq1
     path("${meta.id}_sample_R2.fastq"), emit: fastq2
- 
+
     script:
     """
     if test ${fastq1[0]} = 1

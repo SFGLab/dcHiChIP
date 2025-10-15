@@ -33,7 +33,7 @@ def validate_input_data(input_data):
     if 'LONG_FORMAT' in input_data:
         params['LONG_FORMAT'] = input_data['LONG_FORMAT'][1]
     if 'SHORT_PATH' in input_data:
-        params['SHORT_PATH'] = input_data['SHORT_PATH'][1] 
+        params['SHORT_PATH'] = input_data['SHORT_PATH'][1]
     if 'SHORT_FORMAT' in input_data:
         params['SHORT_FORMAT'] = input_data['SHORT_FORMAT'][1]
     if 'N_CHROMS' in input_data:
@@ -109,7 +109,7 @@ def init(p):
             if MACS2.empty:
                 print("MACS2 is empty (no peaks for this chromosome).")
                 continue
-            
+
         MACS2['start_bin'] = np.floor(MACS2['start']/params['BIN_SIZE'])
         MACS2['end_bin'] = np.ceil(MACS2['end']/params['BIN_SIZE'])
         #perform this hack becasue apply returns wrong data type in some rare case
@@ -157,7 +157,7 @@ def init(p):
                            & (np.abs(count_data_xor['bin1_mid'] - count_data_xor['bin2_mid']) >= 1)]
                 count_data_xor_bin1 = count_data_xor[(count_data_xor.bin1_mid.isin(MACS2_peak_ranges_list))].copy()
                 count_data_xor_bin1['1D_peak_bin1'] = 1
-                count_data_xor_bin1['1D_peak_bin2'] = 0        
+                count_data_xor_bin1['1D_peak_bin2'] = 0
                 count_data_xor_bin2 = count_data_xor[(count_data_xor.bin2_mid.isin(MACS2_peak_ranges_list))].copy()
                 count_data_xor_bin2['1D_peak_bin1'] = 0
                 count_data_xor_bin2['1D_peak_bin2'] = 1
@@ -224,11 +224,11 @@ def init(p):
         else:
             print('no bin pairs in long or short bedpe files for chromosome ',CHR,'. Doing next chromosome')
     print('-- saving .qc.maps file\n')
-    qc_fname = params['OUT_DIR'] + params['DATASET_NAME'] + '.maps.qc'    
+    qc_fname = params['OUT_DIR'] + params['DATASET_NAME'] + '.maps.qc'
     qc_file = open(qc_fname,'w')
     qc_file.write(qc_str)
     qc_file.close()
-    
+
 def main():
     parser = argparse.ArgumentParser()
     parser.prog = 'PROG'

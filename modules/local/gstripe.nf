@@ -9,7 +9,7 @@ process GSTRIPE {
 
     input:
     tuple val(meta) , path(bedpe)
-    
+
     output:
     tuple val(meta), path("*gstripes_raw.tsv"),  emit: gstripe
     path  "versions.yml",            emit: versions
@@ -20,7 +20,7 @@ process GSTRIPE {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
+
     """
     python3 -m gstripe.gstripe \\
         ${bedpe} \\
@@ -36,12 +36,10 @@ process GSTRIPE {
     stub:
     """
     touch ${bedpe}.gstripes_raw.tsv
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
     END_VERSIONS
     """
 }
-
-

@@ -58,7 +58,7 @@ while getopts "1:2:a:b:c:d:f:g:i:j:k:l:m:n:o:p:q:r:s:t:u:w:x:z:h" opt; do
     2) fastq2=$OPTARG ;;
 	u) genomic_feat_filepath=$OPTARG ;;
 	w) merged_bam=$OPTARG ;;
-    h) 
+    h)
        echo "Usage: $0 [options]"
        echo "Options:"
        echo "  -f <feather> (default: 1)"
@@ -203,7 +203,7 @@ if [ $feather -eq 1 ]; then
 		fi
 	else
 		echo "Running $python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance -m $merged_bam"
-				
+
 		$python_path feather/feather_pipe preprocess -o $feather_output -p $dataset_name -f1 $fastq1 -f2 $fastq2 -b $bwa_index -q $mapq -l $length_cutoff -t $threads -c $per_chr -j $generate_hic -a $macs2_filepath -d $optical_duplicate_distance -m $merged_bam
 		qc_filename=$feather_output/$dataset_name".feather.qc"
 		temp_qc_file=$feather_output/tempfiles/$dataset_name".feather.qc.modified"
@@ -224,7 +224,7 @@ if [ $feather -eq 1 ]; then
 	chmod 777 $feather_output
 	ln -sfn $feather_output $feather_output_symlink
 fi
-	
+
 if [ $maps -eq 1 ]; then
 	mkdir -p $maps_output
 	echo "$dataset_name $maps_output $macs2_filepath $genomic_feat_filepath $long_bedpe_dir $short_bed_dir $bin_size $chr_count $maps_output"
@@ -232,7 +232,7 @@ if [ $maps -eq 1 ]; then
 	echo "first"
 	$python_path MAPS/MAPS.py $maps_output"maps_"$dataset_name".maps"
 	echo "second"
-	$Rscript_path MAPS/MAPS_regression_and_peak_caller.r $maps_output $dataset_name"."$resolution"k" $bin_size $chr_count$sex_chroms $filter_file $model 
+	$Rscript_path MAPS/MAPS_regression_and_peak_caller.r $maps_output $dataset_name"."$resolution"k" $bin_size $chr_count$sex_chroms $filter_file $model
 	$Rscript_path MAPS/MAPS_peak_formatting.r $maps_output $dataset_name"."$resolution"k" $fdr $bin_size
 	echo "third"
 	cp "$(readlink -f $0)" $maps_output"/execution_script_copy"

@@ -27,7 +27,7 @@ process FILTER_PAIRES {
         python: \$(python --version | sed 's/Python //g')
     END_VERSIONS
     """
-    
+
     stub:
     """
     touch qc_file.txt

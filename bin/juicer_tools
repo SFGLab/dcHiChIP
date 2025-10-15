@@ -5,7 +5,7 @@ SCRIPT_DIR=$(dirname "$0")
 
 # Define the path to the JAR file
 jar_file="$SCRIPT_DIR/juicer_tools.1.9.9_jcuda.0.8.jar"
-    
+
 # Check if the JAR file exists
 if [ ! -f "$jar_file" ]; then
     echo "JAR file not found: '$jar_file'."

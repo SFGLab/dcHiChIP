@@ -1,6 +1,6 @@
 
 ## run example:
-## /opt/R-3.4.3/lib64/R/bin/Rscript MAPS_regression.r /home/jurici/work/PLACseq/MAPS2/results/bing_mESC_intersect_subsamples/ 
+## /opt/R-3.4.3/lib64/R/bin/Rscript MAPS_regression.r /home/jurici/work/PLACseq/MAPS2/results/bing_mESC_intersect_subsamples/
 ## MY_113.MY_115 19 RH_129-130.uniq.paired.sorted.nodup.nsrt.5k.MAPS2_filter
 ##
 ## arguments:
@@ -12,7 +12,7 @@
 
 library(VGAM)
 options(warn=1)
- 
+
 args <- commandArgs(trailingOnly=TRUE)
 
 fltr = data.frame(chrom='chrNONE',bin=-1)
