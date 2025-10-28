@@ -1,6 +1,6 @@
 process MULTIMM {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_high'
     label 'process_long'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'docker.io/sfglab/multimm:1.1.0.0.0':
@@ -48,3 +48,4 @@ process MULTIMM {
     END_VERSIONS
     """
 }
+
