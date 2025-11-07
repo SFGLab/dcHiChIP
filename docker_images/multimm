@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y libx11-6 libxrender1 ocl-icd-libopencl1
 
 RUN pip install MultiMM==1.1.0.0.0
 RUN pip uninstall -y numpy && pip install "numpy<2"
+
+RUN apt install libosmesa6 libosmesa6-dev mesa-utils
 WORKDIR /
 
 CMD ["MultiMM"]

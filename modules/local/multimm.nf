@@ -2,6 +2,8 @@ process MULTIMM {
     tag "$meta.id"
     label 'process_medium'
     label 'process_long'
+    errorStrategy { task.exitStatus=120 ? 'ignore' : 'terminate' }
+
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'docker.io/sfglab/multimm:1.1.0.0.0':
         'docker.io/sfglab/multimm:1.1.0.0.0' }"
@@ -11,8 +13,7 @@ process MULTIMM {
     tuple val(meta2), path(compartment)
 
     output:
-    tuple val(meta), path("*.bedpe"), emit: bedpe
-    tuple val(meta), path("*.hic.input"), emit: hic
+    tuple val(meta), path("plots/*.png"), emit: plots
     path "versions.yml"                 , emit: versions
 
     script:
@@ -27,7 +28,7 @@ process MULTIMM {
     --compartment_path ${compartment} \\
     --cpu_threads ${task.cpus} \\
     --out_path ./ \\
-    ${args}
+    ${args} || true
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -23,7 +23,8 @@ process COOLTOOLS_INSULATION {
     cooltools insulation \\
         --nproc $task.cpus \\
         ${mcool}::/resolutions/$resolutions \\
-        -o ${prefix}_InsulationScore.tsv
+        -o ${prefix}_InsulationScore.tsv \\
+        ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
