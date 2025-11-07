@@ -1,6 +1,6 @@
 process MULTIMM {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_high'
     label 'process_long'
     errorStrategy { task.exitStatus=120 ? 'ignore' : 'terminate' }
 
@@ -49,3 +49,4 @@ process MULTIMM {
     END_VERSIONS
     """
 }
+
