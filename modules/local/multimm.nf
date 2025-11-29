@@ -5,8 +5,8 @@ process MULTIMM {
     errorStrategy { task.exitStatus=120 ? 'ignore' : 'terminate' }
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'docker.io/sfglab/multimm:1.1.0.0.0':
-        'docker.io/sfglab/multimm:1.1.0.0.0' }"
+        'docker.io/sfglab/multimm:1.1.0.0.1':
+        'docker.io/sfglab/multimm:1.1.0.0.1' }"
 
     input:
     tuple val(meta), path(loops)
@@ -28,11 +28,11 @@ process MULTIMM {
     --compartment_path ${compartment} \\
     --cpu_threads ${task.cpus} \\
     --out_path ./ \\
-    ${args} || true
+    ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        MultiMM: 1.1.0.0.0
+        MultiMM: 1.1.0.0.1
     END_VERSIONS
     """
 
@@ -45,8 +45,7 @@ process MULTIMM {
     touch ${prefix}.hic.input
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        MultiMM: 1.1.0.0.0
+        MultiMM: 1.1.0.0.1
     END_VERSIONS
     """
 }
-

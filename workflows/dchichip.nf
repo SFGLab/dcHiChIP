@@ -72,6 +72,7 @@ include { SAMTOOLS_MARKDUP } from '../modules/nf-core/samtools/markdup/main'
 include { SAMTOOLS_SORT } from '../modules/nf-core/samtools/sort/main'
 include { SAMTOOLS_SORT as SAMTOOLS_SORT_2 } from '../modules/nf-core/samtools/sort/main'
 include { FILTER_PAIRES } from '../modules/local/filter_pairs.nf'
+include { CCD_CALLER } from '../modules/local/ccd_caller.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -311,6 +312,11 @@ workflow DCHICHIP {
             ref_short,
             calder_chrom
         )
+        CCD_CALLER(
+            MAPS.out.bedpe
+        )
+        ch_versions = ch_versions.mix(CCD_CALLER.out.versions)
+
         ch_versions = ch_versions.mix(CALDER.out.versions)
         ch_multimm_in = ch_multimm_in.mix(MAPS.out.bedpe)
     }
