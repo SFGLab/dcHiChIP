@@ -653,6 +653,84 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 
 ---
 
+## Chromatin Contact Domain (CCD) Calling
+
+Configuration options for calling Chromatin Contact Domains (CCDs) from significant chromatin loops (e.g. MAPS .bedpe output).
+
+These parameters control how strictly loop-dense genomic regions are identified as CCDs, based on loop coverage per bin and minimum domain length.
+
+Help:
+Adjust these parameters to balance sensitivity vs specificity.
+By default, the pipeline reports compact, well-supported CCDs defined by ≥ 2 overlapping loops across ≥ 15 kb (~3 contiguous 5 kb bins), which performs robustly across most HiChIP/MAPS datasets.
+
+CCD calling in this pipeline is coverage-driven (not diff-driven): domains are reported only where loops are present, ensuring stable and biologically interpretable results.
+
+---
+
+<code style="color:red; font-weight:bold;">--summits_only</code>: Use Only MAPS Cluster Summits
+
+- Restricts CCD calling to loop anchors where `ClusterSummit == 1` in MAPS output.
+- This focuses domain detection on the most confident interactions (cluster peaks) and reduces noise from weaker loop edges.
+- Recommended for most analyses unless you explicitly want to include all loop bin-pairs.
+- If not set, all intra-chromosomal MAPS loops are used.
+- _Example_: `--summits_only`
+- _Type_ : flag (boolean)
+- _Default flags_: enabled (via pipeline default)
+
+---
+
+<code style="color:red; font-weight:bold;">--min_loops</code>: Minimum Supporting Loops per CCD
+
+- Specifies the minimum number of overlapping loops required for a genomic region to be considered part of a CCD.
+- At 5 kb resolution, this corresponds to the minimum loop coverage per 5 kb bin.
+- Higher values increase stringency and reduce false positives; lower values are more permissive and capture weaker domain structures.
+- Typical values:
+  - 1 → very permissive (exploratory)
+  - 2 → balanced (default)
+  - 3+ → high-confidence domains only
+- _Example_: `--min_loops 3`
+- _Type_: integer
+- _Default flags_: 2
+
+---
+
+<code style="color:red; font-weight:bold;">--min_length</code>: Minimum CCD Length (bp)
+
+- Specifies the minimum genomic span (in base pairs) required for a CCD to be reported.
+- Shorter domains are filtered out after CCD calling.
+- With 5 kb bins, common values translate as:
+  - 10000 bp ≈ 2 bins
+  - 15000 bp ≈ 3 bins (default)
+  - 25000 bp ≈ 5 bins (stricter)
+- Increase this value to focus on larger structural domains; decrease it to capture compact/local CCDs.
+- _Example_: `--min_length 15000`
+- _Type_: integer
+- _Default flags_: 15000
+
+---
+
+<code style="color:red; font-weight:bold;">--ccd_caller_args</code>: Custom CCD Caller Arguments
+
+- Allows full manual control over the CCD caller command-line options.
+- When provided, this string overrides the pipeline’s automatically constructed arguments.
+- Leave as null to use pipeline defaults:
+`--summits_only --min_loops <min_loops> --min_length <min_length>`
+- Useful for advanced users who want to explicitly control all CCD parameters.
+- _Example (no summit filtering)_: `--min_loops 3 --min_length 20000`
+- _Example (summits only)_: `--summits_only --min_loops 3 --min_length 20000`
+- _Type_: string
+- _Default flags_: null
+
+---
+
+## **Notes on CCD Logic**
+
+- CCDs are defined **strictly by loop coverage** — regions with no loops will never form domains.
+- Domain boundaries reflect **contiguous loop-supported bins**, not local noise or signal fluctuations.
+- This design is especially robust at **high resolution (5 kb bins)**, where diff-based methods tend to produce artificial micro-domains.
+
+---
+
 ## **Maximum Job Request Options**
 
 - These parameters define the upper resource limits available to the Nextflow scheduler during pipeline execution.
@@ -689,6 +767,7 @@ MultiMM integrates chromatin contact data to predict spatial genome structures. 
 - _Default flags_: null
 
 ---
+
 
 ## Quick Copy‑Paste: params.config template
 
