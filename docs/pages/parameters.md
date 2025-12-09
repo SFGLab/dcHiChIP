@@ -725,7 +725,7 @@ CCD calling in this pipeline is coverage-driven (not diff-driven): domains are r
 
 ## **Notes on CCD Logic**
 
-- CCDs are defined **strictly by loop coverage** — regions with no loops will never form domains.
+- CCDs are defined **strictly by loop coverage** - regions with no loops will never form domains.
 - Domain boundaries reflect **contiguous loop-supported bins**, not local noise or signal fluctuations.
 - This design is especially robust at **high resolution (5 kb bins)**, where diff-based methods tend to produce artificial micro-domains.
 
