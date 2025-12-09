@@ -481,6 +481,39 @@
         }
       }
     },
+    "ccd_caller_options": {
+      "title": "Chromatin Contact Domain (CCD) Calling",
+      "type": "object",
+      "fa_icon": "fas fa-braille",
+      "description": "Configuration options for calling chromatin contact domains (CCDs) from loop or contact data. These parameters control the minimum number of supporting loops and the minimal genomic span for a domain.",
+      "help_text": "Use these options to tune how stringent CCD detection should be. By default, the pipeline will call compact, well-supported domains (≥ 2 loops, ≥ 15 kb long). For very noisy data you may want to increase the thresholds; for exploratory analysis you can relax them.\n\nIf `ccd_caller_args` is left empty, the pipeline constructs:\n\n`--summits_only --min_loops <min_loops> --min_length <min_length>`\n\nSetting `ccd_caller_args` overrides this automatic construction entirely.",
+      "properties": {
+        "ccd_caller_args": {
+          "type": "string",
+          "title": "Custom CCD Caller Arguments",
+          "description": "Override the default CCD caller CLI string. When set, this is passed directly to the CCD_CALLER process instead of the auto-generated arguments.",
+          "help_text": "Leave as `null` to use the pipeline defaults: `--summits_only --min_loops <min_loops> --min_length <min_length>`. Set this if you need full manual control over the CCD caller (e.g. adding extra flags or changing behavior). Example: `--no_summits --min_loops 3 --min_length 20000`.",
+          "fa_icon": "fas fa-terminal",
+          "default": null
+      },
+      "min_loops": {
+        "type": "integer",
+        "title": "Minimum Supporting Loops per CCD",
+        "description": "Minimum number of loops required to support a CCD.",
+        "help_text": "Controls how many supporting interactions a CCD must have to be reported. Higher values make CCDs more stringent and reduce false positives; lower values are more permissive. This value is inserted into the default argument string as `--min_loops <min_loops>` when `ccd_caller_args` is null.",
+        "fa_icon": "fas fa-project-diagram",
+        "default": 2
+      },
+      "min_length": {
+        "type": "integer",
+        "title": "Minimum CCD Length (bp)",
+        "description": "Minimum genomic span (in base pairs) required for a CCD.",
+        "help_text": "Shorter domains than this threshold are filtered out. Increase this to focus on larger structural domains; decrease it to capture more local/compact CCDs. This value is inserted into the default argument string as `--min_length <min_length>` when `ccd_caller_args` is null. Example: `15000`.",
+        "fa_icon": "fas fa-ruler-horizontal",
+        "default": 15000
+        }
+      }
+    },
     "institutional_config_options": {
       "title": "Institutional config options",
       "type": "object",
