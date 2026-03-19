@@ -1,3 +1,5 @@
 id,group,hichip_r1,hichip_r2,chipseq_r1,chipseq_r2,narrowpeak
-s1-0,s1,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/006/SRR7990656/SRR7990656_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/006/SRR7990656/SRR7990656_2.fastq.gz,,,
-s1-1,s1,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/007/SRR7990657/SRR7990657_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR799/007/SRR7990657/SRR7990657_2.fastq.gz,,,
+s1-0,s1,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/005/SRR3467175/SRR3467175_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/005/SRR3467175/SRR3467175_2.fastq.gz,,,
+s1-1,s1,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/006/SRR3467176/SRR3467176_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/006/SRR3467176/SRR3467176_2.fastq.gz,,,
+s2-0,s2,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/007/SRR3467177/SRR3467177_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/007/SRR3467177/SRR3467177_2.fastq.gz,,,
+s2-1,s2,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/008/SRR3467178/SRR3467178_1.fastq.gz,ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR346/008/SRR3467178/SRR3467178_2.fastq.gz,,,
